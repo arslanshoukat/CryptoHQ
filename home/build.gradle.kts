@@ -1,21 +1,18 @@
 plugins {
-  id("com.android.application")
+  id("com.android.library")
   id("org.jetbrains.kotlin.android")
 }
 
 android {
-  namespace = "com.haroof.cryptohq"
+  namespace = "com.haroof.home"
   compileSdk = Versions.COMPILE_SDK
 
   defaultConfig {
-    applicationId = "com.haroof.cryptohq"
     minSdk = Versions.MIN_SDK
     targetSdk = Versions.TARGET_SDK
-    versionCode = Versions.VERSION_CODE
-    versionName = Versions.VERSION_NAME
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    vectorDrawables.useSupportLibrary = true
+    consumerProguardFiles("consumer-rules.pro")
   }
 
   buildTypes {
@@ -31,23 +28,10 @@ android {
   kotlinOptions {
     jvmTarget = "1.8"
   }
-  buildFeatures {
-    compose = true
-  }
-  composeOptions {
-    kotlinCompilerExtensionVersion = "1.2.0"
-  }
-  packagingOptions {
-    resources {
-      excludes += "/META-INF/{AL2.0,LGPL2.1}"
-    }
-  }
 }
 
 dependencies {
   implementation(Libs.CORE_KTX)
-  implementation(Libs.LIFECYCLE_RUNTIME_KTX)
-  implementation(Libs.ACTIVITY_COMPOSE)
   implementation(Libs.MATERIAL)
   implementation(Libs.COMPOSE_UI)
   implementation(Libs.COMPOSE_UI_TOOLING_PREVIEW)
