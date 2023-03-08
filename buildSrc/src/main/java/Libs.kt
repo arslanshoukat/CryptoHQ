@@ -1,5 +1,7 @@
 object Libs {
   const val CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
+  const val LIFECYCLE_VIEWMODEL_KTX =
+    "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VIEWMODEL_KTX}"
   const val LIFECYCLE_RUNTIME_KTX =
     "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE_RUNTIME_KTX}"
   const val ACTIVITY_COMPOSE = "androidx.activity:activity-compose:${Versions.ACTIVITY_COMPOSE}"

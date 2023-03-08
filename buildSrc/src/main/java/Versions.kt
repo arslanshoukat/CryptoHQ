@@ -7,6 +7,7 @@ object Versions {
   const val TARGET_SDK = 33
 
   const val CORE_KTX = "1.9.0"
+  const val LIFECYCLE_VIEWMODEL_KTX = "2.4.0"
   const val LIFECYCLE_RUNTIME_KTX = "2.5.1"
   const val ACTIVITY_COMPOSE = "1.6.1"
   const val MATERIAL = "1.3.1"
