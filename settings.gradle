@@ -16,3 +16,4 @@ rootProject.name = "CryptoHQ"
 include ':app'
 include ':home'
 include ':data'
+include ':designsystem'

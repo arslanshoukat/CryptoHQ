@@ -1,12 +1,10 @@
 plugins {
   id("com.android.library")
   id("org.jetbrains.kotlin.android")
-  kotlin("kapt")
-  id("com.google.dagger.hilt.android")
 }
 
 android {
-  namespace = "com.haroof.data"
+  namespace = "com.haroof.designsystem"
   compileSdk = Versions.COMPILE_SDK
 
   defaultConfig {
@@ -30,15 +28,15 @@ android {
   kotlinOptions {
     jvmTarget = "1.8"
   }
+  buildFeatures {
+    compose = true
+  }
+  composeOptions {
+    kotlinCompilerExtensionVersion = "1.4.0"
+  }
 }
 
 dependencies {
   implementation(Libs.CORE_KTX)
-  implementation(Libs.HILT_ANDROID)
-  kapt(Libs.HILT_ANDROID_COMPILER)
-}
-
-// Allow references to generated code
-kapt {
-  correctErrorTypes = true
+  implementation(Libs.MATERIAL)
 }

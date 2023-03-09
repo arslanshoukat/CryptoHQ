@@ -1,6 +1,8 @@
 plugins {
   id("com.android.library")
   id("org.jetbrains.kotlin.android")
+  kotlin("kapt")
+  id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -37,17 +39,26 @@ android {
 }
 
 dependencies {
+  implementation(project(mapOf("path" to ":designsystem")))
   implementation(project(mapOf("path" to ":data")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.LIFECYCLE_VIEWMODEL_KTX)
+  implementation(Libs.LIFECYCLE_VIEWMODEL_COMPOSE)
   implementation(Libs.MATERIAL)
   implementation(Libs.COMPOSE_UI)
   implementation(Libs.COMPOSE_UI_TOOLING_PREVIEW)
+  implementation(Libs.HILT_ANDROID)
+  kapt(Libs.HILT_ANDROID_COMPILER)
+  testImplementation(Libs.COROUTINES_TEST)
   testImplementation(Libs.JUNIT)
   androidTestImplementation(Libs.ANDROIDX_JUNIT)
   androidTestImplementation(Libs.ANDROIDX_ESPRESSO_CORE)
   androidTestImplementation(Libs.COMPOSE_UI_JUNIT4)
   debugImplementation(Libs.COMPOSE_UI_TOOLING)
   debugImplementation(Libs.COMPOSE_UI_TEST_MANIFEST)
-  testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+}
+
+// Allow references to generated code
+kapt {
+  correctErrorTypes = true
 }
