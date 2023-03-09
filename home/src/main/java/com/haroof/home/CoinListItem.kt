@@ -24,6 +24,7 @@ import com.haroof.data.model.Coin
 import com.haroof.data.model.MarketTrend.DOWN
 import com.haroof.data.model.MarketTrend.NEUTRAL
 import com.haroof.data.model.MarketTrend.UP
+import com.haroof.designsystem.theme.CryptoHqTheme
 
 @Composable
 fun CoinListItem(
@@ -78,7 +79,7 @@ fun CoinListItem(
 @Preview(showBackground = true)
 @Composable
 fun CoinListItemPreview() {
-  com.haroof.designsystem.theme.CryptoHQTheme {
+  CryptoHqTheme {
     CoinListItem(coin = FakeData.COINS.first())
   }
 }

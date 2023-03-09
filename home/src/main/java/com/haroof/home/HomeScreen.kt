@@ -18,9 +18,9 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.haroof.data.FakeData
-import com.haroof.designsystem.theme.CryptoHQTheme
+import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.home.HomeUiState.Error
 import com.haroof.home.HomeUiState.Loading
 import com.haroof.home.HomeUiState.Success
@@ -28,7 +28,7 @@ import com.haroof.home.R.drawable
 import com.haroof.home.R.string
 
 @Composable
-fun HomeRoute(viewModel: HomeViewModel = viewModel()) {
+fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
   val uiState by viewModel.uiState.collectAsState()
 
   HomeScreen(uiState = uiState)
@@ -78,7 +78,7 @@ fun HomeScreen(uiState: HomeUiState) {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenLoadingPreview() {
-  CryptoHQTheme {
+  CryptoHqTheme {
     HomeScreen(Loading)
   }
 }
@@ -86,7 +86,7 @@ fun HomeScreenLoadingPreview() {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenSuccessPreview() {
-  CryptoHQTheme {
+  CryptoHqTheme {
     HomeScreen(Success(FakeData.COINS))
   }
 }
@@ -94,7 +94,7 @@ fun HomeScreenSuccessPreview() {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenErrorPreview() {
-  CryptoHQTheme {
+  CryptoHqTheme {
     HomeScreen(Error(IllegalStateException()))
   }
 }

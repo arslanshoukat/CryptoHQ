@@ -1,6 +1,5 @@
 package com.haroof.designsystem.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
@@ -22,7 +21,7 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
-fun CryptoHQTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+fun CryptoHqTheme(content: @Composable () -> Unit) {
   // TODO: add support for dark theme
 
   MaterialTheme(

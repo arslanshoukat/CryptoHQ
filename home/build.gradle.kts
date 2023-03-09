@@ -47,6 +47,7 @@ dependencies {
   implementation(Libs.MATERIAL)
   implementation(Libs.COMPOSE_UI)
   implementation(Libs.COMPOSE_UI_TOOLING_PREVIEW)
+  implementation(Libs.HILT_NAVIGATION_COMPOSE)
   implementation(Libs.HILT_ANDROID)
   kapt(Libs.HILT_ANDROID_COMPILER)
   testImplementation(Libs.COROUTINES_TEST)

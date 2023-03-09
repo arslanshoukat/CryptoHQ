@@ -51,6 +51,7 @@ dependencies {
   implementation(project(mapOf("path" to ":home")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.LIFECYCLE_RUNTIME_KTX)
+  implementation(Libs.NAVIGATION_COMPOSE)
   implementation(Libs.ACTIVITY_COMPOSE)
   implementation(Libs.MATERIAL)
   implementation(Libs.COMPOSE_UI)
