@@ -26,8 +26,18 @@ object Libs {
   const val HILT_NAVIGATION_COMPOSE =
     "androidx.hilt:hilt-navigation-compose:${Versions.HILT_NAVIGATION_COMPOSE}"
 
+  const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
+  const val OKHTTP_LOGGING_INTERCEPTOR =
+    "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP_LOGGING_INTERCEPTOR}"
+
+  const val KOTLINX_SERIALIZATION_CONVERTER =
+    "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.KOTLINX_SERIALIZATION_CONVERTER}"
+
+  const val KOTLINX_SERIALIZATION_JSON =
+    "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KOTLINX_SERIALIZATION_JSON}"
   const val COROUTINES_TEST =
     "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES_TEST}"
+
   const val JUNIT = "junit:junit:${Versions.JUNIT}"
   const val ANDROIDX_JUNIT = "androidx.test.ext:junit:${Versions.ANDROIDX_JUNIT}"
   const val ANDROIDX_ESPRESSO_CORE =
