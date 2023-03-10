@@ -12,4 +12,5 @@ data class CoinDto(
   val price_change_percentage_24h: Float,
   val market_cap: Long,
   val market_cap_rank: Int,
+  val image: String,
 )

@@ -13,7 +13,7 @@ android {
     minSdk = Versions.MIN_SDK
     targetSdk = Versions.TARGET_SDK
 
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner = "com.haroof.home.CustomTestRunner"
     consumerProguardFiles("consumer-rules.pro")
   }
 
@@ -41,6 +41,7 @@ android {
 dependencies {
   implementation(project(mapOf("path" to ":designsystem")))
   implementation(project(mapOf("path" to ":data")))
+  implementation(project(mapOf("path" to ":common")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.LIFECYCLE_VIEWMODEL_KTX)
   implementation(Libs.LIFECYCLE_VIEWMODEL_COMPOSE)
@@ -50,6 +51,9 @@ dependencies {
   implementation(Libs.HILT_NAVIGATION_COMPOSE)
   implementation(Libs.HILT_ANDROID)
   kapt(Libs.HILT_ANDROID_COMPILER)
+  androidTestImplementation(Libs.HILT_ANDROID_TESTING)
+  kaptAndroidTest(Libs.HILT_ANDROID_COMPILER)
+  implementation(Libs.COIL_COMPOSE)
   testImplementation(Libs.COROUTINES_TEST)
   testImplementation(Libs.JUNIT)
   androidTestImplementation(Libs.ANDROIDX_JUNIT)

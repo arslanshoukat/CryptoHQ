@@ -14,6 +14,7 @@ object Versions {
   const val NAVIGATION_COMPOSE = "2.5.3"
   const val ACTIVITY_COMPOSE = "1.6.1"
   const val COMPOSE_UI = "1.3.3"
+  const val COIL_COMPOSE = "2.2.2"
   const val HILT_ANDROID = "2.44"
   const val HILT_NAVIGATION_COMPOSE = "1.0.0"
   const val RETROFIT = "2.9.0"

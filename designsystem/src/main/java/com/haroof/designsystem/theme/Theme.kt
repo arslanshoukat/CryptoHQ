@@ -16,7 +16,7 @@ private val LightColorPalette = lightColors(
   onBackground = black900,
   surface = Color.White,
   onSurface = black900,
-  error = Color.Red,
+  error = red,
   onError = Color.White,
 )
 

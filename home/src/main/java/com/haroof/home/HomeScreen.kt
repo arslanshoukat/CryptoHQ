@@ -2,23 +2,20 @@ package com.haroof.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.ImageLoader
+import coil.imageLoader
 import com.haroof.data.FakeData
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.home.HomeUiState.Error
@@ -35,7 +32,7 @@ fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun HomeScreen(uiState: HomeUiState) {
+fun HomeScreen(uiState: HomeUiState, imageLoader: ImageLoader = LocalContext.current.imageLoader) {
   Box(modifier = Modifier.fillMaxSize()) {
 
     when (uiState) {
@@ -48,20 +45,10 @@ fun HomeScreen(uiState: HomeUiState) {
         )
       }
       is Success -> {
-        val contentDesc = stringResource(string.coins_list)
-        LazyColumn(
-          modifier = Modifier
-            .fillMaxWidth()
-            .semantics { contentDescription = contentDesc }
-        ) {
-          itemsIndexed(
-            key = { _, coin -> coin.id },
-            items = uiState.coins
-          ) { index, coin ->
-            CoinListItem(coin = coin)
-            if (index < uiState.coins.lastIndex) Divider(color = Color.LightGray, thickness = 1.dp)
-          }
-        }
+        CoinsMarketList(
+          coins = uiState.coins,
+          imageLoader = imageLoader
+        )
       }
       is Error -> {
         ErrorMessageWithIcon(

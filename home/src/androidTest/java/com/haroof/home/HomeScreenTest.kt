@@ -4,19 +4,36 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import coil.ImageLoader
 import com.haroof.data.FakeData
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
+@HiltAndroidTest
 class HomeScreenTest {
+
+  @get:Rule
+  var hiltRule = HiltAndroidRule(this)
 
   @get:Rule
   val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+  @Inject
+  lateinit var imageLoader: ImageLoader
+
+  @Before
+  fun init() {
+    hiltRule.inject()
+  }
+
   @Test
   fun whenDataIsLoading_loadingIndicatorIsShown() {
     composeTestRule.setContent {
-      HomeScreen(HomeUiState.Loading)
+      HomeScreen(HomeUiState.Loading, imageLoader)
     }
 
     composeTestRule
@@ -27,7 +44,7 @@ class HomeScreenTest {
   @Test
   fun whenDataIsLoaded_listIsShown() {
     composeTestRule.setContent {
-      HomeScreen(HomeUiState.Success(FakeData.COINS))
+      HomeScreen(HomeUiState.Success(FakeData.COINS), imageLoader)
     }
 
     composeTestRule
@@ -44,7 +61,7 @@ class HomeScreenTest {
   @Test
   fun whenDataFailedToLoad_errorIsShown() {
     composeTestRule.setContent {
-      HomeScreen(HomeUiState.Error(IllegalStateException()))
+      HomeScreen(HomeUiState.Error(IllegalStateException()), imageLoader)
     }
 
     composeTestRule
