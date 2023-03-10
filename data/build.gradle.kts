@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+  implementation(project(mapOf("path" to ":network")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.HILT_ANDROID)
   kapt(Libs.HILT_ANDROID_COMPILER)

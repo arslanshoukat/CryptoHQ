@@ -3,9 +3,10 @@ package com.haroof.network.retrofit
 import com.haroof.network.NetworkDataSource
 import com.haroof.network.model.CoinDto
 import retrofit2.http.GET
+import retrofit2.http.Query
 
-interface RetrofitNetworkDataSource : NetworkDataSource {
+internal interface RetrofitNetworkDataSource : NetworkDataSource {
 
-  @GET("coins/list")
-  override suspend fun getCoins(): List<CoinDto>
+  @GET("coins/markets")
+  override suspend fun getCoins(@Query("vs_currency") vs_currency: String): List<CoinDto>
 }

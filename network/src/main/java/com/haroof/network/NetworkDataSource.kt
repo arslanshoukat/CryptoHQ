@@ -4,5 +4,5 @@ import com.haroof.network.model.CoinDto
 
 interface NetworkDataSource {
 
-  suspend fun getCoins(): List<CoinDto>
+  suspend fun getCoins(vs_currency: String): List<CoinDto>
 }
