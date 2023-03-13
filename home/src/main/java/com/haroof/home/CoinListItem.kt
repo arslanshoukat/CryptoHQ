@@ -31,8 +31,7 @@ import com.haroof.data.model.MarketTrend.UP
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.designsystem.theme.green
 import com.haroof.designsystem.theme.red
-import com.haroof.home.R.drawable
-import com.haroof.home.R.string
+import com.haroof.common.R as commonR
 
 @Composable
 fun CoinListItem(
@@ -48,10 +47,10 @@ fun CoinListItem(
     AsyncImage(
       model = coin.imageUrl,
       imageLoader = imageLoader,
-      error = painterResource(id = drawable.ic_default_coin),
-      fallback = painterResource(id = drawable.ic_default_coin),
+      error = painterResource(id = commonR.drawable.ic_default_coin),
+      fallback = painterResource(id = commonR.drawable.ic_default_coin),
       contentScale = ContentScale.Crop,
-      contentDescription = stringResource(string.coin_icon),
+      contentDescription = stringResource(commonR.string.coin_icon),
       modifier = Modifier.size(48.dp)
     )
 

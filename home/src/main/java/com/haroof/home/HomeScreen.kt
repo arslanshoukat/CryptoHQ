@@ -16,12 +16,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.imageLoader
+import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.data.FakeData
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.home.HomeUiState.Error
 import com.haroof.home.HomeUiState.Loading
 import com.haroof.home.HomeUiState.Success
-import com.haroof.home.R.drawable
 import com.haroof.common.R as commonR
 
 @Composable
@@ -51,11 +51,7 @@ fun HomeScreen(uiState: HomeUiState, imageLoader: ImageLoader = LocalContext.cur
         )
       }
       is Error -> {
-        ErrorMessageWithIcon(
-          errorIconResId = drawable.ic_error_alert,
-          errorMessageResId = commonR.string.error_message_data_fetch,
-          contentDesc = stringResource(commonR.string.error_message),
-        )
+        ErrorMessageWithIcon()
       }
     }
 

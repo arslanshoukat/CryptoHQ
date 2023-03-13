@@ -23,6 +23,12 @@ android {
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
   }
+  buildFeatures {
+    compose = true
+  }
+  composeOptions {
+    kotlinCompilerExtensionVersion = "1.4.0"
+  }
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -34,9 +40,14 @@ android {
 
 dependencies {
   implementation(Libs.CORE_KTX)
+  implementation(Libs.MATERIAL)
+  implementation(Libs.COMPOSE_UI)
+  implementation(Libs.COMPOSE_UI_TOOLING_PREVIEW)
   implementation(Libs.HILT_ANDROID)
   kapt(Libs.HILT_ANDROID_COMPILER)
   implementation(Libs.COIL_COMPOSE)
+  debugImplementation(Libs.COMPOSE_UI_TOOLING)
+  debugImplementation(Libs.COMPOSE_UI_TEST_MANIFEST)
 }
 
 // Allow references to generated code

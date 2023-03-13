@@ -1,4 +1,4 @@
-package com.haroof.home
+package com.haroof.common.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -22,13 +22,14 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.haroof.home.R.string
+import com.haroof.common.R.drawable
+import com.haroof.common.R.string
 
 @Composable
 fun ErrorMessageWithIcon(
-  @DrawableRes errorIconResId: Int,
-  @StringRes errorMessageResId: Int,
-  contentDesc: String,
+  @DrawableRes errorIconResId: Int = drawable.ic_error_alert,
+  @StringRes errorMessageResId: Int = string.error_message_data_fetch,
+  contentDesc: String = stringResource(string.error_message),
   modifier: Modifier = Modifier
 ) {
   Column(

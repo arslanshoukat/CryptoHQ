@@ -7,6 +7,7 @@ import com.haroof.data.model.toExternalModel
 import com.haroof.network.NetworkDataSource
 import com.haroof.network.model.CoinDto
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -25,6 +26,10 @@ class DefaultCoinsRepository @Inject constructor(
         Result.Error(e)
       }
     }
+
+  override fun getWatchListCoinsFlow(): Flow<Result<List<Coin>>> {
+    TODO("Not yet implemented")
+  }
 
   companion object {
     const val TAG = "DefaultCoinsRepository"

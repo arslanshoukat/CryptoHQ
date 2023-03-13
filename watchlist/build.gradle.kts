@@ -13,7 +13,7 @@ android {
     minSdk = Versions.MIN_SDK
     targetSdk = Versions.TARGET_SDK
 
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner = "com.haroof.testing.CustomTestRunner"
     consumerProguardFiles("consumer-rules.pro")
   }
 
