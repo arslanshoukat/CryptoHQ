@@ -13,7 +13,7 @@ android {
     minSdk = Versions.MIN_SDK
     targetSdk = Versions.TARGET_SDK
 
-    testInstrumentationRunner = "com.haroof.home.CustomTestRunner"
+    testInstrumentationRunner = "com.haroof.testing.CustomTestRunner"
     consumerProguardFiles("consumer-rules.pro")
   }
 
@@ -42,6 +42,7 @@ dependencies {
   implementation(project(mapOf("path" to ":designsystem")))
   implementation(project(mapOf("path" to ":data")))
   implementation(project(mapOf("path" to ":common")))
+  implementation(project(mapOf("path" to ":testing")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.LIFECYCLE_VIEWMODEL_KTX)
   implementation(Libs.LIFECYCLE_VIEWMODEL_COMPOSE)

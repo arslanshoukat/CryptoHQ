@@ -43,6 +43,7 @@ object Libs {
 
   const val JUNIT = "junit:junit:${Versions.JUNIT}"
   const val ANDROIDX_JUNIT = "androidx.test.ext:junit:${Versions.ANDROIDX_JUNIT}"
+  const val ANDROIDX_TEST_RUNNER ="androidx.test:runner:${Versions.ANDROIDX_TEST_RUNNER}"
   const val ANDROIDX_ESPRESSO_CORE =
     "androidx.test.espresso:espresso-core:${Versions.ANDROIDX_ESPRESSO_CORE}"
 }

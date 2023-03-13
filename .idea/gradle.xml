@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/designsystem" />
             <option value="$PROJECT_DIR$/home" />
             <option value="$PROJECT_DIR$/network" />
+            <option value="$PROJECT_DIR$/testing" />
           </set>
         </option>
       </GradleProjectSettings>

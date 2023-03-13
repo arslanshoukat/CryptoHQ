@@ -2,10 +2,11 @@ package com.haroof.home
 
 import com.haroof.data.FakeData
 import com.haroof.data.repository.fake.FakeCoinsRepository
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
+import com.haroof.testing.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 

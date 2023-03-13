@@ -24,5 +24,6 @@ object Versions {
   const val COROUTINES_TEST = "1.6.4"
   const val JUNIT = "4.13.2"
   const val ANDROIDX_JUNIT = "1.1.5"
+  const val ANDROIDX_TEST_RUNNER = "1.5.2"
   const val ANDROIDX_ESPRESSO_CORE = "3.5.1"
 }
