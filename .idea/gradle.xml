@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/home" />
             <option value="$PROJECT_DIR$/network" />
             <option value="$PROJECT_DIR$/testing" />
+            <option value="$PROJECT_DIR$/watchlist" />
           </set>
         </option>
       </GradleProjectSettings>

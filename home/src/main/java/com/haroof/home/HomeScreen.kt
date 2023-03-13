@@ -22,7 +22,7 @@ import com.haroof.home.HomeUiState.Error
 import com.haroof.home.HomeUiState.Loading
 import com.haroof.home.HomeUiState.Success
 import com.haroof.home.R.drawable
-import com.haroof.home.R.string
+import com.haroof.common.R as commonR
 
 @Composable
 fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
@@ -37,7 +37,7 @@ fun HomeScreen(uiState: HomeUiState, imageLoader: ImageLoader = LocalContext.cur
 
     when (uiState) {
       Loading -> {
-        val contentDesc = stringResource(string.loading_indicator)
+        val contentDesc = stringResource(commonR.string.loading_indicator)
         CircularProgressIndicator(
           modifier = Modifier
             .align(Alignment.Center)
@@ -53,8 +53,8 @@ fun HomeScreen(uiState: HomeUiState, imageLoader: ImageLoader = LocalContext.cur
       is Error -> {
         ErrorMessageWithIcon(
           errorIconResId = drawable.ic_error_alert,
-          errorMessageResId = string.error_message_data_fetch,
-          contentDesc = stringResource(string.error_message),
+          errorMessageResId = commonR.string.error_message_data_fetch,
+          contentDesc = stringResource(commonR.string.error_message),
         )
       }
     }

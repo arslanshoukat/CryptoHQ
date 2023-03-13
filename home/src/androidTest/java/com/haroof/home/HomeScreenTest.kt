@@ -12,6 +12,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
+import com.haroof.common.R as commonR
 
 @HiltAndroidTest
 class HomeScreenTest {
@@ -37,7 +38,7 @@ class HomeScreenTest {
     }
 
     composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.loading_indicator))
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.loading_indicator))
       .assertExists()
   }
 
@@ -48,7 +49,7 @@ class HomeScreenTest {
     }
 
     composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.loading_indicator))
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.loading_indicator))
       .assertDoesNotExist()
     composeTestRule
       .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.coins_list))
@@ -65,10 +66,10 @@ class HomeScreenTest {
     }
 
     composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.loading_indicator))
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.loading_indicator))
       .assertDoesNotExist()
     composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.error_message))
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.error_message))
       .assertExists()
   }
 }

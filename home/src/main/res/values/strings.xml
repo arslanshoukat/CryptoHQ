@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="loading_indicator">Loading</string>
   <string name="coin_icon">Coin icon</string>
   <string name="coins_list">Coins list</string>
-  <string name="error_message">Error message</string>
-  <string name="error_icon">Error icon</string>
-  <string name="error_message_data_fetch">Failed to fetch data!</string>
 </resources>
