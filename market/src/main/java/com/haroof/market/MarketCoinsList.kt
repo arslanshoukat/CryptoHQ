@@ -1,4 +1,4 @@
-package com.haroof.home
+package com.haroof.market
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,15 +18,15 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import com.haroof.data.model.Coin
-import com.haroof.home.R.string
+import com.haroof.market.R.string
 
 @Composable
-fun CoinsMarketList(
+fun MarketCoinsList(
   coins: List<Coin>,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
 ) {
-  val contentDesc = stringResource(string.coins_list)
+  val contentDesc = stringResource(string.market_coins_list_content_desc)
 
   LazyColumn(
     modifier = modifier
@@ -40,7 +40,7 @@ fun CoinsMarketList(
       key = { _, coin -> coin.id },
       items = coins
     ) { index, coin ->
-      CoinListItem(
+      MarketCoinsListItem(
         coin = coin,
         imageLoader = imageLoader
       )
