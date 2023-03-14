@@ -65,4 +65,24 @@ class WatchListScreenTest {
       .onNodeWithText(FakeData.COINS.first().name)
       .assertExists()
   }
+
+  @Test
+  fun whenDataIsEmpty_emptyStateIsShown() {
+    composeTestRule.setContent {
+      WatchListScreen(
+        uiState = WatchListUiState.Success(emptyList()),
+        imageLoader = imageLoader
+      )
+    }
+
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.loading_indicator))
+      .assertDoesNotExist()
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(string.watch_list_coins))
+      .assertDoesNotExist()
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.empty_state_content_desc))
+      .assertExists()
+  }
 }

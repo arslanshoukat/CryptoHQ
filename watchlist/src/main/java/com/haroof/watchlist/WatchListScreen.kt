@@ -12,10 +12,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.imageLoader
+import com.haroof.common.ui.EmptyListState
 import com.haroof.common.ui.ErrorMessageWithIcon
+import com.haroof.data.FakeData
+import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.watchlist.R.string
 import com.haroof.watchlist.WatchListUiState.Error
 import com.haroof.watchlist.WatchListUiState.Loading
 import com.haroof.watchlist.WatchListUiState.Success
@@ -47,11 +52,47 @@ fun WatchListScreen(
         ErrorMessageWithIcon()
       }
       is Success -> {
-        WatchList(
-          coins = uiState.data,
-          imageLoader = imageLoader
-        )
+        if (uiState.isEmpty()) {
+          EmptyListState(emptyStateMessageResId = string.watch_list_empty_state_message)
+        } else {
+          WatchList(
+            coins = uiState.data,
+            imageLoader = imageLoader
+          )
+        }
       }
     }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun WatchListScreenPreview_Loading() {
+  CryptoHqTheme {
+    WatchListScreen(uiState = Loading)
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun WatchListScreenPreview_Error() {
+  CryptoHqTheme {
+    WatchListScreen(uiState = Error(IllegalStateException()))
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun WatchListScreenPreview_Success() {
+  CryptoHqTheme {
+    WatchListScreen(uiState = Success(FakeData.COINS))
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun WatchListScreenPreview_Success_EmptyState() {
+  CryptoHqTheme {
+    WatchListScreen(uiState = Success(emptyList()))
   }
 }

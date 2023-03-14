@@ -50,7 +50,7 @@ fun CoinListItem(
       error = painterResource(id = commonR.drawable.ic_default_coin),
       fallback = painterResource(id = commonR.drawable.ic_default_coin),
       contentScale = ContentScale.Crop,
-      contentDescription = stringResource(commonR.string.coin_icon),
+      contentDescription = stringResource(commonR.string.coin_icon_content_desc),
       modifier = Modifier.size(48.dp)
     )
 

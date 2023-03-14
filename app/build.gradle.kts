@@ -49,6 +49,7 @@ android {
 dependencies {
   implementation(project(mapOf("path" to ":designsystem")))
   implementation(project(mapOf("path" to ":home")))
+  implementation(project(mapOf("path" to ":watchlist")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.LIFECYCLE_RUNTIME_KTX)
   implementation(Libs.NAVIGATION_COMPOSE)

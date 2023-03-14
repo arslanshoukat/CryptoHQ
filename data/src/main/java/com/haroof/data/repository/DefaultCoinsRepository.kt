@@ -1,13 +1,16 @@
 package com.haroof.data.repository
 
 import android.util.Log
+import com.haroof.data.FakeData
 import com.haroof.data.model.Coin
 import com.haroof.data.model.Result
+import com.haroof.data.model.asResult
 import com.haroof.data.model.toExternalModel
 import com.haroof.network.NetworkDataSource
 import com.haroof.network.model.CoinDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -27,9 +30,9 @@ class DefaultCoinsRepository @Inject constructor(
       }
     }
 
-  override fun getWatchListCoinsFlow(): Flow<Result<List<Coin>>> {
-    TODO("Not yet implemented")
-  }
+  private val flow = MutableStateFlow<List<Coin>>(FakeData.COINS)
+
+  override fun getWatchListCoinsFlow(): Flow<Result<List<Coin>>> = flow.asResult()
 
   companion object {
     const val TAG = "DefaultCoinsRepository"

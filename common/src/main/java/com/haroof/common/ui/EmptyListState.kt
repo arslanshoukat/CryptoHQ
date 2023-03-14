@@ -26,10 +26,10 @@ import com.haroof.common.R.drawable
 import com.haroof.common.R.string
 
 @Composable
-fun ErrorMessageWithIcon(
-  @DrawableRes errorIconResId: Int = drawable.ic_error_alert,
-  @StringRes errorMessageResId: Int = string.error_message_data_fetch,
-  contentDesc: String = stringResource(string.error_message_content_desc),
+fun EmptyListState(
+  @DrawableRes emptyStateIconResId: Int = drawable.ic_favorite_folder,
+  @StringRes emptyStateMessageResId: Int = string.empty_state_message,
+  contentDesc: String = stringResource(string.empty_state_content_desc),
   modifier: Modifier = Modifier
 ) {
   Column(
@@ -41,13 +41,13 @@ fun ErrorMessageWithIcon(
       .semantics { contentDescription = contentDesc }
   ) {
     Image(
-      painter = painterResource(id = errorIconResId),
-      contentDescription = stringResource(string.error_icon_content_desc),
+      painter = painterResource(id = emptyStateIconResId),
+      contentDescription = stringResource(string.empty_state_icon_content_desc),
       modifier = Modifier.size(128.dp)
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-      text = stringResource(id = errorMessageResId),
+      text = stringResource(id = emptyStateMessageResId),
       style = MaterialTheme.typography.h5,
       textAlign = TextAlign.Center,
       modifier = Modifier.fillMaxWidth()

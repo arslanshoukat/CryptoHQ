@@ -69,7 +69,7 @@ class HomeScreenTest {
       .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.loading_indicator))
       .assertDoesNotExist()
     composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.error_message))
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.error_message_content_desc))
       .assertExists()
   }
 }

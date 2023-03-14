@@ -41,10 +41,7 @@ fun WatchListItem(
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
 ) {
-  Card(
-    elevation = 4.dp,
-    modifier = modifier
-  ) {
+  Card(modifier = modifier) {
     Row(modifier = modifier.padding(16.dp)) {
       AsyncImage(
         model = coin.imageUrl,
@@ -52,7 +49,7 @@ fun WatchListItem(
         error = painterResource(id = drawable.ic_default_coin),
         fallback = painterResource(id = drawable.ic_default_coin),
         contentScale = ContentScale.Crop,
-        contentDescription = stringResource(string.coin_icon),
+        contentDescription = stringResource(string.coin_icon_content_desc),
         modifier = Modifier.size(48.dp)
       )
 
@@ -93,7 +90,7 @@ fun WatchListItem(
 
 @Preview(showBackground = true)
 @Composable
-fun CoinListItemUpPreview() {
+fun WatchListItemUpPreview() {
   CryptoHqTheme {
     Surface(modifier = Modifier.padding(16.dp)) {
       WatchListItem(coin = FakeData.COINS.first(), LocalContext.current.imageLoader)
@@ -103,7 +100,7 @@ fun CoinListItemUpPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun CoinListItemDownPreview() {
+fun WatchListItemDownPreview() {
   CryptoHqTheme {
     Surface(modifier = Modifier.padding(16.dp)) {
       WatchListItem(coin = FakeData.COINS[1], LocalContext.current.imageLoader)

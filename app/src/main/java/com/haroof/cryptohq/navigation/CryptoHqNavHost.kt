@@ -6,7 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.haroof.cryptohq.navigation.TopLevelDestination.HOME
+import com.haroof.cryptohq.navigation.TopLevelDestination.WATCH_LIST
 import com.haroof.home.HomeRoute
+import com.haroof.watchlist.WatchListRoute
 
 @Composable
 fun CryptoHqNavHost(
@@ -21,6 +23,9 @@ fun CryptoHqNavHost(
   ) {
     composable(HOME.route) {
       HomeRoute()
+    }
+    composable(WATCH_LIST.route) {
+      WatchListRoute()
     }
   }
 }

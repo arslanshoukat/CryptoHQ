@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="loading_indicator">Loading</string>
-  <string name="error_message">Error message</string>
-  <string name="error_icon">Error icon</string>
+  <string name="error_message_content_desc">Error message</string>
+  <string name="error_icon_content_desc">Error icon</string>
   <string name="error_message_data_fetch">Failed to fetch data!</string>
-  <string name="coin_icon">Coin icon</string>
+  <string name="coin_icon_content_desc">Coin icon</string>
+  <string name="empty_state_content_desc">Empty list</string>
+  <string name="empty_state_icon_content_desc">Error icon</string>
+  <string name="empty_state_message">List is empty!</string>
 </resources>

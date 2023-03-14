@@ -26,5 +26,9 @@ class WatchListViewModel @Inject constructor(
         is Success -> WatchListUiState.Success(result.data)
       }
     }
-    .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), WatchListUiState.Loading)
+    .stateIn(
+      scope = viewModelScope,
+      started = SharingStarted.WhileSubscribed(5_000),
+      initialValue = WatchListUiState.Loading
+    )
 }
