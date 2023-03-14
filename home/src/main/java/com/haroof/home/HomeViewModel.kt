@@ -25,12 +25,15 @@ class HomeViewModel @Inject constructor(
     refresh()
   }
 
-  fun refresh() {
+  private fun refresh() {
     viewModelScope.launch {
       _uiState.value = when (val result = coinsRepository.getCoins()) {
         Loading -> HomeUiState.Loading
-        is Success -> HomeUiState.Success(result.data)
         is Error -> HomeUiState.Error(result.exception)
+        is Success -> {
+          if (result.data.isEmpty()) HomeUiState.Empty
+          else HomeUiState.Success(result.data)
+        }
       }
     }
   }

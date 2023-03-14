@@ -16,13 +16,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.imageLoader
+import com.haroof.common.R.string
+import com.haroof.common.ui.EmptyListState
 import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.data.FakeData
 import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.home.HomeUiState.Empty
 import com.haroof.home.HomeUiState.Error
 import com.haroof.home.HomeUiState.Loading
 import com.haroof.home.HomeUiState.Success
-import com.haroof.common.R as commonR
 
 @Composable
 fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
@@ -37,21 +39,25 @@ fun HomeScreen(uiState: HomeUiState, imageLoader: ImageLoader = LocalContext.cur
 
     when (uiState) {
       Loading -> {
-        val contentDesc = stringResource(commonR.string.loading_indicator)
+        val contentDesc = stringResource(string.loading_indicator)
         CircularProgressIndicator(
           modifier = Modifier
             .align(Alignment.Center)
             .semantics { contentDescription = contentDesc }
         )
       }
+      is Error -> {
+        ErrorMessageWithIcon()
+      }
+      Empty -> {
+        //  todo: change empty state for home
+        EmptyListState()
+      }
       is Success -> {
         CoinsMarketList(
           coins = uiState.coins,
           imageLoader = imageLoader
         )
-      }
-      is Error -> {
-        ErrorMessageWithIcon()
       }
     }
 

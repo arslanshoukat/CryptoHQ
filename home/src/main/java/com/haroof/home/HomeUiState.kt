@@ -6,7 +6,9 @@ sealed class HomeUiState {
 
   object Loading : HomeUiState()
 
-  data class Success(val coins: List<Coin>) : HomeUiState()
-
   data class Error(val exception: Throwable?) : HomeUiState()
+
+  object Empty : HomeUiState()
+
+  data class Success(val coins: List<Coin>) : HomeUiState()
 }

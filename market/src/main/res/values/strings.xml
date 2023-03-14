@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="market_coins_list_content_desc">Market coins list</string>
+  <string name="market_empty_state_message">Data not available!</string>
 </resources>

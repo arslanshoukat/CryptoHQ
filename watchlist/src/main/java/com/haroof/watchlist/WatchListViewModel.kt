@@ -23,7 +23,10 @@ class WatchListViewModel @Inject constructor(
       when (result) {
         Loading -> WatchListUiState.Loading
         is Error -> WatchListUiState.Error(result.exception)
-        is Success -> WatchListUiState.Success(result.data)
+        is Success -> {
+          if (result.data.isEmpty()) WatchListUiState.Empty
+          else WatchListUiState.Success(result.data)
+        }
       }
     }
     .stateIn(

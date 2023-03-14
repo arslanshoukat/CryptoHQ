@@ -14,13 +14,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.imageLoader
-import com.haroof.common.R.string
 import com.haroof.common.ui.EmptyListState
 import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.market.MarketUiState.Empty
 import com.haroof.market.MarketUiState.Error
 import com.haroof.market.MarketUiState.Loading
 import com.haroof.market.MarketUiState.Success
+import com.haroof.market.R.string
+import com.haroof.common.R as commonR
 
 @Composable
 fun MarketRoute(viewModel: MarketViewModel = hiltViewModel()) {
@@ -38,7 +39,7 @@ fun MarketScreen(
 
     when (uiState) {
       Loading -> {
-        val contentDesc = stringResource(string.loading_indicator)
+        val contentDesc = stringResource(commonR.string.loading_indicator)
         CircularProgressIndicator(
           modifier = Modifier
             .align(Alignment.Center)
@@ -49,7 +50,9 @@ fun MarketScreen(
         ErrorMessageWithIcon()
       }
       Empty -> {
-        EmptyListState()
+        EmptyListState(
+          emptyStateMessageResId = string.market_empty_state_message
+        )
       }
       is Success -> {
         MarketCoinsList(

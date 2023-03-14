@@ -50,4 +50,17 @@ class WatchListViewModelTest {
 
     collectJob.cancel()
   }
+
+  @Test
+  fun whenDataLoadedSuccessfullyButEmpty_stateIsEmpty() = runTest {
+    // Create an empty collector for the StateFlow
+    val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uiState.collect() }
+
+    assertEquals(WatchListUiState.Loading, viewModel.uiState.value)
+
+    fakeCoinsRepository.emit(emptyList())
+    assertEquals(WatchListUiState.Empty, viewModel.uiState.value)
+
+    collectJob.cancel()
+  }
 }

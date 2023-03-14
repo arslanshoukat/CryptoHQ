@@ -25,14 +25,28 @@ class HomeViewModelTest {
   @Test
   fun whenDataRefreshIsSuccessful_stateIsSuccessWithData() = runTest {
     val viewModel = HomeViewModel(FakeCoinsRepository())
-    viewModel.refresh()
-    assertEquals(viewModel.uiState.value, HomeUiState.Success(FakeData.COINS))
+    assertEquals(HomeUiState.Success(FakeData.COINS), viewModel.uiState.value)
+  }
+
+  @Test
+  fun whenDataRefreshIsSuccessfulButEmpty_stateIsEmpty() = runTest {
+    val viewModel = HomeViewModel(
+      FakeCoinsRepository(
+        shouldThrowError = false,
+        shouldReturnEmpty = true
+      )
+    )
+    assertEquals(HomeUiState.Empty, viewModel.uiState.value)
   }
 
   @Test
   fun whenDataRefreshFailed_stateIsError() = runTest {
-    val viewModel = HomeViewModel(FakeCoinsRepository(true))
-    viewModel.refresh()
+    val viewModel = HomeViewModel(
+      FakeCoinsRepository(
+        shouldThrowError = true,
+        shouldReturnEmpty = false
+      )
+    )
     assertTrue(viewModel.uiState.value is HomeUiState.Error)
   }
 }

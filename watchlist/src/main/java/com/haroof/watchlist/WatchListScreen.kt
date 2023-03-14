@@ -21,6 +21,7 @@ import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.data.FakeData
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.watchlist.R.string
+import com.haroof.watchlist.WatchListUiState.Empty
 import com.haroof.watchlist.WatchListUiState.Error
 import com.haroof.watchlist.WatchListUiState.Loading
 import com.haroof.watchlist.WatchListUiState.Success
@@ -51,16 +52,16 @@ fun WatchListScreen(
       is Error -> {
         ErrorMessageWithIcon()
       }
-      is Success -> {
-        if (uiState.isEmpty()) {
-          EmptyListState(emptyStateMessageResId = string.watch_list_empty_state_message)
-        } else {
-          WatchList(
-            coins = uiState.data,
-            imageLoader = imageLoader
-          )
-        }
+      Empty -> {
+        EmptyListState(emptyStateMessageResId = string.watch_list_empty_state_message)
       }
+      is Success -> {
+        WatchList(
+          coins = uiState.data,
+          imageLoader = imageLoader
+        )
+      }
+
     }
   }
 }

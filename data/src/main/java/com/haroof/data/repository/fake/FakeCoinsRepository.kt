@@ -11,14 +11,16 @@ import javax.inject.Inject
 
 class FakeCoinsRepository(
   private val shouldThrowError: Boolean,
+  private val shouldReturnEmpty: Boolean,
 ) : CoinsRepository {
 
-  @Inject constructor() : this(false)
+  @Inject constructor() : this(false, false)
 
   private val flow = MutableSharedFlow<List<Coin>>()
 
   override suspend fun getCoins(): Result<List<Coin>> {
-    return if (shouldThrowError) Result.Error(IllegalStateException()) else Result.Success(FakeData.COINS)
+    return if (shouldThrowError) Result.Error(IllegalStateException())
+    else Result.Success(if (shouldReturnEmpty) emptyList() else FakeData.COINS)
   }
 
   override fun getWatchListCoinsFlow(): Flow<Result<List<Coin>>> = flow.asResult()

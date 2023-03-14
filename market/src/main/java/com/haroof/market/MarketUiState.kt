@@ -6,9 +6,9 @@ sealed class MarketUiState {
 
   object Loading : MarketUiState()
 
-  data class Success(val coins: List<Coin>) : MarketUiState()
+  data class Error(val exception: Throwable?) : MarketUiState()
 
   object Empty : MarketUiState()
 
-  data class Error(val exception: Throwable?) : MarketUiState()
+  data class Success(val coins: List<Coin>) : MarketUiState()
 }

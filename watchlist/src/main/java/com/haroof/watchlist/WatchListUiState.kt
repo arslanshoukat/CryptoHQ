@@ -8,8 +8,7 @@ sealed class WatchListUiState {
 
   data class Error(val exception: Throwable?) : WatchListUiState()
 
-  data class Success(val data: List<Coin>) : WatchListUiState() {
+  object Empty : WatchListUiState()
 
-    fun isEmpty(): Boolean = data.isEmpty()
-  }
+  data class Success(val data: List<Coin>) : WatchListUiState()
 }

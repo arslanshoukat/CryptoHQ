@@ -30,13 +30,23 @@ class MarketViewModelTest {
 
   @Test
   fun whenDataRefreshIsSuccessfulButEmpty_stateIsEmpty() = runTest {
-    val viewModel = MarketViewModel(FakeCoinsRepository())
+    val viewModel = MarketViewModel(
+      FakeCoinsRepository(
+        shouldThrowError = false,
+        shouldReturnEmpty = true
+      )
+    )
     assertEquals(MarketUiState.Empty, viewModel.uiState.value)
   }
 
   @Test
   fun whenDataRefreshFailed_stateIsError() = runTest {
-    val viewModel = MarketViewModel(FakeCoinsRepository(true))
+    val viewModel = MarketViewModel(
+      FakeCoinsRepository(
+        shouldThrowError = true,
+        shouldReturnEmpty = false
+      )
+    )
     Assert.assertTrue(viewModel.uiState.value is MarketUiState.Error)
   }
 }
