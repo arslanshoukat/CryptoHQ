@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.haroof.cryptohq.navigation.TopLevelDestination
 import com.haroof.cryptohq.navigation.TopLevelDestination.HOME
+import com.haroof.cryptohq.navigation.TopLevelDestination.MARKET
 import com.haroof.cryptohq.navigation.TopLevelDestination.WATCH_LIST
 
 @Composable
@@ -33,6 +34,7 @@ class CryptoHqAppState(
   val currentTopLevelDestination: TopLevelDestination?
     @Composable get() = when (currentDestination?.route) {
       HOME.route -> HOME
+      MARKET.route -> MARKET
       WATCH_LIST.route -> WATCH_LIST
       else -> null
     }

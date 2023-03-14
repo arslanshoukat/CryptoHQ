@@ -13,6 +13,11 @@ enum class TopLevelDestination(
     selectedIcon = drawable.sharp_dashboard_24,
     unselectedIcon = drawable.outline_dashboard_24
   ),
+  MARKET(
+    route = "Market",
+    selectedIcon = drawable.sharp_market_24,
+    unselectedIcon = drawable.outline_market_24
+  ),
   WATCH_LIST(
     route = "Watch List",
     selectedIcon = drawable.sharp_star_24,
