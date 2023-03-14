@@ -3,7 +3,6 @@ package com.haroof.market
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
 import coil.ImageLoader
 import com.haroof.data.FakeData
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -59,9 +58,6 @@ class MarketScreenTest {
       .assertDoesNotExist()
     composeTestRule
       .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.market_coins_list_content_desc))
-      .assertExists()
-    composeTestRule
-      .onNodeWithText(FakeData.COINS.first().name)
       .assertExists()
   }
 

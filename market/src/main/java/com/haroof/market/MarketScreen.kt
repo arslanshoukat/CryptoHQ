@@ -11,11 +11,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.imageLoader
 import com.haroof.common.ui.EmptyListState
 import com.haroof.common.ui.ErrorMessageWithIcon
+import com.haroof.data.FakeData
+import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.market.MarketUiState.Empty
 import com.haroof.market.MarketUiState.Error
 import com.haroof.market.MarketUiState.Loading
@@ -61,5 +64,37 @@ fun MarketScreen(
         )
       }
     }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MarketScreenPreview_Loading() {
+  CryptoHqTheme {
+    MarketScreen(uiState = Loading)
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MarketScreenPreview_Error() {
+  CryptoHqTheme {
+    MarketScreen(uiState = Error(IllegalStateException()))
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MarketScreenPreview_Success() {
+  CryptoHqTheme {
+    MarketScreen(uiState = Success(FakeData.COINS))
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MarketScreenPreview_Success_EmptyState() {
+  CryptoHqTheme {
+    MarketScreen(uiState = Empty)
   }
 }
