@@ -10,5 +10,9 @@ sealed class MarketUiState {
 
   object Empty : MarketUiState()
 
-  data class Success(val coins: List<Coin>) : MarketUiState()
+  data class Success(
+    val coins: List<Coin>,
+    val sortBy: SortBy = SortBy.RANK,
+    val sortOrder: SortOrder = SortOrder.ASCENDING,
+  ) : MarketUiState()
 }

@@ -1,15 +1,21 @@
 package com.haroof.market
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -29,11 +36,16 @@ import coil.imageLoader
 import com.haroof.data.FakeData
 import com.haroof.data.model.Coin
 import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.market.R.drawable
 import com.haroof.market.R.string
+import com.haroof.market.SortOrder.DESCENDING
 
 @Composable
 fun MarketCoinsList(
   coins: List<Coin>,
+  sortBy: SortBy,
+  sortOrder: SortOrder,
+  onSortChange: (sortBy: SortBy) -> Unit,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
 ) {
@@ -43,12 +55,17 @@ fun MarketCoinsList(
     modifier = modifier
       .fillMaxWidth()
       .padding(16.dp)
-      .clip(RoundedCornerShape(4.dp))
+      .clip(MaterialTheme.shapes.small)
       .background(MaterialTheme.colors.surface)
+      .border(BorderStroke(1.dp, Color.LightGray), MaterialTheme.shapes.small)
       .semantics { contentDescription = contentDesc }
   ) {
     item {
-      MarketCoinsListHeader()
+      Header(
+        sortBy = sortBy,
+        sortOrder = sortOrder,
+        onSortChange = onSortChange,
+      )
     }
 
     itemsIndexed(
@@ -59,13 +76,27 @@ fun MarketCoinsList(
         coin = coin,
         imageLoader = imageLoader
       )
-      if (index < coins.lastIndex) Divider(color = Color.LightGray, thickness = 1.dp)
+      if (index < coins.lastIndex) {
+        Row(modifier = modifier.fillMaxWidth()) {
+          Spacer(modifier = Modifier.weight(0.1f))
+          Divider(
+            color = Color.LightGray,
+            thickness = 1.dp,
+            modifier = Modifier.weight(0.9f)
+          )
+        }
+      }
     }
   }
 }
 
 @Composable
-private fun MarketCoinsListHeader(modifier: Modifier = Modifier) {
+private fun Header(
+  sortBy: SortBy,
+  sortOrder: SortOrder,
+  onSortChange: (sortBy: SortBy) -> Unit,
+  modifier: Modifier = Modifier
+) {
   Column(
     modifier = modifier.fillMaxWidth()
   ) {
@@ -77,36 +108,76 @@ private fun MarketCoinsListHeader(modifier: Modifier = Modifier) {
         .fillMaxWidth()
     ) {
 
-      Text(
-        text = "Rank",
-        style = MaterialTheme.typography.subtitle1,
-        modifier = Modifier.weight(0.15f)
+      HeaderCell(
+        title = "#",
+        weight = 0.1f,
+        isSorted = sortBy == SortBy.RANK,
+        sortOrder = sortOrder,
+        onClick = { onSortChange(SortBy.RANK) },
       )
 
-      Text(
-        text = "Coin",
-        style = MaterialTheme.typography.subtitle1,
+      HeaderCell(
+        title = "Coin",
+        weight = 0.4f,
+        isSorted = sortBy == SortBy.COIN,
+        sortOrder = sortOrder,
         textAlign = TextAlign.Center,
-        modifier = Modifier.weight(0.4f)
+        onClick = { onSortChange(SortBy.COIN) },
       )
 
-      Text(
-        text = "Price",
-        style = MaterialTheme.typography.subtitle1,
+      HeaderCell(
+        title = "Price",
+        weight = 0.25f,
+        isSorted = sortBy == SortBy.PRICE,
+        sortOrder = sortOrder,
         textAlign = TextAlign.End,
-        modifier = Modifier.weight(0.25f)
+        onClick = { onSortChange(SortBy.PRICE) },
       )
 
-      Text(
-        text = "24h %",
-        style = MaterialTheme.typography.subtitle1,
+      HeaderCell(
+        title = "24h %",
+        weight = 0.25f,
+        isSorted = sortBy == SortBy.PRICE_CHANGE_PERCENTAGE,
+        sortOrder = sortOrder,
         textAlign = TextAlign.End,
-        modifier = Modifier.weight(0.2f)
+        onClick = { onSortChange(SortBy.PRICE_CHANGE_PERCENTAGE) },
       )
-
     }
 
     Divider(color = Color.LightGray, thickness = 1.dp)
+  }
+}
+
+@Composable
+private fun RowScope.HeaderCell(
+  title: String,
+  weight: Float,
+  isSorted: Boolean,
+  sortOrder: SortOrder,
+  modifier: Modifier = Modifier,
+  textAlign: TextAlign? = null,
+  onClick: () -> Unit,
+) {
+  Row(
+    verticalAlignment = Alignment.CenterVertically,
+    modifier = modifier
+      .weight(weight)
+      .clickable(onClick = onClick)
+  ) {
+    Text(
+      text = title,
+      style = MaterialTheme.typography.subtitle2,
+      textAlign = textAlign,
+      modifier = Modifier.weight(1f)
+    )
+
+    if (isSorted) {
+      Icon(
+        painter = painterResource(id = if (sortOrder == DESCENDING) drawable.sharp_arrow_down_24 else drawable.sharp_arrow_up_24),
+        contentDescription = stringResource(string.sort_icon_content_desc),
+        modifier = Modifier.size(24.dp)
+      )
+    }
   }
 }
 
@@ -114,6 +185,12 @@ private fun MarketCoinsListHeader(modifier: Modifier = Modifier) {
 @Composable
 fun MarketCoinsListPreview() {
   CryptoHqTheme {
-    MarketCoinsList(coins = FakeData.COINS, imageLoader = LocalContext.current.imageLoader)
+    MarketCoinsList(
+      coins = FakeData.COINS,
+      imageLoader = LocalContext.current.imageLoader,
+      sortBy = SortBy.RANK,
+      sortOrder = SortOrder.ASCENDING,
+      onSortChange = {},
+    )
   }
 }

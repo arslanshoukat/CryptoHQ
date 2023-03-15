@@ -2,4 +2,5 @@
 <resources>
   <string name="market_coins_list_content_desc">Market coins list</string>
   <string name="market_empty_state_message">Data not available!</string>
+  <string name="sort_icon_content_desc">Sort icon</string>
 </resources>

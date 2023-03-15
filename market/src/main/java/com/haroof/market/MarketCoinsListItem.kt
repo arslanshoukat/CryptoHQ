@@ -50,7 +50,7 @@ fun MarketCoinsListItem(
 
     Text(
       text = "${coin.marketCapRank}",
-      modifier = Modifier.weight(0.15f),
+      modifier = Modifier.weight(0.1f),
     )
 
     Row(
@@ -89,7 +89,7 @@ fun MarketCoinsListItem(
         UP -> green
         DOWN -> red
       },
-      modifier = Modifier.weight(0.2f)
+      modifier = Modifier.weight(0.25f)
     )
 
   }

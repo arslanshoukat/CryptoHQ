@@ -31,10 +31,50 @@ class MarketViewModel @Inject constructor(
         Loading -> MarketUiState.Loading
         is Error -> MarketUiState.Error(result.exception)
         is Success -> {
+          //  if no data available, return empty state
           if (result.data.isEmpty()) MarketUiState.Empty
-          else MarketUiState.Success(result.data)
+          //  else return data sorted by rank in ascending order
+          else MarketUiState.Success(coins = result.data.sortedBy { it.marketCapRank })
         }
       }
+    }
+  }
+
+  fun sort(updatedSortBy: SortBy) {
+    (_uiState.value as? MarketUiState.Success)?.let { prevUiState ->
+      val updatedSortOrder: SortOrder =
+        if (prevUiState.sortBy == updatedSortBy) {
+          //  if same sort parameter, just toggle sort order
+          prevUiState.sortOrder.toggle()
+        } else {
+          //  else sort first by ascending order
+          SortOrder.ASCENDING
+        }
+
+      val updatedCoins = when (updatedSortOrder) {
+        SortOrder.ASCENDING -> {
+          when (updatedSortBy) {
+            SortBy.RANK -> prevUiState.coins.sortedBy { it.marketCapRank }
+            SortBy.COIN -> prevUiState.coins.sortedBy { it.symbol }
+            SortBy.PRICE_CHANGE_PERCENTAGE -> prevUiState.coins.sortedBy { it.priceChangePercentage24h }
+            SortBy.PRICE -> prevUiState.coins.sortedBy { it.currentPrice }
+          }
+        }
+        SortOrder.DESCENDING -> {
+          when (updatedSortBy) {
+            SortBy.RANK -> prevUiState.coins.sortedByDescending { it.marketCapRank }
+            SortBy.COIN -> prevUiState.coins.sortedByDescending { it.symbol }
+            SortBy.PRICE_CHANGE_PERCENTAGE -> prevUiState.coins.sortedByDescending { it.priceChangePercentage24h }
+            SortBy.PRICE -> prevUiState.coins.sortedByDescending { it.currentPrice }
+          }
+        }
+      }
+
+      _uiState.value = prevUiState.copy(
+        coins = updatedCoins,
+        sortBy = updatedSortBy,
+        sortOrder = updatedSortOrder,
+      )
     }
   }
 }

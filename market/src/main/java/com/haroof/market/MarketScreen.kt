@@ -31,12 +31,16 @@ import com.haroof.common.R as commonR
 fun MarketRoute(viewModel: MarketViewModel = hiltViewModel()) {
   val uiState by viewModel.uiState.collectAsState()
 
-  MarketScreen(uiState = uiState)
+  MarketScreen(
+    uiState = uiState,
+    onSortChange = viewModel::sort
+  )
 }
 
 @Composable
 fun MarketScreen(
   uiState: MarketUiState,
+  onSortChange: (sortBy: SortBy) -> Unit = {},
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {
   Box(modifier = Modifier.fillMaxSize()) {
@@ -61,7 +65,10 @@ fun MarketScreen(
       is Success -> {
         MarketCoinsList(
           coins = uiState.coins,
-          imageLoader = imageLoader
+          sortBy = uiState.sortBy,
+          sortOrder = uiState.sortOrder,
+          onSortChange = onSortChange,
+          imageLoader = imageLoader,
         )
       }
     }
