@@ -1,6 +1,7 @@
 package com.haroof.market
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -40,6 +41,7 @@ import com.haroof.market.R.drawable
 import com.haroof.market.R.string
 import com.haroof.market.SortOrder.DESCENDING
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MarketCoinsList(
   coins: List<Coin>,
@@ -60,7 +62,7 @@ fun MarketCoinsList(
       .border(BorderStroke(1.dp, Color.LightGray), MaterialTheme.shapes.small)
       .semantics { contentDescription = contentDesc }
   ) {
-    item {
+    stickyHeader {
       Header(
         sortBy = sortBy,
         sortOrder = sortOrder,
@@ -98,7 +100,9 @@ private fun Header(
   modifier: Modifier = Modifier
 ) {
   Column(
-    modifier = modifier.fillMaxWidth()
+    modifier = modifier
+      .fillMaxWidth()
+      .background(MaterialTheme.colors.surface)
   ) {
     Row(
       verticalAlignment = Alignment.CenterVertically,

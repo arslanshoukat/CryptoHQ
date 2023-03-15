@@ -64,7 +64,7 @@ fun MarketCoinsListItem(
         fallback = painterResource(id = commonR.drawable.ic_default_coin),
         contentScale = ContentScale.Crop,
         contentDescription = stringResource(commonR.string.coin_icon_content_desc),
-        modifier = Modifier.size(40.dp)
+        modifier = Modifier.size(24.dp)
       )
       Spacer(modifier = Modifier.width(16.dp))
       Text(
