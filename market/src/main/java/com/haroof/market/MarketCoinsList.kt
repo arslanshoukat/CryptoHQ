@@ -109,7 +109,7 @@ private fun Header(
     ) {
 
       HeaderCell(
-        title = "#",
+        title = stringResource(string.rank_title),
         weight = 0.1f,
         isSorted = sortBy == SortBy.RANK,
         sortOrder = sortOrder,
@@ -117,7 +117,7 @@ private fun Header(
       )
 
       HeaderCell(
-        title = "Coin",
+        title = stringResource(string.coin_title),
         weight = 0.4f,
         isSorted = sortBy == SortBy.COIN,
         sortOrder = sortOrder,
@@ -126,7 +126,7 @@ private fun Header(
       )
 
       HeaderCell(
-        title = "Price",
+        title = stringResource(string.price_title),
         weight = 0.25f,
         isSorted = sortBy == SortBy.PRICE,
         sortOrder = sortOrder,
@@ -135,7 +135,7 @@ private fun Header(
       )
 
       HeaderCell(
-        title = "24h %",
+        title = stringResource(string.price_change_percentage_title),
         weight = 0.25f,
         isSorted = sortBy == SortBy.PRICE_CHANGE_PERCENTAGE,
         sortOrder = sortOrder,
@@ -156,6 +156,7 @@ private fun RowScope.HeaderCell(
   sortOrder: SortOrder,
   modifier: Modifier = Modifier,
   textAlign: TextAlign? = null,
+  contentDesc: String = title,
   onClick: () -> Unit,
 ) {
   Row(
@@ -163,6 +164,7 @@ private fun RowScope.HeaderCell(
     modifier = modifier
       .weight(weight)
       .clickable(onClick = onClick)
+      .semantics { contentDescription = contentDesc }
   ) {
     Text(
       text = title,
@@ -174,7 +176,7 @@ private fun RowScope.HeaderCell(
     if (isSorted) {
       Icon(
         painter = painterResource(id = if (sortOrder == DESCENDING) drawable.sharp_arrow_down_24 else drawable.sharp_arrow_up_24),
-        contentDescription = stringResource(string.sort_icon_content_desc),
+        contentDescription = title + " " + stringResource(id = if (sortOrder == DESCENDING) string.sort_descending_icon_content_desc else string.sort_ascending_icon_content_desc),
         modifier = Modifier.size(24.dp)
       )
     }

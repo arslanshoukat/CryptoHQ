@@ -2,5 +2,10 @@
 <resources>
   <string name="market_coins_list_content_desc">Market coins list</string>
   <string name="market_empty_state_message">Data not available!</string>
-  <string name="sort_icon_content_desc">Sort icon</string>
+  <string name="sort_ascending_icon_content_desc">Sort ascending icon</string>
+  <string name="sort_descending_icon_content_desc">Sort descending icon</string>
+  <string name="rank_title">#</string>
+  <string name="coin_title">Coin</string>
+  <string name="price_title">Price</string>
+  <string name="price_change_percentage_title">24h %</string>
 </resources>

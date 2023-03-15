@@ -5,6 +5,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import coil.ImageLoader
 import com.haroof.data.FakeData
+import com.haroof.market.R.string
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -57,7 +58,7 @@ class MarketScreenTest {
       .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.loading_indicator))
       .assertDoesNotExist()
     composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.market_coins_list_content_desc))
+      .onNodeWithContentDescription(composeTestRule.activity.getString(string.market_coins_list_content_desc))
       .assertExists()
   }
 
@@ -93,5 +94,59 @@ class MarketScreenTest {
     composeTestRule
       .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.error_message_content_desc))
       .assertExists()
+  }
+
+  @Test
+  fun whenDataIsSortedByPriceAsc_PriceAscendingSortIconIsShown() {
+    composeTestRule.setContent {
+      MarketScreen(
+        uiState = MarketUiState.Success(
+          coins = FakeData.COINS.sortedBy { it.currentPrice },
+          sortBy = SortBy.PRICE,
+          sortOrder = SortOrder.ASCENDING,
+        ),
+        imageLoader = imageLoader
+      )
+    }
+
+    composeTestRule
+      .onNodeWithContentDescription(
+        composeTestRule.activity.getString(string.price_title) + " "
+          + composeTestRule.activity.getString(string.sort_ascending_icon_content_desc)
+      )
+      .assertExists()
+    composeTestRule
+      .onNodeWithContentDescription(
+        composeTestRule.activity.getString(string.rank_title) + " "
+          + composeTestRule.activity.getString(string.sort_ascending_icon_content_desc)
+      )
+      .assertDoesNotExist()
+  }
+
+  @Test
+  fun whenDataIsSortedByPriceDesc_PriceDescendingSortIconIsShown() {
+    composeTestRule.setContent {
+      MarketScreen(
+        uiState = MarketUiState.Success(
+          coins = FakeData.COINS.sortedByDescending { it.currentPrice },
+          sortBy = SortBy.PRICE,
+          sortOrder = SortOrder.DESCENDING,
+        ),
+        imageLoader = imageLoader
+      )
+    }
+
+    composeTestRule
+      .onNodeWithContentDescription(
+        composeTestRule.activity.getString(string.price_title) + " "
+          + composeTestRule.activity.getString(string.sort_descending_icon_content_desc)
+      )
+      .assertExists()
+    composeTestRule
+      .onNodeWithContentDescription(
+        composeTestRule.activity.getString(string.rank_title) + " "
+          + composeTestRule.activity.getString(string.sort_descending_icon_content_desc)
+      )
+      .assertDoesNotExist()
   }
 }

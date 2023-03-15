@@ -28,12 +28,16 @@ import com.haroof.market.R.string
 import com.haroof.common.R as commonR
 
 @Composable
-fun MarketRoute(viewModel: MarketViewModel = hiltViewModel()) {
+fun MarketRoute(
+  viewModel: MarketViewModel = hiltViewModel(),
+  imageLoader: ImageLoader = LocalContext.current.imageLoader
+) {
   val uiState by viewModel.uiState.collectAsState()
 
   MarketScreen(
     uiState = uiState,
-    onSortChange = viewModel::sort
+    onSortChange = viewModel::sort,
+    imageLoader = imageLoader
   )
 }
 
