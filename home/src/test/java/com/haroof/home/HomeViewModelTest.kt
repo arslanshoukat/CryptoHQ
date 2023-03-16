@@ -19,13 +19,19 @@ class HomeViewModelTest {
   @Test
   fun stateIsInitiallyLoading() = runTest {
     val viewModel = HomeViewModel(FakeCoinsRepository())
-    assertEquals(viewModel.uiState.value, HomeUiState.Loading)
+    assertEquals(HomeUiState.Loading, viewModel.uiState.value)
   }
 
   @Test
   fun whenDataRefreshIsSuccessful_stateIsSuccessWithData() = runTest {
     val viewModel = HomeViewModel(FakeCoinsRepository())
-    assertEquals(HomeUiState.Success(FakeData.COINS), viewModel.uiState.value)
+    assertEquals(
+      HomeUiState.Success(
+        gainersAndLosers = FakeData.GAINERS_AND_LOSERS,
+        marketCoins = FakeData.COINS
+      ),
+      viewModel.uiState.value
+    )
   }
 
   @Test

@@ -22,6 +22,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.ImageLoader
 import coil.compose.AsyncImage
@@ -52,7 +53,7 @@ internal fun CoinCard(
   modifier: Modifier = Modifier,
   onClick: () -> Unit = {}
 ) {
-  Card(modifier = modifier.size(width = 128.dp, height = 192.dp)) {
+  Card(modifier = modifier.size(width = 138.dp, height = 184.dp)) {
     ConstraintLayout(
       modifier = Modifier
         .clickable(onClick = onClick)
@@ -80,19 +81,21 @@ internal fun CoinCard(
       Text(
         text = coin.symbol.uppercase(),
         style = MaterialTheme.typography.body1,
+        maxLines = 1,
         modifier = Modifier
           .constrainAs(symbol) {
             top.linkTo(parent.top, 16.dp)
-            start.linkTo(image.end, 12.dp)
+            start.linkTo(image.end, 8.dp)
           }
       )
 
       Text(
         text = coin.name,
-        style = MaterialTheme.typography.caption,
+        style = MaterialTheme.typography.body2.copy(fontSize = 12.sp),
+        maxLines = 1,
         modifier = Modifier
           .constrainAs(name) {
-            top.linkTo(symbol.bottom, 4.dp)
+            top.linkTo(symbol.bottom)
             start.linkTo(symbol.start)
           }
       )
@@ -102,7 +105,7 @@ internal fun CoinCard(
         style = MaterialTheme.typography.body1,
         modifier = Modifier
           .constrainAs(price) {
-            top.linkTo(name.bottom, 16.dp)
+            top.linkTo(name.bottom, 8.dp)
             start.linkTo(parent.start, 16.dp)
           }
       )
@@ -113,12 +116,12 @@ internal fun CoinCard(
         DOWN -> red
       }
       Text(
-        text = "${coin.priceChangePercentage24h.roundDecimal(3)}%",
-        style = MaterialTheme.typography.caption,
+        text = "${coin.priceChangePercentage24h.roundDecimal(2)}%",
+        style = MaterialTheme.typography.body2.copy(fontSize = 12.sp),
         color = color,
         modifier = Modifier
           .constrainAs(priceChangePercentage) {
-            top.linkTo(price.bottom, 8.dp)
+            top.linkTo(price.bottom)
             start.linkTo(price.start)
           }
       )

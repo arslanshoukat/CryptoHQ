@@ -36,7 +36,7 @@ fun CoinsMarketList(
   LazyColumn(
     modifier = modifier
       .fillMaxWidth()
-      .padding(16.dp)
+      .padding(horizontal = 16.dp, vertical = 8.dp)
       .clip(RoundedCornerShape(16.dp))
       .background(MaterialTheme.colors.surface)
       .semantics { contentDescription = contentDesc }

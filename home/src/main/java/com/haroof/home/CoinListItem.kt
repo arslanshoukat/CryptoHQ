@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.imageLoader
+import com.haroof.common.extension.roundDecimal
 import com.haroof.data.FakeData
 import com.haroof.data.model.Coin
 import com.haroof.data.model.MarketTrend.DOWN
@@ -75,7 +76,7 @@ fun CoinListItem(
       )
       Spacer(modifier = Modifier.height(4.dp))
       Text(
-        text = "${coin.priceChangePercentage24h}%",
+        text = "${coin.priceChangePercentage24h.roundDecimal(2)}%",
         style = MaterialTheme.typography.body2,
         color = when (coin.marketTrend) {
           NEUTRAL -> LocalTextStyle.current.color

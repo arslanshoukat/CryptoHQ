@@ -3,9 +3,9 @@ package com.haroof.home
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
 import coil.ImageLoader
 import com.haroof.data.FakeData
+import com.haroof.home.R.string
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -43,9 +43,15 @@ class HomeScreenTest {
   }
 
   @Test
-  fun whenDataIsLoaded_listIsShown() {
+  fun whenDataIsLoaded_marketAndGainersAndLosersShown() {
     composeTestRule.setContent {
-      HomeScreen(HomeUiState.Success(FakeData.COINS), imageLoader)
+      HomeScreen(
+        uiState = HomeUiState.Success(
+          gainersAndLosers = FakeData.GAINERS_AND_LOSERS,
+          marketCoins = FakeData.COINS
+        ),
+        imageLoader = imageLoader
+      )
     }
 
     composeTestRule
@@ -55,7 +61,7 @@ class HomeScreenTest {
       .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.coins_list))
       .assertExists()
     composeTestRule
-      .onNodeWithText(FakeData.COINS.first().name)
+      .onNodeWithContentDescription(composeTestRule.activity.getString(string.gainers_and_losers_list))
       .assertExists()
   }
 

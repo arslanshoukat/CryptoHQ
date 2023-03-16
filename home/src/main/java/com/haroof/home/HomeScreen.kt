@@ -126,7 +126,7 @@ fun HomeScreenSuccessPreview() {
   CryptoHqTheme {
     HomeScreen(
       Success(
-        gainersAndLosers = FakeData.COINS,
+        gainersAndLosers = FakeData.GAINERS_AND_LOSERS,
         marketCoins = FakeData.COINS
       )
     )

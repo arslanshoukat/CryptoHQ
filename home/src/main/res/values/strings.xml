@@ -2,6 +2,7 @@
 <resources>
   <string name="coins_list">Coins list</string>
   <string name="gainers_and_losers"><![CDATA[Gainers & Losers]]></string>
+  <string name="gainers_and_losers_list">Gainers and losers list</string>
   <string name="market">Market</string>
   <string name="view_all">View All ></string>
 </resources>
