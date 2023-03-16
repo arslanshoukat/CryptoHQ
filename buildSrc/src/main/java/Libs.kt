@@ -9,6 +9,8 @@ object Libs {
     "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE_RUNTIME_KTX}"
 
   const val MATERIAL = "androidx.compose.material:material:${Versions.MATERIAL}"
+  const val CONSTRAINT_LAYOUT =
+    "androidx.constraintlayout:constraintlayout-compose:${Versions.CONSTRAINT_LAYOUT_COMPOSE}"
 
   const val NAVIGATION_COMPOSE =
     "androidx.navigation:navigation-compose:${Versions.NAVIGATION_COMPOSE}"
@@ -43,7 +45,9 @@ object Libs {
 
   const val JUNIT = "junit:junit:${Versions.JUNIT}"
   const val ANDROIDX_JUNIT = "androidx.test.ext:junit:${Versions.ANDROIDX_JUNIT}"
-  const val ANDROIDX_TEST_RUNNER ="androidx.test:runner:${Versions.ANDROIDX_TEST_RUNNER}"
+  const val ANDROIDX_TEST_RUNNER = "androidx.test:runner:${Versions.ANDROIDX_TEST_RUNNER}"
   const val ANDROIDX_ESPRESSO_CORE =
     "androidx.test.espresso:espresso-core:${Versions.ANDROIDX_ESPRESSO_CORE}"
+
+  const val VICO_COMPOSE_M2 ="com.patrykandpatrick.vico:compose-m2:${Versions.VICO_COMPOSE_M2}"
 }

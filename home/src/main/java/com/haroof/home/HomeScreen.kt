@@ -1,8 +1,17 @@
 package com.haroof.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -13,10 +22,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.imageLoader
-import com.haroof.common.R.string
 import com.haroof.common.ui.EmptyListState
 import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.data.FakeData
@@ -25,6 +34,8 @@ import com.haroof.home.HomeUiState.Empty
 import com.haroof.home.HomeUiState.Error
 import com.haroof.home.HomeUiState.Loading
 import com.haroof.home.HomeUiState.Success
+import com.haroof.home.R.string
+import com.haroof.common.R as commonR
 
 @Composable
 fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
@@ -34,12 +45,15 @@ fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun HomeScreen(uiState: HomeUiState, imageLoader: ImageLoader = LocalContext.current.imageLoader) {
+fun HomeScreen(
+  uiState: HomeUiState,
+  imageLoader: ImageLoader = LocalContext.current.imageLoader
+) {
   Box(modifier = Modifier.fillMaxSize()) {
 
     when (uiState) {
       Loading -> {
-        val contentDesc = stringResource(string.loading_indicator)
+        val contentDesc = stringResource(commonR.string.loading_indicator)
         CircularProgressIndicator(
           modifier = Modifier
             .align(Alignment.Center)
@@ -54,10 +68,44 @@ fun HomeScreen(uiState: HomeUiState, imageLoader: ImageLoader = LocalContext.cur
         EmptyListState()
       }
       is Success -> {
-        CoinsMarketList(
-          coins = uiState.coins,
-          imageLoader = imageLoader
-        )
+        Column(
+          modifier = Modifier.fillMaxSize()
+        ) {
+          Spacer(modifier = Modifier.height(32.dp))
+          Row {
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+              text = stringResource(string.gainers_and_losers),
+              style = MaterialTheme.typography.h6
+            )
+          }
+          GainerAndLosers(
+            coins = uiState.gainersAndLosers,
+            imageLoader = imageLoader
+          )
+
+          Spacer(modifier = Modifier.height(16.dp))
+
+          Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+          ) {
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+              text = stringResource(string.market),
+              style = MaterialTheme.typography.h6
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            TextButton(onClick = {}) {
+              Text(text = stringResource(string.view_all))
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+          }
+          CoinsMarketList(
+            coins = uiState.marketCoins,
+            imageLoader = imageLoader
+          )
+        }
       }
     }
 
@@ -76,7 +124,12 @@ fun HomeScreenLoadingPreview() {
 @Composable
 fun HomeScreenSuccessPreview() {
   CryptoHqTheme {
-    HomeScreen(Success(FakeData.COINS))
+    HomeScreen(
+      Success(
+        gainersAndLosers = FakeData.COINS,
+        marketCoins = FakeData.COINS
+      )
+    )
   }
 }
 

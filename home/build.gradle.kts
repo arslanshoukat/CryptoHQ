@@ -47,6 +47,8 @@ dependencies {
   implementation(Libs.LIFECYCLE_VIEWMODEL_KTX)
   implementation(Libs.LIFECYCLE_VIEWMODEL_COMPOSE)
   implementation(Libs.MATERIAL)
+  implementation(Libs.CONSTRAINT_LAYOUT)
+  implementation(Libs.VICO_COMPOSE_M2)
   implementation(Libs.COMPOSE_UI)
   implementation(Libs.COMPOSE_UI_TOOLING_PREVIEW)
   implementation(Libs.HILT_NAVIGATION_COMPOSE)

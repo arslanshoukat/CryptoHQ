@@ -3,7 +3,7 @@ object Versions {
   const val VERSION_NAME = "1.0"
 
   const val COMPILE_SDK = 33
-  const val MIN_SDK = 26
+  const val MIN_SDK = 21
   const val TARGET_SDK = 33
 
   const val CORE_KTX = "1.9.0"
@@ -11,10 +11,12 @@ object Versions {
   const val LIFECYCLE_VIEWMODEL_COMPOSE = "2.5.1"
   const val LIFECYCLE_RUNTIME_KTX = "2.5.1"
   const val MATERIAL = "1.3.1"
+  const val CONSTRAINT_LAYOUT_COMPOSE = "1.0.1"
   const val NAVIGATION_COMPOSE = "2.5.3"
   const val ACTIVITY_COMPOSE = "1.6.1"
   const val COMPOSE_UI = "1.3.3"
   const val COIL_COMPOSE = "2.2.2"
+  const val VICO_COMPOSE_M2 = "1.6.4"
   const val HILT_ANDROID = "2.44"
   const val HILT_NAVIGATION_COMPOSE = "1.0.0"
   const val RETROFIT = "2.9.0"

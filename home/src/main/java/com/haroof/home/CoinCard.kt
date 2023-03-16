@@ -1,0 +1,172 @@
+package com.haroof.home
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.Card
+import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.imageLoader
+import com.haroof.common.R.drawable
+import com.haroof.common.R.string
+import com.haroof.common.extension.roundDecimal
+import com.haroof.data.FakeData
+import com.haroof.data.model.Coin
+import com.haroof.data.model.MarketTrend.DOWN
+import com.haroof.data.model.MarketTrend.NEUTRAL
+import com.haroof.data.model.MarketTrend.UP
+import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.designsystem.theme.green
+import com.haroof.designsystem.theme.red
+import com.patrykandpatrick.vico.compose.chart.Chart
+import com.patrykandpatrick.vico.compose.chart.line.lineChart
+import com.patrykandpatrick.vico.compose.chart.line.lineSpec
+import com.patrykandpatrick.vico.compose.component.shape.shader.verticalGradient
+import com.patrykandpatrick.vico.core.chart.line.LineChart
+import com.patrykandpatrick.vico.core.entry.entryModelOf
+import kotlin.random.Random
+
+@Composable
+internal fun CoinCard(
+  coin: Coin,
+  imageLoader: ImageLoader,
+  modifier: Modifier = Modifier,
+  onClick: () -> Unit = {}
+) {
+  Card(modifier = modifier.size(width = 128.dp, height = 192.dp)) {
+    ConstraintLayout(
+      modifier = Modifier
+        .clickable(onClick = onClick)
+        .semantics { contentDescription = coin.name }
+    ) {
+      val (image, symbol, name, price, priceChangePercentage, chart) = createRefs()
+
+      AsyncImage(
+        model = coin.imageUrl,
+        imageLoader = imageLoader,
+        placeholder = painterResource(id = drawable.ic_default_coin),
+        error = painterResource(id = drawable.ic_default_coin),
+        fallback = painterResource(id = drawable.ic_default_coin),
+        contentScale = ContentScale.Crop,
+        contentDescription = stringResource(string.coin_icon_content_desc),
+        modifier = Modifier
+          .size(32.dp)
+          .constrainAs(image) {
+            top.linkTo(symbol.top)
+            bottom.linkTo(name.bottom)
+            start.linkTo(parent.start, 16.dp)
+          }
+      )
+
+      Text(
+        text = coin.symbol.uppercase(),
+        style = MaterialTheme.typography.body1,
+        modifier = Modifier
+          .constrainAs(symbol) {
+            top.linkTo(parent.top, 16.dp)
+            start.linkTo(image.end, 12.dp)
+          }
+      )
+
+      Text(
+        text = coin.name,
+        style = MaterialTheme.typography.caption,
+        modifier = Modifier
+          .constrainAs(name) {
+            top.linkTo(symbol.bottom, 4.dp)
+            start.linkTo(symbol.start)
+          }
+      )
+
+      Text(
+        text = "$${coin.currentPrice}",
+        style = MaterialTheme.typography.body1,
+        modifier = Modifier
+          .constrainAs(price) {
+            top.linkTo(name.bottom, 16.dp)
+            start.linkTo(parent.start, 16.dp)
+          }
+      )
+
+      val color = when (coin.marketTrend) {
+        NEUTRAL -> LocalTextStyle.current.color
+        UP -> green
+        DOWN -> red
+      }
+      Text(
+        text = "${coin.priceChangePercentage24h.roundDecimal(3)}%",
+        style = MaterialTheme.typography.caption,
+        color = color,
+        modifier = Modifier
+          .constrainAs(priceChangePercentage) {
+            top.linkTo(price.bottom, 8.dp)
+            start.linkTo(price.start)
+          }
+      )
+
+      // TODO: disable scroll on chart
+      Chart(
+        chart = lineChart(
+          pointPosition = LineChart.PointPosition.Start,
+          lines = listOf(
+            lineSpec(
+              lineColor = color,
+              lineBackgroundShader = verticalGradient(
+                arrayOf(color.copy(0.5f), color.copy(alpha = 0.1f)),
+              ),
+            )
+          )
+        ),
+        //  todo: replace with actual data
+        model = entryModelOf(*getRandomEntries()),
+        isZoomEnabled = false,
+        modifier = Modifier
+          .fillMaxWidth()
+          .height(72.dp)
+          .constrainAs(chart) {
+            bottom.linkTo(parent.bottom)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+          }
+      )
+    }
+  }
+}
+
+fun getRandomEntries() = Array(7) { Random.nextInt(1, 10).toFloat() }
+
+@Preview(showBackground = true)
+@Composable
+fun CoinCardPreview() {
+  CryptoHqTheme {
+    Box(
+      modifier = Modifier
+        .padding(16.dp)
+        .background(Color.LightGray)
+    ) {
+      CoinCard(
+        coin = FakeData.COINS.first(),
+        imageLoader = LocalContext.current.imageLoader
+      )
+    }
+  }
+}

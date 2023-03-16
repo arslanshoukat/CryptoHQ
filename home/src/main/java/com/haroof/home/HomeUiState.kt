@@ -10,5 +10,8 @@ sealed class HomeUiState {
 
   object Empty : HomeUiState()
 
-  data class Success(val coins: List<Coin>) : HomeUiState()
+  data class Success(
+    val gainersAndLosers: List<Coin>,
+    val marketCoins: List<Coin>,
+  ) : HomeUiState()
 }

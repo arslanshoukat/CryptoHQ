@@ -12,12 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
+import coil.imageLoader
+import com.haroof.data.FakeData
 import com.haroof.data.model.Coin
+import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.home.R.string
 
 @Composable
@@ -46,5 +51,16 @@ fun CoinsMarketList(
       )
       if (index < coins.lastIndex) Divider(color = Color.LightGray, thickness = 1.dp)
     }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CoinsMarketListPreview() {
+  CryptoHqTheme {
+    CoinsMarketList(
+      coins = FakeData.COINS,
+      imageLoader = LocalContext.current.imageLoader
+    )
   }
 }
