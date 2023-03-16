@@ -14,7 +14,8 @@ object FakeData {
       -1.32876f,
       426421161492,
       1,
-      "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579"
+      "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+      listOf(8.0f, 1.0f, 8.0f, 7.5f, 8.0f, 5.0f, 5.0f)
     ),
     Coin(
       "ethereum",
@@ -25,7 +26,8 @@ object FakeData {
       6.978393f,
       187751980959,
       2,
-      "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880"
+      "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+      listOf(7.0f, 6.0f, 1.0f, 7.0f, 5.0f, 6.0f, 4.0f)
     ),
     Coin(
       "tether",
@@ -36,7 +38,8 @@ object FakeData {
       0.00004634f,
       71743402064,
       3,
-      "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663"
+      "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
+      listOf(5.0f, 7.0f, 3.4f, 6.0f, 2.0f, 8.0f, 9.0f)
     ),
   )
 
@@ -50,7 +53,8 @@ object FakeData {
       6.978393f,
       187751980959,
       2,
-      "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880"
+      "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+      listOf(7.0f, 6.0f, 1.0f, 7.0f, 5.0f, 6.0f, 4.0f)
     ),
     Coin(
       "bitcoin",
@@ -61,7 +65,8 @@ object FakeData {
       -1.32876f,
       426421161492,
       1,
-      "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579"
+      "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+      listOf(8.0f, 1.0f, 8.0f, 7.5f, 8.0f, 5.0f, 5.0f)
     ),
     Coin(
       "tether",
@@ -72,7 +77,8 @@ object FakeData {
       0.00004634f,
       71743402064,
       3,
-      "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663"
+      "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
+      listOf(5.0f, 7.0f, 3.4f, 6.0f, 2.0f, 8.0f, 9.0f)
     ),
   )
 }

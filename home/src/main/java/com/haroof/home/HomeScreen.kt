@@ -79,7 +79,7 @@ fun HomeScreen(
               style = MaterialTheme.typography.h6
             )
           }
-          GainerAndLosers(
+          GainersAndLosers(
             coins = uiState.gainersAndLosers,
             imageLoader = imageLoader
           )
@@ -101,7 +101,7 @@ fun HomeScreen(
             }
             Spacer(modifier = Modifier.width(16.dp))
           }
-          CoinsMarketList(
+          HomeCoinsList(
             coins = uiState.marketCoins,
             imageLoader = imageLoader
           )

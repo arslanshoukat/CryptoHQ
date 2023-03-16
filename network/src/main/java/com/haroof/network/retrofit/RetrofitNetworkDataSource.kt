@@ -8,5 +8,8 @@ import retrofit2.http.Query
 internal interface RetrofitNetworkDataSource : NetworkDataSource {
 
   @GET("coins/markets")
-  override suspend fun getCoins(@Query("vs_currency") vs_currency: String): List<CoinDto>
+  override suspend fun getCoins(
+    @Query("vs_currency") vs_currency: String,
+    @Query("sparkline") sparkline: Boolean,
+  ): List<CoinDto>
 }

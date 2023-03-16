@@ -22,7 +22,10 @@ class DefaultCoinsRepository @Inject constructor(
   override suspend fun getCoins(): Result<List<Coin>> =
     withContext(Dispatchers.IO) {
       try {
-        val coins = networkDataSource.getCoins("usd").map(CoinDto::toExternalModel)
+        val coins = networkDataSource.getCoins(
+          vs_currency = "usd",
+          sparkline = true
+        ).map(CoinDto::toExternalModel)
         Result.Success(coins)
       } catch (e: Exception) {
         Log.e(TAG, e.message, e)

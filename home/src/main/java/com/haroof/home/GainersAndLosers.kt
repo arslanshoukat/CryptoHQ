@@ -21,7 +21,7 @@ import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.home.R.string
 
 @Composable
-internal fun GainerAndLosers(
+internal fun GainersAndLosers(
   coins: List<Coin>,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
@@ -48,9 +48,9 @@ internal fun GainerAndLosers(
 
 @Preview(showBackground = true)
 @Composable
-fun GainerAndLosersPreview() {
+fun GainersAndLosersPreview() {
   CryptoHqTheme {
-    GainerAndLosers(
+    GainersAndLosers(
       coins = FakeData.COINS,
       imageLoader = LocalContext.current.imageLoader
     )

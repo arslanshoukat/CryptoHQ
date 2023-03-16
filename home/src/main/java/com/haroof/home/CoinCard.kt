@@ -3,7 +3,6 @@ package com.haroof.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.imageLoader
@@ -41,10 +41,11 @@ import com.haroof.designsystem.theme.red
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.line.lineSpec
+import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollSpec
 import com.patrykandpatrick.vico.compose.component.shape.shader.verticalGradient
 import com.patrykandpatrick.vico.core.chart.line.LineChart
+import com.patrykandpatrick.vico.core.chart.scale.AutoScaleUp
 import com.patrykandpatrick.vico.core.entry.entryModelOf
-import kotlin.random.Random
 
 @Composable
 internal fun CoinCard(
@@ -126,7 +127,6 @@ internal fun CoinCard(
           }
       )
 
-      // TODO: disable scroll on chart
       Chart(
         chart = lineChart(
           pointPosition = LineChart.PointPosition.Start,
@@ -139,23 +139,21 @@ internal fun CoinCard(
             )
           )
         ),
-        //  todo: replace with actual data
-        model = entryModelOf(*getRandomEntries()),
+        model = entryModelOf(*coin.sparklineIn7d.toTypedArray()),
         isZoomEnabled = false,
+        chartScrollSpec = rememberChartScrollSpec(isScrollEnabled = false),
+        autoScaleUp = AutoScaleUp.None,
         modifier = Modifier
-          .fillMaxWidth()
           .height(72.dp)
           .constrainAs(chart) {
             bottom.linkTo(parent.bottom)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
+            linkTo(start = parent.start, end = parent.end)
+            width = Dimension.fillToConstraints
           }
       )
     }
   }
 }
-
-fun getRandomEntries() = Array(7) { Random.nextInt(1, 10).toFloat() }
 
 @Preview(showBackground = true)
 @Composable

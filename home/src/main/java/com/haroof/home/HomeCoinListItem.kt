@@ -35,7 +35,7 @@ import com.haroof.designsystem.theme.red
 import com.haroof.common.R as commonR
 
 @Composable
-fun CoinListItem(
+internal fun HomeCoinListItem(
   coin: Coin,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
@@ -91,16 +91,16 @@ fun CoinListItem(
 
 @Preview(showBackground = true)
 @Composable
-fun CoinListItemUpPreview() {
+fun HomeCoinListItemUpPreview() {
   CryptoHqTheme {
-    CoinListItem(coin = FakeData.COINS.first(), LocalContext.current.imageLoader)
+    HomeCoinListItem(coin = FakeData.COINS.first(), LocalContext.current.imageLoader)
   }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun CoinListItemDownPreview() {
+fun HomeCoinListItemDownPreview() {
   CryptoHqTheme {
-    CoinListItem(coin = FakeData.COINS[1], LocalContext.current.imageLoader)
+    HomeCoinListItem(coin = FakeData.COINS[1], LocalContext.current.imageLoader)
   }
 }

@@ -13,4 +13,10 @@ data class CoinDto(
   val market_cap: Long,
   val market_cap_rank: Int,
   val image: String,
+  val sparkline_in_7d: Sparkline?
+)
+
+@Serializable
+data class Sparkline(
+  val price: List<Float>?
 )

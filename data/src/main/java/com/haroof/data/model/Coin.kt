@@ -12,6 +12,7 @@ data class Coin(
   val marketCap: Long,
   val marketCapRank: Int,
   val imageUrl: String,
+  val sparklineIn7d: List<Float>
 ) {
 
   val marketTrend: MarketTrend
@@ -28,4 +29,5 @@ fun CoinDto.toExternalModel() = Coin(
   marketCap = market_cap,
   marketCapRank = market_cap_rank,
   imageUrl = image,
+  sparklineIn7d = sparkline_in_7d?.price.orEmpty(),
 )

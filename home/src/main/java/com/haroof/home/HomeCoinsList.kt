@@ -26,7 +26,7 @@ import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.home.R.string
 
 @Composable
-fun CoinsMarketList(
+internal fun HomeCoinsList(
   coins: List<Coin>,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
@@ -45,7 +45,7 @@ fun CoinsMarketList(
       key = { _, coin -> coin.id },
       items = coins
     ) { index, coin ->
-      CoinListItem(
+      HomeCoinListItem(
         coin = coin,
         imageLoader = imageLoader
       )
@@ -56,9 +56,9 @@ fun CoinsMarketList(
 
 @Preview(showBackground = true)
 @Composable
-fun CoinsMarketListPreview() {
+fun HomeCoinsListPreview() {
   CryptoHqTheme {
-    CoinsMarketList(
+    HomeCoinsList(
       coins = FakeData.COINS,
       imageLoader = LocalContext.current.imageLoader
     )
