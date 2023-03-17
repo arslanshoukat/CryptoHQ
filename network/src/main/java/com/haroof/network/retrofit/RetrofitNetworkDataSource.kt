@@ -10,6 +10,7 @@ internal interface RetrofitNetworkDataSource : NetworkDataSource {
   @GET("coins/markets")
   override suspend fun getCoins(
     @Query("vs_currency") vs_currency: String,
+    @Query("ids") ids: String,  //  comma separated ids, not a list
     @Query("sparkline") sparkline: Boolean,
   ): List<CoinDto>
 }

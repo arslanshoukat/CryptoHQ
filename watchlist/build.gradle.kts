@@ -41,6 +41,7 @@ android {
 dependencies {
   implementation(project(mapOf("path" to ":designsystem")))
   implementation(project(mapOf("path" to ":data")))
+  implementation(project(mapOf("path" to ":domain")))
   implementation(project(mapOf("path" to ":common")))
   implementation(project(mapOf("path" to ":testing")))
   implementation(Libs.CORE_KTX)

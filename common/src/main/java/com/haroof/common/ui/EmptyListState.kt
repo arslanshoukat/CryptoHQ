@@ -48,7 +48,7 @@ fun EmptyListState(
     Spacer(modifier = Modifier.height(16.dp))
     Text(
       text = stringResource(id = emptyStateMessageResId),
-      style = MaterialTheme.typography.h5,
+      style = MaterialTheme.typography.h6,
       textAlign = TextAlign.Center,
       modifier = Modifier.fillMaxWidth()
     )

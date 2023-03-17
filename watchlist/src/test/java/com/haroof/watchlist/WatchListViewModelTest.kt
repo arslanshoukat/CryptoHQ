@@ -2,6 +2,8 @@ package com.haroof.watchlist
 
 import com.haroof.data.FakeData
 import com.haroof.data.repository.fake.FakeCoinsRepository
+import com.haroof.data.repository.fake.FakeWatchListRepository
+import com.haroof.domain.GetWatchListCoinsUseCase
 import com.haroof.testing.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -15,17 +17,23 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class WatchListViewModelTest {
+  // TODO: fix tests
 
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()
 
-  private lateinit var fakeCoinsRepository: FakeCoinsRepository
+  private lateinit var coinsRepository: FakeCoinsRepository
+  private lateinit var watchListRepository: FakeWatchListRepository
+  private lateinit var getWatchListCoinsUseCase: GetWatchListCoinsUseCase
   private lateinit var viewModel: WatchListViewModel
 
   @Before
   fun setup() {
-    fakeCoinsRepository = FakeCoinsRepository()
-    viewModel = WatchListViewModel(fakeCoinsRepository)
+    coinsRepository = FakeCoinsRepository()
+    watchListRepository = FakeWatchListRepository()
+    getWatchListCoinsUseCase =
+      GetWatchListCoinsUseCase(watchListRepository, coinsRepository)
+    viewModel = WatchListViewModel(getWatchListCoinsUseCase)
   }
 
   @Test
@@ -45,7 +53,7 @@ class WatchListViewModelTest {
 
     assertEquals(WatchListUiState.Loading, viewModel.uiState.value)
 
-    fakeCoinsRepository.emit(FakeData.COINS)
+    coinsRepository.emit(FakeData.COINS)
     assertEquals(WatchListUiState.Success(FakeData.COINS), viewModel.uiState.value)
 
     collectJob.cancel()
@@ -58,7 +66,7 @@ class WatchListViewModelTest {
 
     assertEquals(WatchListUiState.Loading, viewModel.uiState.value)
 
-    fakeCoinsRepository.emit(emptyList())
+    coinsRepository.emit(emptyList())
     assertEquals(WatchListUiState.Empty, viewModel.uiState.value)
 
     collectJob.cancel()

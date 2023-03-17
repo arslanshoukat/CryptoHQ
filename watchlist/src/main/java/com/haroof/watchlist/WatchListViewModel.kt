@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.haroof.data.model.Result.Error
 import com.haroof.data.model.Result.Loading
 import com.haroof.data.model.Result.Success
-import com.haroof.data.repository.CoinsRepository
+import com.haroof.domain.GetWatchListCoinsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -15,10 +15,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WatchListViewModel @Inject constructor(
-  coinsRepository: CoinsRepository
+  getWatchListCoins: GetWatchListCoinsUseCase
 ) : ViewModel() {
 
-  val uiState: StateFlow<WatchListUiState> = coinsRepository.getWatchListCoinsFlow()
+  val uiState: StateFlow<WatchListUiState> = getWatchListCoins()
     .map { result ->
       when (result) {
         Loading -> WatchListUiState.Loading

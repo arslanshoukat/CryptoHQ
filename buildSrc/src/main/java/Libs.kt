@@ -49,5 +49,8 @@ object Libs {
   const val ANDROIDX_ESPRESSO_CORE =
     "androidx.test.espresso:espresso-core:${Versions.ANDROIDX_ESPRESSO_CORE}"
 
-  const val VICO_COMPOSE_M2 ="com.patrykandpatrick.vico:compose-m2:${Versions.VICO_COMPOSE_M2}"
+  const val VICO_COMPOSE_M2 = "com.patrykandpatrick.vico:compose-m2:${Versions.VICO_COMPOSE_M2}"
+
+  const val DATASTORE_PREFERENCES =
+    "androidx.datastore:datastore-preferences:${Versions.DATASTORE_PREFERENCES}"
 }

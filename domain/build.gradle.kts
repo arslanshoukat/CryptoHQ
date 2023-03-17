@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-  namespace = "com.haroof.data"
+  namespace = "com.haroof.domain"
   compileSdk = Versions.COMPILE_SDK
 
   defaultConfig {
@@ -33,12 +33,10 @@ android {
 }
 
 dependencies {
-  implementation(project(mapOf("path" to ":network")))
-  implementation(project(mapOf("path" to ":datastore")))
+  implementation(project(mapOf("path" to ":data")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.HILT_ANDROID)
   kapt(Libs.HILT_ANDROID_COMPILER)
-  implementation(Libs.DATASTORE_PREFERENCES)
 }
 
 // Allow references to generated code
