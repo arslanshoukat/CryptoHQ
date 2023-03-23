@@ -12,4 +12,10 @@ interface CoinsRepository {
     vs_currency: String,
     sparkline: Boolean
   ): Result<List<Coin>>
+
+  suspend fun getCoinById(
+    id: String,
+    vs_currency: String,
+    sparkline: Boolean
+  ): Result<Coin?>
 }

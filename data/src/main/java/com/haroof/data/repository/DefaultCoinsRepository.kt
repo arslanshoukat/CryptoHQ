@@ -49,6 +49,14 @@ class DefaultCoinsRepository @Inject constructor(
       }
     }
 
+  override suspend fun getCoinById(
+    id: String,
+    vs_currency: String,
+    sparkline: Boolean
+  ): Result<Coin> {
+    TODO("Not yet implemented")
+  }
+
   companion object {
     const val TAG = "DefaultCoinsRepository"
   }

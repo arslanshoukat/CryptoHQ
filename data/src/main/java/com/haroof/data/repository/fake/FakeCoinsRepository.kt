@@ -33,6 +33,15 @@ class FakeCoinsRepository(
     )
   }
 
+  override suspend fun getCoinById(
+    id: String,
+    vs_currency: String,
+    sparkline: Boolean
+  ): Result<Coin?> {
+    return if (shouldThrowError) Result.Error(IllegalStateException())
+    else Result.Success(FakeData.COINS.firstOrNull { it.id == id })
+  }
+
   suspend fun emit(coins: List<Coin>) {
     flow.emit(coins)
   }
