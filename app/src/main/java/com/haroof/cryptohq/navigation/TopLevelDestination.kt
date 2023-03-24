@@ -3,6 +3,7 @@ package com.haroof.cryptohq.navigation
 import androidx.annotation.DrawableRes
 import com.haroof.cryptohq.R.drawable
 
+// TODO: clean up top level navigation
 enum class TopLevelDestination(
   val route: String,
   @DrawableRes val selectedIcon: Int,
@@ -20,6 +21,11 @@ enum class TopLevelDestination(
   ),
   WATCH_LIST(
     route = "Watch List",
+    selectedIcon = drawable.sharp_star_24,
+    unselectedIcon = drawable.outline_star_24
+  ),
+  COIN_DETAIL(
+    route = "CoinDetail/",
     selectedIcon = drawable.sharp_star_24,
     unselectedIcon = drawable.outline_star_24
   ),

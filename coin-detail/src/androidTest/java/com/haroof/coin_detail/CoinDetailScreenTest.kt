@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import coil.ImageLoader
+import com.haroof.common.model.TimeFilter
 import com.haroof.data.FakeData
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -35,6 +36,7 @@ class CoinDetailScreenTest {
     composeTestRule.setContent {
       CoinDetailScreen(
         uiState = CoinDetailUiState.Loading,
+        onTimeFilterChanged = {},
         imageLoader = imageLoader
       )
     }
@@ -49,6 +51,7 @@ class CoinDetailScreenTest {
     composeTestRule.setContent {
       CoinDetailScreen(
         uiState = CoinDetailUiState.Error(IllegalStateException()),
+        onTimeFilterChanged = {},
         imageLoader = imageLoader
       )
     }
@@ -65,7 +68,11 @@ class CoinDetailScreenTest {
   fun whenDataLoadedSuccessfully_contentIsShown() {
     composeTestRule.setContent {
       CoinDetailScreen(
-        uiState = CoinDetailUiState.Success(FakeData.COINS.first()),
+        uiState = CoinDetailUiState.Success(
+          coin = FakeData.DETAILED_COINS.first(),
+          selectedTimeFilter = TimeFilter.ONE_WEEK,
+        ),
+        onTimeFilterChanged = {},
         imageLoader = imageLoader
       )
     }

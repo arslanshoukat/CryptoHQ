@@ -2,6 +2,7 @@ package com.haroof.data.repository.fake
 
 import com.haroof.data.FakeData
 import com.haroof.data.model.Coin
+import com.haroof.data.model.DetailedCoin
 import com.haroof.data.model.Result
 import com.haroof.data.repository.CoinsRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,13 +34,9 @@ class FakeCoinsRepository(
     )
   }
 
-  override suspend fun getCoinById(
-    id: String,
-    vs_currency: String,
-    sparkline: Boolean
-  ): Result<Coin?> {
+  override suspend fun getCoinById(id: String, vs_currency: String): Result<DetailedCoin> {
     return if (shouldThrowError) Result.Error(IllegalStateException())
-    else Result.Success(FakeData.COINS.firstOrNull { it.id == id })
+    else Result.Success(FakeData.DETAILED_COINS.first { it.id == id })
   }
 
   suspend fun emit(coins: List<Coin>) {

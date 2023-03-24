@@ -1,7 +1,9 @@
 package com.haroof.coin_detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.haroof.common.model.TimeFilter
 import com.haroof.data.model.Result.Error
 import com.haroof.data.model.Result.Loading
 import com.haroof.data.model.Result.Success
@@ -14,29 +16,38 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CoinDetailViewModel @Inject constructor(
+  savedStateHandle: SavedStateHandle,
   coinsRepository: CoinsRepository
 ) : ViewModel() {
 
   private val _uiState = MutableStateFlow<CoinDetailUiState>(CoinDetailUiState.Loading)
   val uiState = _uiState.asStateFlow()
 
-  //  todo: get coin id from nav args
-  private val id = "bitcoin"
+  private val coinId: String = savedStateHandle["coinId"]!!
 
   init {
     viewModelScope.launch {
       val result = coinsRepository.getCoinById(
-        id = id,
-        vs_currency = "usd",
-        sparkline = false
+        id = coinId,
+        vs_currency = "usd"
       )
       _uiState.value = when (result) {
         Loading -> CoinDetailUiState.Loading
         is Error -> CoinDetailUiState.Error(result.exception)
-        is Success ->
-          if (result.data != null) CoinDetailUiState.Success(result.data!!)
-          else CoinDetailUiState.Error(null)
+        is Success -> {
+          CoinDetailUiState.Success(
+            coin = result.data,
+            selectedTimeFilter = TimeFilter.ONE_WEEK
+          )
+        }
       }
+    }
+  }
+
+  fun updateTimeFilter(timeFilter: TimeFilter) {
+    // TODO: fix filter selection
+    (_uiState.value as? CoinDetailUiState.Success)?.let { prevResult ->
+      _uiState.value = prevResult.copy(selectedTimeFilter = timeFilter)
     }
   }
 }

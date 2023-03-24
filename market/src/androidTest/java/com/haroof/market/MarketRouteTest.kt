@@ -33,6 +33,7 @@ class MarketRouteTest {
     composeTestRule.setContent {
       MarketRoute(
         viewModel = MarketViewModel(FakeCoinsRepository()),
+        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }

@@ -1,5 +1,6 @@
 package com.haroof.market
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,6 +38,7 @@ import com.haroof.common.R as commonR
 @Composable
 fun MarketCoinsListItem(
   coin: Coin,
+  onNavigateToCoinDetail: (String) -> Unit,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
 ) {
@@ -46,6 +48,7 @@ fun MarketCoinsListItem(
       .height(56.dp)
       .padding(vertical = 8.dp, horizontal = 16.dp)
       .fillMaxWidth()
+      .clickable { onNavigateToCoinDetail(coin.id) }
   ) {
 
     Text(
@@ -99,7 +102,11 @@ fun MarketCoinsListItem(
 @Composable
 fun MarketCoinsListItemUpPreview() {
   CryptoHqTheme {
-    MarketCoinsListItem(coin = FakeData.COINS.first(), LocalContext.current.imageLoader)
+    MarketCoinsListItem(
+      coin = FakeData.COINS.first(),
+      onNavigateToCoinDetail = {},
+      imageLoader = LocalContext.current.imageLoader
+    )
   }
 }
 
@@ -107,6 +114,10 @@ fun MarketCoinsListItemUpPreview() {
 @Composable
 fun MarketCoinsListItemDownPreview() {
   CryptoHqTheme {
-    MarketCoinsListItem(coin = FakeData.COINS[1], LocalContext.current.imageLoader)
+    MarketCoinsListItem(
+      coin = FakeData.COINS[1],
+      onNavigateToCoinDetail = {},
+      imageLoader = LocalContext.current.imageLoader
+    )
   }
 }

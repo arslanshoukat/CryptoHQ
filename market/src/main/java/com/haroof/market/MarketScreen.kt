@@ -30,6 +30,7 @@ import com.haroof.common.R as commonR
 @Composable
 fun MarketRoute(
   viewModel: MarketViewModel = hiltViewModel(),
+  onNavigateToCoinDetail: (coinId: String) -> Unit,
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {
   val uiState by viewModel.uiState.collectAsState()
@@ -37,6 +38,7 @@ fun MarketRoute(
   MarketScreen(
     uiState = uiState,
     onSortChange = viewModel::sort,
+    onNavigateToCoinDetail = onNavigateToCoinDetail,
     imageLoader = imageLoader
   )
 }
@@ -44,7 +46,8 @@ fun MarketRoute(
 @Composable
 fun MarketScreen(
   uiState: MarketUiState,
-  onSortChange: (sortBy: SortBy) -> Unit = {},
+  onSortChange: (sortBy: SortBy) -> Unit,
+  onNavigateToCoinDetail: (String) -> Unit,
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {
   Box(modifier = Modifier.fillMaxSize()) {
@@ -72,6 +75,7 @@ fun MarketScreen(
           sortBy = uiState.sortBy,
           sortOrder = uiState.sortOrder,
           onSortChange = onSortChange,
+          onNavigateToCoinDetail = onNavigateToCoinDetail,
           imageLoader = imageLoader,
         )
       }
@@ -83,7 +87,11 @@ fun MarketScreen(
 @Composable
 fun MarketScreenPreview_Loading() {
   CryptoHqTheme {
-    MarketScreen(uiState = Loading)
+    MarketScreen(
+      uiState = Loading,
+      onSortChange = {},
+      onNavigateToCoinDetail = {},
+    )
   }
 }
 
@@ -91,7 +99,11 @@ fun MarketScreenPreview_Loading() {
 @Composable
 fun MarketScreenPreview_Error() {
   CryptoHqTheme {
-    MarketScreen(uiState = Error(IllegalStateException()))
+    MarketScreen(
+      uiState = Error(IllegalStateException()),
+      onSortChange = {},
+      onNavigateToCoinDetail = {},
+    )
   }
 }
 
@@ -99,7 +111,11 @@ fun MarketScreenPreview_Error() {
 @Composable
 fun MarketScreenPreview_Success() {
   CryptoHqTheme {
-    MarketScreen(uiState = Success(FakeData.COINS))
+    MarketScreen(
+      uiState = Success(FakeData.COINS),
+      onSortChange = {},
+      onNavigateToCoinDetail = {},
+    )
   }
 }
 
@@ -107,6 +123,10 @@ fun MarketScreenPreview_Success() {
 @Composable
 fun MarketScreenPreview_Success_EmptyState() {
   CryptoHqTheme {
-    MarketScreen(uiState = Empty)
+    MarketScreen(
+      uiState = Empty,
+      onSortChange = {},
+      onNavigateToCoinDetail = {},
+    )
   }
 }

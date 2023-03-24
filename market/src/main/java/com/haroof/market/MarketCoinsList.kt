@@ -48,6 +48,7 @@ fun MarketCoinsList(
   sortBy: SortBy,
   sortOrder: SortOrder,
   onSortChange: (sortBy: SortBy) -> Unit,
+  onNavigateToCoinDetail: (String) -> Unit,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
 ) {
@@ -76,6 +77,7 @@ fun MarketCoinsList(
     ) { index, coin ->
       MarketCoinsListItem(
         coin = coin,
+        onNavigateToCoinDetail = onNavigateToCoinDetail,
         imageLoader = imageLoader
       )
       if (index < coins.lastIndex) {
@@ -197,6 +199,7 @@ fun MarketCoinsListPreview() {
       sortBy = SortBy.RANK,
       sortOrder = SortOrder.ASCENDING,
       onSortChange = {},
+      onNavigateToCoinDetail = {}
     )
   }
 }

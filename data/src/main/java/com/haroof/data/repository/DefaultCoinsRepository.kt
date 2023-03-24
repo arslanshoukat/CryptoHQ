@@ -2,6 +2,7 @@ package com.haroof.data.repository
 
 import android.util.Log
 import com.haroof.data.model.Coin
+import com.haroof.data.model.DetailedCoin
 import com.haroof.data.model.Result
 import com.haroof.data.model.toExternalModel
 import com.haroof.network.NetworkDataSource
@@ -52,10 +53,16 @@ class DefaultCoinsRepository @Inject constructor(
   override suspend fun getCoinById(
     id: String,
     vs_currency: String,
-    sparkline: Boolean
-  ): Result<Coin> {
-    TODO("Not yet implemented")
-  }
+  ): Result<DetailedCoin> =
+    withContext(Dispatchers.IO) {
+      try {
+        val coins = networkDataSource.getCoin(id).toExternalModel(vs_currency)
+        Result.Success(coins)
+      } catch (e: Exception) {
+        Log.e(TAG, e.message, e)
+        Result.Error(e)
+      }
+    }
 
   companion object {
     const val TAG = "DefaultCoinsRepository"

@@ -36,6 +36,8 @@ class MarketScreenTest {
     composeTestRule.setContent {
       MarketScreen(
         uiState = MarketUiState.Loading,
+        onSortChange = {},
+        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }
@@ -50,6 +52,8 @@ class MarketScreenTest {
     composeTestRule.setContent {
       MarketScreen(
         uiState = MarketUiState.Success(FakeData.COINS),
+        onSortChange = {},
+        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }
@@ -67,6 +71,8 @@ class MarketScreenTest {
     composeTestRule.setContent {
       MarketScreen(
         uiState = MarketUiState.Empty,
+        onSortChange = {},
+        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }
@@ -84,6 +90,8 @@ class MarketScreenTest {
     composeTestRule.setContent {
       MarketScreen(
         uiState = MarketUiState.Error(IllegalStateException()),
+        onSortChange = {},
+        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }
@@ -105,6 +113,8 @@ class MarketScreenTest {
           sortBy = SortBy.PRICE,
           sortOrder = SortOrder.ASCENDING,
         ),
+        onSortChange = {},
+        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }
@@ -132,6 +142,8 @@ class MarketScreenTest {
           sortBy = SortBy.PRICE,
           sortOrder = SortOrder.DESCENDING,
         ),
+        onSortChange = {},
+        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }
