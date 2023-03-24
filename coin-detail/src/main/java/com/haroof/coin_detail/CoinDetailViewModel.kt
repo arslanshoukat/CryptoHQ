@@ -33,7 +33,9 @@ class CoinDetailViewModel @Inject constructor(
       _uiState.value = when (result) {
         Loading -> CoinDetailUiState.Loading
         is Error -> CoinDetailUiState.Error(result.exception)
-        is Success -> CoinDetailUiState.Success(result.data)
+        is Success ->
+          if (result.data != null) CoinDetailUiState.Success(result.data!!)
+          else CoinDetailUiState.Error(null)
       }
     }
   }

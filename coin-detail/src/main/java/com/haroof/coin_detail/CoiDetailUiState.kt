@@ -8,5 +8,5 @@ sealed class CoinDetailUiState {
 
   data class Error(val exception: Throwable?) : CoinDetailUiState()
 
-  data class Success(val coin: Coin?) : CoinDetailUiState()
+  data class Success(val coin: Coin) : CoinDetailUiState()
 }
