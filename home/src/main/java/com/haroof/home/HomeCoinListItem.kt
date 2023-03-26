@@ -44,9 +44,9 @@ internal fun HomeCoinListItem(
 ) {
   Row(
     modifier = modifier
-      .padding(16.dp)
       .fillMaxWidth()
       .clickable { onNavigateToCoinDetail(coin.id) }
+      .padding(16.dp)
   ) {
     AsyncImage(
       model = coin.imageUrl,

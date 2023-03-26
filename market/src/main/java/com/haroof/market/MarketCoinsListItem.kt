@@ -46,9 +46,9 @@ fun MarketCoinsListItem(
     verticalAlignment = Alignment.CenterVertically,
     modifier = modifier
       .height(56.dp)
-      .padding(vertical = 8.dp, horizontal = 16.dp)
       .fillMaxWidth()
       .clickable { onNavigateToCoinDetail(coin.id) }
+      .padding(vertical = 8.dp, horizontal = 16.dp)
   ) {
 
     Text(
