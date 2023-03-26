@@ -8,4 +8,14 @@
   <string name="empty_state_content_desc">Empty list</string>
   <string name="empty_state_icon_content_desc">Error icon</string>
   <string name="empty_state_message">List is empty!</string>
+
+  <string name="max_supply">Max Supply</string>
+  <string name="total_supply">Total Supply</string>
+  <string name="circulating_supply">Circulating Supply</string>
+  <string name="all_time_high">All-time High</string>
+  <string name="all_time_low">All-time Low</string>
+  <string name="_24h_high">24H High</string>
+  <string name="_24h_low">24H Low</string>
+  <string name="market_cap">Market Cap</string>
+  <string name="market_cap_rank">Market Cap Rank</string>
 </resources>
