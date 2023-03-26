@@ -1,5 +1,6 @@
 package com.haroof.network
 
+import com.haroof.network.model.ChartDataDto
 import com.haroof.network.model.CoinDto
 import com.haroof.network.model.DetailedCoinDto
 
@@ -12,4 +13,11 @@ interface NetworkDataSource {
   ): List<CoinDto>
 
   suspend fun getCoin(id: String): DetailedCoinDto
+
+  suspend fun getChartData(
+    id: String,
+    vs_currency: String,
+    days: String,
+    interval: String
+  ): ChartDataDto
 }

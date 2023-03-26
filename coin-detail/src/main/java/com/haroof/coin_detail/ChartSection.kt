@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
-import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FilterChip
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -40,6 +40,7 @@ import com.patrykandpatrick.vico.core.entry.entryModelOf
 internal fun ChartSection(
   coin: DetailedCoin,
   selectedTimeFilter: TimeFilter,
+  chartData: List<Double>,
   onTimeFilterChanged: (TimeFilter) -> Unit
 ) {
   Row(
@@ -49,7 +50,7 @@ internal fun ChartSection(
     TimeFilter.values().map {
       ChartFilterChip(
         title = it.title,
-        enabled = it == selectedTimeFilter,
+        selected = it == selectedTimeFilter,
         onClick = { onTimeFilterChanged(it) },
       )
     }
@@ -78,7 +79,7 @@ internal fun ChartSection(
         ),
         startAxis = startAxis(),
         bottomAxis = bottomAxis(),
-        model = entryModelOf(*coin.sparklineIn7d.toTypedArray()),
+        model = entryModelOf(*chartData.toTypedArray()),
         isZoomEnabled = false,
         chartScrollSpec = rememberChartScrollSpec(isScrollEnabled = false),
         autoScaleUp = None,
@@ -93,19 +94,19 @@ internal fun ChartSection(
 @Composable
 internal fun ChartFilterChip(
   title: String,
-  enabled: Boolean,
+  selected: Boolean,
   onClick: () -> Unit,
 ) {
-  Chip(
-    enabled = enabled,
+  FilterChip(
+    selected = selected,
     onClick = onClick,
-    colors = ChipDefaults.chipColors(
-      backgroundColor = MaterialTheme.colors.primary,
+    colors = ChipDefaults.filterChipColors(
+      selectedBackgroundColor = MaterialTheme.colors.primary,
     ),
   ) {
     Text(
       text = title,
-      color = if (enabled) MaterialTheme.colors.onPrimary else textLightBlack
+      color = if (selected) MaterialTheme.colors.onPrimary else textLightBlack
     )
   }
 }

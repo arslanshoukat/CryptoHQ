@@ -1,6 +1,8 @@
 package com.haroof.data.di
 
+import com.haroof.data.repository.ChartRepository
 import com.haroof.data.repository.CoinsRepository
+import com.haroof.data.repository.DefaultChartRepository
 import com.haroof.data.repository.DefaultCoinsRepository
 import com.haroof.data.repository.DefaultWatchListRepository
 import com.haroof.data.repository.WatchListRepository
@@ -18,4 +20,7 @@ interface DataModule {
 
   @Binds
   fun bindsWatchListRepository(watchListRepository: DefaultWatchListRepository): WatchListRepository
+
+  @Binds
+  fun bindsChartRepository(chartRepository: DefaultChartRepository): ChartRepository
 }

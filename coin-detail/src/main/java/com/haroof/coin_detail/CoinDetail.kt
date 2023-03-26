@@ -26,6 +26,7 @@ import com.haroof.designsystem.theme.CryptoHqTheme
 internal fun CoinDetail(
   coin: DetailedCoin,
   selectedTimeFilter: TimeFilter,
+  chartData: List<Double>,
   onTimeFilterChanged: (TimeFilter) -> Unit,
   modifier: Modifier = Modifier
 ) {
@@ -43,6 +44,7 @@ internal fun CoinDetail(
     ChartSection(
       coin = coin,
       selectedTimeFilter = selectedTimeFilter,
+      chartData = chartData,
       onTimeFilterChanged = onTimeFilterChanged
     )
     Spacer(modifier = Modifier.height(16.dp))
@@ -60,6 +62,7 @@ internal fun CoinDetailPreview() {
       CoinDetail(
         coin = FakeData.DETAILED_COINS.first(),
         selectedTimeFilter = TimeFilter.ONE_WEEK,
+        chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
         onTimeFilterChanged = {}
       )
     }

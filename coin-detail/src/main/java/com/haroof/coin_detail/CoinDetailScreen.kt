@@ -59,6 +59,7 @@ internal fun CoinDetailScreen(
         CoinDetail(
           coin = uiState.coin,
           selectedTimeFilter = uiState.selectedTimeFilter,
+          chartData = uiState.chartData,
           onTimeFilterChanged = onTimeFilterChanged
         )
       }
@@ -101,6 +102,7 @@ fun CoinDetailScreenPreview_Success() {
         uiState = Success(
           coin = FakeData.DETAILED_COINS.first(),
           selectedTimeFilter = TimeFilter.ONE_WEEK,
+          chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
         ),
         onTimeFilterChanged = {}
       )
