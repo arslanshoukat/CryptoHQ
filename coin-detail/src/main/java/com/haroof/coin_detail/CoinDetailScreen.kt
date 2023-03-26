@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.imageLoader
@@ -20,6 +21,8 @@ import com.haroof.coin_detail.CoinDetailUiState.Loading
 import com.haroof.coin_detail.CoinDetailUiState.Success
 import com.haroof.common.model.TimeFilter
 import com.haroof.common.ui.ErrorMessageWithIcon
+import com.haroof.data.FakeData
+import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.common.R as commonR
 
 @Composable
@@ -59,6 +62,48 @@ fun CoinDetailScreen(
           onTimeFilterChanged = onTimeFilterChanged
         )
       }
+    }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CoinDetailScreenPreviewLoading() {
+  CryptoHqTheme {
+    Box {
+      CoinDetailScreen(
+        uiState = Loading,
+        onTimeFilterChanged = {}
+      )
+    }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CoinDetailScreenPreviewError() {
+  CryptoHqTheme {
+    Box {
+      CoinDetailScreen(
+        uiState = Error(IllegalStateException()),
+        onTimeFilterChanged = {}
+      )
+    }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CoinDetailScreenPreviewSuccess() {
+  CryptoHqTheme {
+    Box {
+      CoinDetailScreen(
+        uiState = Success(
+          coin = FakeData.DETAILED_COINS.first(),
+          selectedTimeFilter = TimeFilter.ONE_WEEK,
+        ),
+        onTimeFilterChanged = {}
+      )
     }
   }
 }
