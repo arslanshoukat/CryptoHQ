@@ -28,7 +28,7 @@ import com.haroof.market.R.string
 import com.haroof.common.R as commonR
 
 @Composable
-fun MarketRoute(
+internal fun MarketRoute(
   viewModel: MarketViewModel = hiltViewModel(),
   onNavigateToCoinDetail: (coinId: String) -> Unit,
   imageLoader: ImageLoader = LocalContext.current.imageLoader
@@ -44,7 +44,7 @@ fun MarketRoute(
 }
 
 @Composable
-fun MarketScreen(
+internal fun MarketScreen(
   uiState: MarketUiState,
   onSortChange: (sortBy: SortBy) -> Unit,
   onNavigateToCoinDetail: (String) -> Unit,

@@ -38,16 +38,16 @@ fun CryptoHqApp(
             icon = {
               Icon(
                 painter = painterResource(id = destination.unselectedIcon),
-                contentDescription = destination.route
+                contentDescription = destination.title
               )
             },
             selectedIcon = {
               Icon(
                 painter = painterResource(id = destination.selectedIcon),
-                contentDescription = destination.route
+                contentDescription = destination.title
               )
             },
-            label = { Text(text = destination.route, style = MaterialTheme.typography.subtitle2) },
+            label = { Text(text = destination.title, style = MaterialTheme.typography.subtitle2) },
           )
         }
       }

@@ -28,14 +28,14 @@ import com.haroof.watchlist.WatchListUiState.Success
 import com.haroof.common.R as commonR
 
 @Composable
-fun WatchListRoute(viewModel: WatchListViewModel = hiltViewModel()) {
+internal fun WatchListRoute(viewModel: WatchListViewModel = hiltViewModel()) {
   val uiState by viewModel.uiState.collectAsState()
 
   WatchListScreen(uiState = uiState)
 }
 
 @Composable
-fun WatchListScreen(
+internal fun WatchListScreen(
   uiState: WatchListUiState,
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {

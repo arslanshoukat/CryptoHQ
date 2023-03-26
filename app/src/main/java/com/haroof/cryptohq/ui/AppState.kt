@@ -13,6 +13,12 @@ import com.haroof.cryptohq.navigation.TopLevelDestination
 import com.haroof.cryptohq.navigation.TopLevelDestination.HOME
 import com.haroof.cryptohq.navigation.TopLevelDestination.MARKET
 import com.haroof.cryptohq.navigation.TopLevelDestination.WATCH_LIST
+import com.haroof.home.navigation.homeRoute
+import com.haroof.home.navigation.navigateToHome
+import com.haroof.market.navigation.marketRoute
+import com.haroof.market.navigation.navigateToMarket
+import com.haroof.watchlist.navigation.navigateToWatchList
+import com.haroof.watchlist.navigation.watchListRoute
 
 @Composable
 fun rememberAppState(
@@ -33,9 +39,9 @@ class CryptoHqAppState(
 
   val currentTopLevelDestination: TopLevelDestination?
     @Composable get() = when (currentDestination?.route) {
-      HOME.route -> HOME
-      MARKET.route -> MARKET
-      WATCH_LIST.route -> WATCH_LIST
+      homeRoute -> HOME
+      marketRoute -> MARKET
+      watchListRoute -> WATCH_LIST
       else -> null
     }
 
@@ -63,6 +69,10 @@ class CryptoHqAppState(
       restoreState = true
     }
 
-    navController.navigate(topLevelDestination.route, topLevelNavOptions)
+    when (topLevelDestination) {
+      HOME -> navController.navigateToHome(topLevelNavOptions)
+      MARKET -> navController.navigateToMarket(topLevelNavOptions)
+      WATCH_LIST -> navController.navigateToWatchList(topLevelNavOptions)
+    }
   }
 }

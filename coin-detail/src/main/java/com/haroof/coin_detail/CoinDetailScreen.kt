@@ -26,7 +26,7 @@ import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.common.R as commonR
 
 @Composable
-fun CoinDetailRoute(
+internal fun CoinDetailRoute(
   viewModel: CoinDetailViewModel = hiltViewModel()
 ) {
   val uiState by viewModel.uiState.collectAsState()
@@ -37,7 +37,7 @@ fun CoinDetailRoute(
 }
 
 @Composable
-fun CoinDetailScreen(
+internal fun CoinDetailScreen(
   uiState: CoinDetailUiState,
   onTimeFilterChanged: (TimeFilter) -> Unit,
   imageLoader: ImageLoader = LocalContext.current.imageLoader
@@ -68,7 +68,7 @@ fun CoinDetailScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun CoinDetailScreenPreviewLoading() {
+fun CoinDetailScreenPreview_Loading() {
   CryptoHqTheme {
     Box {
       CoinDetailScreen(
@@ -81,7 +81,7 @@ fun CoinDetailScreenPreviewLoading() {
 
 @Preview(showBackground = true)
 @Composable
-fun CoinDetailScreenPreviewError() {
+fun CoinDetailScreenPreview_Error() {
   CryptoHqTheme {
     Box {
       CoinDetailScreen(
@@ -94,7 +94,7 @@ fun CoinDetailScreenPreviewError() {
 
 @Preview(showBackground = true)
 @Composable
-fun CoinDetailScreenPreviewSuccess() {
+fun CoinDetailScreenPreview_Success() {
   CryptoHqTheme {
     Box {
       CoinDetailScreen(

@@ -3,6 +3,7 @@ package com.haroof.coin_detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.haroof.coin_detail.navigation.CoinDetailArgs
 import com.haroof.common.model.TimeFilter
 import com.haroof.data.model.Result.Error
 import com.haroof.data.model.Result.Loading
@@ -23,7 +24,7 @@ class CoinDetailViewModel @Inject constructor(
   private val _uiState = MutableStateFlow<CoinDetailUiState>(CoinDetailUiState.Loading)
   val uiState = _uiState.asStateFlow()
 
-  private val coinId: String = savedStateHandle["coinId"]!!
+  private val coinId: String = CoinDetailArgs(savedStateHandle).coinId
 
   init {
     viewModelScope.launch {

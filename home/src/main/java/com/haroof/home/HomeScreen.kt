@@ -38,14 +38,14 @@ import com.haroof.home.R.string
 import com.haroof.common.R as commonR
 
 @Composable
-fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
+internal fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
   val uiState by viewModel.uiState.collectAsState()
 
   HomeScreen(uiState = uiState)
 }
 
 @Composable
-fun HomeScreen(
+internal fun HomeScreen(
   uiState: HomeUiState,
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {
