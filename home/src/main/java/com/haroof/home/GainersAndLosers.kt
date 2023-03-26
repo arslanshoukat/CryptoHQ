@@ -23,6 +23,7 @@ import com.haroof.home.R.string
 @Composable
 internal fun GainersAndLosers(
   coins: List<Coin>,
+  onNavigateToCoinDetail: (String) -> Unit,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
 ) {
@@ -40,6 +41,7 @@ internal fun GainersAndLosers(
     ) { coin ->
       CoinCard(
         coin = coin,
+        onNavigateToCoinDetail = onNavigateToCoinDetail,
         imageLoader = imageLoader
       )
     }
@@ -52,6 +54,7 @@ fun GainersAndLosersPreview() {
   CryptoHqTheme {
     GainersAndLosers(
       coins = FakeData.COINS,
+      onNavigateToCoinDetail = {},
       imageLoader = LocalContext.current.imageLoader
     )
   }

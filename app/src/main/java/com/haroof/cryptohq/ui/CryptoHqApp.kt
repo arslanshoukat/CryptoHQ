@@ -26,31 +26,7 @@ fun CryptoHqApp(
 
   Scaffold(
     bottomBar = {
-      BottomNavigation(
-        backgroundColor = MaterialTheme.colors.surface,
-        contentColor = contentColorFor(MaterialTheme.colors.surface),
-        modifier = Modifier.fillMaxWidth()
-      ) {
-        appState.topLevelDestinations.forEach { destination ->
-          CryptoHqBottomNavItem(
-            selected = appState.currentTopLevelDestination == destination,
-            onClick = { appState.navigateToTopLevelDestination(destination) },
-            icon = {
-              Icon(
-                painter = painterResource(id = destination.unselectedIcon),
-                contentDescription = destination.title
-              )
-            },
-            selectedIcon = {
-              Icon(
-                painter = painterResource(id = destination.selectedIcon),
-                contentDescription = destination.title
-              )
-            },
-            label = { Text(text = destination.title, style = MaterialTheme.typography.subtitle2) },
-          )
-        }
-      }
+      if (appState.shouldShowBottomNavBar) BottomNavBar(appState)
     }
   ) { padding ->
     Surface(
@@ -60,6 +36,35 @@ fun CryptoHqApp(
       color = MaterialTheme.colors.background
     ) {
       CryptoHqNavHost(navController = appState.navController)
+    }
+  }
+}
+
+@Composable
+private fun BottomNavBar(appState: CryptoHqAppState) {
+  BottomNavigation(
+    backgroundColor = MaterialTheme.colors.surface,
+    contentColor = contentColorFor(MaterialTheme.colors.surface),
+    modifier = Modifier.fillMaxWidth()
+  ) {
+    appState.topLevelDestinations.forEach { destination ->
+      CryptoHqBottomNavItem(
+        selected = appState.currentTopLevelDestination == destination,
+        onClick = { appState.navigateToTopLevelDestination(destination) },
+        icon = {
+          Icon(
+            painter = painterResource(id = destination.unselectedIcon),
+            contentDescription = destination.title
+          )
+        },
+        selectedIcon = {
+          Icon(
+            painter = painterResource(id = destination.selectedIcon),
+            contentDescription = destination.title
+          )
+        },
+        label = { Text(text = destination.title, style = MaterialTheme.typography.subtitle2) },
+      )
     }
   }
 }
@@ -86,7 +91,7 @@ private fun RowScope.CryptoHqBottomNavItem(
   )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun CryptoHqAppPreview() {
   CryptoHqTheme {

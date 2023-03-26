@@ -15,8 +15,8 @@ fun NavController.navigateToWatchList(navOptions: NavOptions? = null) {
   )
 }
 
-fun NavGraphBuilder.watchListScreen() {
+fun NavGraphBuilder.watchListScreen(onNavigateToCoinDetail: (coinId: String) -> Unit) {
   composable(route = watchListRoute) {
-    WatchListRoute()
+    WatchListRoute(onNavigateToCoinDetail = onNavigateToCoinDetail)
   }
 }

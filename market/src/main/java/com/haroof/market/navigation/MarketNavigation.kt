@@ -17,8 +17,6 @@ fun NavController.navigateToMarket(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.marketScreen(onNavigateToCoinDetail: (coinId: String) -> Unit) {
   composable(route = marketRoute) {
-    MarketRoute(
-      onNavigateToCoinDetail = onNavigateToCoinDetail
-    )
+    MarketRoute(onNavigateToCoinDetail = onNavigateToCoinDetail)
   }
 }

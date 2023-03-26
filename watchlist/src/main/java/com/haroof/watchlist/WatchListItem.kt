@@ -1,5 +1,6 @@
 package com.haroof.watchlist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,10 +39,11 @@ import com.haroof.designsystem.theme.red
 @Composable
 fun WatchListItem(
   coin: Coin,
+  onNavigateToCoinDetail: (coinId: String) -> Unit,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
 ) {
-  Card(modifier = modifier) {
+  Card(modifier = modifier.clickable { onNavigateToCoinDetail(coin.id) }) {
     Row(modifier = modifier.padding(16.dp)) {
       AsyncImage(
         model = coin.imageUrl,
@@ -93,7 +95,11 @@ fun WatchListItem(
 fun WatchListItemUpPreview() {
   CryptoHqTheme {
     Surface(modifier = Modifier.padding(16.dp)) {
-      WatchListItem(coin = FakeData.COINS.first(), LocalContext.current.imageLoader)
+      WatchListItem(
+        coin = FakeData.COINS.first(),
+        onNavigateToCoinDetail = {},
+        imageLoader = LocalContext.current.imageLoader
+      )
     }
   }
 }
@@ -103,7 +109,11 @@ fun WatchListItemUpPreview() {
 fun WatchListItemDownPreview() {
   CryptoHqTheme {
     Surface(modifier = Modifier.padding(16.dp)) {
-      WatchListItem(coin = FakeData.COINS[1], LocalContext.current.imageLoader)
+      WatchListItem(
+        coin = FakeData.COINS[1],
+        onNavigateToCoinDetail = {},
+        imageLoader = LocalContext.current.imageLoader
+      )
     }
   }
 }

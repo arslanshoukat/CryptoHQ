@@ -23,6 +23,7 @@ import com.haroof.watchlist.R.string
 @Composable
 fun WatchList(
   coins: List<Coin>,
+  onNavigateToCoinDetail: (coinId: String) -> Unit,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
 ) {
@@ -41,6 +42,7 @@ fun WatchList(
     ) { coin ->
       WatchListItem(
         coin = coin,
+        onNavigateToCoinDetail = onNavigateToCoinDetail,
         imageLoader = imageLoader
       )
     }
@@ -51,6 +53,10 @@ fun WatchList(
 @Composable
 fun WatchListPreview() {
   CryptoHqTheme {
-    WatchList(coins = FakeData.COINS, imageLoader = LocalContext.current.imageLoader)
+    WatchList(
+      coins = FakeData.COINS,
+      onNavigateToCoinDetail = {},
+      imageLoader = LocalContext.current.imageLoader
+    )
   }
 }

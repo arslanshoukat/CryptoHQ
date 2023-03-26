@@ -15,8 +15,14 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) {
   )
 }
 
-fun NavGraphBuilder.homeScreen() {
+fun NavGraphBuilder.homeScreen(
+  onNavigateToCoinDetail: (coinId: String) -> Unit,
+  onNavigateToMarket: () -> Unit,
+) {
   composable(route = homeRoute) {
-    HomeRoute()
+    HomeRoute(
+      onNavigateToCoinDetail = onNavigateToCoinDetail,
+      onNavigateToMarket = onNavigateToMarket
+    )
   }
 }

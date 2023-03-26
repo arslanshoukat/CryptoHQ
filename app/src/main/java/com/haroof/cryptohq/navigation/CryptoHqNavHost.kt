@@ -9,6 +9,7 @@ import com.haroof.coin_detail.navigation.navigateToCoinDetail
 import com.haroof.home.navigation.homeRoute
 import com.haroof.home.navigation.homeScreen
 import com.haroof.market.navigation.marketScreen
+import com.haroof.market.navigation.navigateToMarket
 import com.haroof.watchlist.navigation.watchListScreen
 
 @Composable
@@ -22,11 +23,16 @@ fun CryptoHqNavHost(
     startDestination = startDestination,
     modifier = modifier
   ) {
-    homeScreen()
+    homeScreen(
+      onNavigateToCoinDetail = { coinId -> navController.navigateToCoinDetail(coinId) },
+      onNavigateToMarket = { navController.navigateToMarket() }
+    )
     marketScreen(
       onNavigateToCoinDetail = { coinId -> navController.navigateToCoinDetail(coinId) }
     )
-    watchListScreen()
+    watchListScreen(
+      onNavigateToCoinDetail = { coinId -> navController.navigateToCoinDetail(coinId) }
+    )
     coinDetailScreen()
   }
 }

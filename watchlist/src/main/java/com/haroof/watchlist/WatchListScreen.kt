@@ -28,15 +28,22 @@ import com.haroof.watchlist.WatchListUiState.Success
 import com.haroof.common.R as commonR
 
 @Composable
-internal fun WatchListRoute(viewModel: WatchListViewModel = hiltViewModel()) {
+internal fun WatchListRoute(
+  viewModel: WatchListViewModel = hiltViewModel(),
+  onNavigateToCoinDetail: (coinId: String) -> Unit,
+) {
   val uiState by viewModel.uiState.collectAsState()
 
-  WatchListScreen(uiState = uiState)
+  WatchListScreen(
+    uiState = uiState,
+    onNavigateToCoinDetail = onNavigateToCoinDetail,
+  )
 }
 
 @Composable
 internal fun WatchListScreen(
   uiState: WatchListUiState,
+  onNavigateToCoinDetail: (String) -> Unit,
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {
   Box(modifier = Modifier.fillMaxSize()) {
@@ -58,6 +65,7 @@ internal fun WatchListScreen(
       is Success -> {
         WatchList(
           coins = uiState.data,
+          onNavigateToCoinDetail = onNavigateToCoinDetail,
           imageLoader = imageLoader
         )
       }
@@ -70,7 +78,10 @@ internal fun WatchListScreen(
 @Composable
 fun WatchListScreenPreview_Loading() {
   CryptoHqTheme {
-    WatchListScreen(uiState = Loading)
+    WatchListScreen(
+      uiState = Loading,
+      onNavigateToCoinDetail = {},
+    )
   }
 }
 
@@ -78,7 +89,10 @@ fun WatchListScreenPreview_Loading() {
 @Composable
 fun WatchListScreenPreview_Error() {
   CryptoHqTheme {
-    WatchListScreen(uiState = Error(IllegalStateException()))
+    WatchListScreen(
+      uiState = Error(IllegalStateException()),
+      onNavigateToCoinDetail = {},
+    )
   }
 }
 
@@ -86,7 +100,10 @@ fun WatchListScreenPreview_Error() {
 @Composable
 fun WatchListScreenPreview_Success() {
   CryptoHqTheme {
-    WatchListScreen(uiState = Success(FakeData.COINS))
+    WatchListScreen(
+      uiState = Success(FakeData.COINS),
+      onNavigateToCoinDetail = {},
+    )
   }
 }
 
@@ -94,6 +111,9 @@ fun WatchListScreenPreview_Success() {
 @Composable
 fun WatchListScreenPreview_Success_EmptyState() {
   CryptoHqTheme {
-    WatchListScreen(uiState = Success(emptyList()))
+    WatchListScreen(
+      uiState = Success(emptyList()),
+      onNavigateToCoinDetail = {},
+    )
   }
 }

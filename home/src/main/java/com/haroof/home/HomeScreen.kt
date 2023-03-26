@@ -38,15 +38,25 @@ import com.haroof.home.R.string
 import com.haroof.common.R as commonR
 
 @Composable
-internal fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
+internal fun HomeRoute(
+  viewModel: HomeViewModel = hiltViewModel(),
+  onNavigateToCoinDetail: (coinId: String) -> Unit,
+  onNavigateToMarket: () -> Unit,
+) {
   val uiState by viewModel.uiState.collectAsState()
 
-  HomeScreen(uiState = uiState)
+  HomeScreen(
+    uiState = uiState,
+    onNavigateToCoinDetail = onNavigateToCoinDetail,
+    onNavigateToMarket = onNavigateToMarket,
+  )
 }
 
 @Composable
 internal fun HomeScreen(
   uiState: HomeUiState,
+  onNavigateToCoinDetail: (String) -> Unit,
+  onNavigateToMarket: () -> Unit,
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {
   Box(modifier = Modifier.fillMaxSize()) {
@@ -81,6 +91,7 @@ internal fun HomeScreen(
           }
           GainersAndLosers(
             coins = uiState.gainersAndLosers,
+            onNavigateToCoinDetail = onNavigateToCoinDetail,
             imageLoader = imageLoader
           )
 
@@ -96,13 +107,14 @@ internal fun HomeScreen(
               style = MaterialTheme.typography.h6
             )
             Spacer(modifier = Modifier.weight(1f))
-            TextButton(onClick = {}) {
+            TextButton(onClick = onNavigateToMarket) {
               Text(text = stringResource(string.view_all))
             }
             Spacer(modifier = Modifier.width(16.dp))
           }
           HomeCoinsList(
             coins = uiState.marketCoins,
+            onNavigateToCoinDetail = onNavigateToCoinDetail,
             imageLoader = imageLoader
           )
         }
@@ -116,7 +128,11 @@ internal fun HomeScreen(
 @Composable
 fun HomeScreenLoadingPreview() {
   CryptoHqTheme {
-    HomeScreen(Loading)
+    HomeScreen(
+      uiState = Loading,
+      onNavigateToCoinDetail = {},
+      onNavigateToMarket = {},
+    )
   }
 }
 
@@ -125,10 +141,12 @@ fun HomeScreenLoadingPreview() {
 fun HomeScreenSuccessPreview() {
   CryptoHqTheme {
     HomeScreen(
-      Success(
+      uiState = Success(
         gainersAndLosers = FakeData.GAINERS_AND_LOSERS,
         marketCoins = FakeData.COINS
-      )
+      ),
+      onNavigateToCoinDetail = {},
+      onNavigateToMarket = {},
     )
   }
 }
@@ -137,6 +155,10 @@ fun HomeScreenSuccessPreview() {
 @Composable
 fun HomeScreenErrorPreview() {
   CryptoHqTheme {
-    HomeScreen(Error(IllegalStateException()))
+    HomeScreen(
+      uiState = Error(IllegalStateException()),
+      onNavigateToCoinDetail = {},
+      onNavigateToMarket = {},
+    )
   }
 }

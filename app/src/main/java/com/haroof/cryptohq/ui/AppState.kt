@@ -45,6 +45,9 @@ class CryptoHqAppState(
       else -> null
     }
 
+  val shouldShowBottomNavBar: Boolean
+    @Composable get() = currentTopLevelDestination != null
+
   val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
 
   /**

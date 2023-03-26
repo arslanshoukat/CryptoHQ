@@ -28,6 +28,7 @@ import com.haroof.home.R.string
 @Composable
 internal fun HomeCoinsList(
   coins: List<Coin>,
+  onNavigateToCoinDetail: (String) -> Unit,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
 ) {
@@ -47,6 +48,7 @@ internal fun HomeCoinsList(
     ) { index, coin ->
       HomeCoinListItem(
         coin = coin,
+        onNavigateToCoinDetail = onNavigateToCoinDetail,
         imageLoader = imageLoader
       )
       if (index < coins.lastIndex) Divider(color = Color.LightGray, thickness = 1.dp)
@@ -60,6 +62,7 @@ fun HomeCoinsListPreview() {
   CryptoHqTheme {
     HomeCoinsList(
       coins = FakeData.COINS,
+      onNavigateToCoinDetail = {},
       imageLoader = LocalContext.current.imageLoader
     )
   }

@@ -1,5 +1,6 @@
 package com.haroof.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +38,7 @@ import com.haroof.common.R as commonR
 @Composable
 internal fun HomeCoinListItem(
   coin: Coin,
+  onNavigateToCoinDetail: (coinId: String) -> Unit,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier
 ) {
@@ -44,6 +46,7 @@ internal fun HomeCoinListItem(
     modifier = modifier
       .padding(16.dp)
       .fillMaxWidth()
+      .clickable { onNavigateToCoinDetail(coin.id) }
   ) {
     AsyncImage(
       model = coin.imageUrl,
@@ -93,7 +96,11 @@ internal fun HomeCoinListItem(
 @Composable
 fun HomeCoinListItemUpPreview() {
   CryptoHqTheme {
-    HomeCoinListItem(coin = FakeData.COINS.first(), LocalContext.current.imageLoader)
+    HomeCoinListItem(
+      coin = FakeData.COINS.first(),
+      onNavigateToCoinDetail = {},
+      imageLoader = LocalContext.current.imageLoader
+    )
   }
 }
 
@@ -101,6 +108,10 @@ fun HomeCoinListItemUpPreview() {
 @Composable
 fun HomeCoinListItemDownPreview() {
   CryptoHqTheme {
-    HomeCoinListItem(coin = FakeData.COINS[1], LocalContext.current.imageLoader)
+    HomeCoinListItem(
+      coin = FakeData.COINS[1],
+      onNavigateToCoinDetail = {},
+      imageLoader = LocalContext.current.imageLoader
+    )
   }
 }

@@ -50,14 +50,14 @@ import com.patrykandpatrick.vico.core.entry.entryModelOf
 @Composable
 internal fun CoinCard(
   coin: Coin,
+  onNavigateToCoinDetail: (String) -> Unit,
   imageLoader: ImageLoader,
   modifier: Modifier = Modifier,
-  onClick: () -> Unit = {}
 ) {
   Card(modifier = modifier.size(width = 138.dp, height = 184.dp)) {
     ConstraintLayout(
       modifier = Modifier
-        .clickable(onClick = onClick)
+        .clickable { onNavigateToCoinDetail(coin.id) }
         .semantics { contentDescription = coin.name }
     ) {
       val (image, symbol, name, price, priceChangePercentage, chart) = createRefs()
@@ -166,6 +166,7 @@ fun CoinCardPreview() {
     ) {
       CoinCard(
         coin = FakeData.COINS.first(),
+        onNavigateToCoinDetail = {},
         imageLoader = LocalContext.current.imageLoader
       )
     }
