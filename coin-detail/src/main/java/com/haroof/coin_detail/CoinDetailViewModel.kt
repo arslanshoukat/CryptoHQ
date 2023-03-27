@@ -67,7 +67,7 @@ class CoinDetailViewModel @Inject constructor(
         is Error -> {}
         is Success -> {
           _uiState.value = prevUiState.copy(
-            chartData = result.data.prices.map { it[1] }
+            chartData = result.data.prices.map { it[1] }.dropLast(1)  //  todo: improve drop logic
           )
         }
       }

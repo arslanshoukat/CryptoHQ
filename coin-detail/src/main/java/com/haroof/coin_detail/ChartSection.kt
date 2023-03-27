@@ -17,7 +17,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.haroof.common.model.TimeFilter
+import com.haroof.common.util.CurrencyAxisValueFormatter
+import com.haroof.common.util.DateAxisValueFormatter
 import com.haroof.data.model.DetailedCoin
 import com.haroof.data.model.MarketTrend.DOWN
 import com.haroof.data.model.MarketTrend.NEUTRAL
@@ -25,6 +28,7 @@ import com.haroof.data.model.MarketTrend.UP
 import com.haroof.designsystem.theme.green
 import com.haroof.designsystem.theme.red
 import com.haroof.designsystem.theme.textLightBlack
+import com.patrykandpatrick.vico.compose.axis.axisLabelComponent
 import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
@@ -32,7 +36,7 @@ import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.line.lineSpec
 import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollSpec
 import com.patrykandpatrick.vico.compose.component.shape.shader.verticalGradient
-import com.patrykandpatrick.vico.core.chart.line.LineChart.PointPosition.Start
+import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.chart.scale.AutoScaleUp.None
 import com.patrykandpatrick.vico.core.entry.entryModelOf
 
@@ -67,18 +71,28 @@ internal fun ChartSection(
       }
       Chart(
         chart = lineChart(
-          pointPosition = Start,
+          pointPosition = LineChart.PointPosition.Start,
           lines = listOf(
             lineSpec(
               lineColor = color,
               lineBackgroundShader = verticalGradient(
-                arrayOf(color.copy(0.5f), color.copy(alpha = 0.1f)),
+                arrayOf(color.copy(0.5f), color.copy(alpha = 0.2f)),
               ),
             )
           )
         ),
-        startAxis = startAxis(),
-        bottomAxis = bottomAxis(),
+        startAxis = startAxis(
+          tick = null,
+          guideline = null,
+          label = axisLabelComponent(textSize = 10.sp),
+          valueFormatter = CurrencyAxisValueFormatter("$")  //  todo: pass selected currency
+        ),
+        bottomAxis = if (selectedTimeFilter == TimeFilter.ONE_DAY) null
+        else bottomAxis(
+          guideline = null,
+          label = axisLabelComponent(textSize = 10.sp),
+          valueFormatter = DateAxisValueFormatter(chartData.size)
+        ),
         model = entryModelOf(*chartData.toTypedArray()),
         isZoomEnabled = false,
         chartScrollSpec = rememberChartScrollSpec(isScrollEnabled = false),

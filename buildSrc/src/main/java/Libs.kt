@@ -53,4 +53,6 @@ object Libs {
 
   const val DATASTORE_PREFERENCES =
     "androidx.datastore:datastore-preferences:${Versions.DATASTORE_PREFERENCES}"
+
+  const val JDK_LIBS_DESUGAR = "com.android.tools:desugar_jdk_libs:${Versions.JDK_LIBS_DESUGAR}"
 }

@@ -30,6 +30,7 @@ android {
     kotlinCompilerExtensionVersion = "1.4.0"
   }
   compileOptions {
+    isCoreLibraryDesugaringEnabled = true
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
   }
@@ -43,11 +44,13 @@ dependencies {
   implementation(Libs.MATERIAL)
   implementation(Libs.COMPOSE_UI)
   implementation(Libs.COMPOSE_UI_TOOLING_PREVIEW)
+  implementation(Libs.VICO_COMPOSE_M2)
   implementation(Libs.HILT_ANDROID)
   kapt(Libs.HILT_ANDROID_COMPILER)
   implementation(Libs.COIL_COMPOSE)
   debugImplementation(Libs.COMPOSE_UI_TOOLING)
   debugImplementation(Libs.COMPOSE_UI_TEST_MANIFEST)
+  coreLibraryDesugaring(Libs.JDK_LIBS_DESUGAR)
 }
 
 // Allow references to generated code
