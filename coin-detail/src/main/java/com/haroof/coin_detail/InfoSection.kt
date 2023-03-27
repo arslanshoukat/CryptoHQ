@@ -25,7 +25,7 @@ internal fun InfoSection(
   modifier: Modifier = Modifier
 ) {
   Text(
-    text = "Stats",
+    text = "Statistics",
     style = MaterialTheme.typography.h6
   )
   Spacer(modifier = Modifier.height(4.dp))

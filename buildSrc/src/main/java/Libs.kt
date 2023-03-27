@@ -24,6 +24,9 @@ object Libs {
 
   const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COIL_COMPOSE}"
 
+  const val ACCOMPANIST_SUSTEM_UI_CONTROLLER =
+    "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST_SUSTEM_UI_CONTROLLER}"
+
   const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.HILT_ANDROID}"
   const val HILT_ANDROID_TESTING = "com.google.dagger:hilt-android-testing:${Versions.HILT_ANDROID}"
   const val HILT_ANDROID_COMPILER =

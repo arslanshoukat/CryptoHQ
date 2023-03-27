@@ -60,6 +60,7 @@ dependencies {
   implementation(Libs.COMPOSE_UI)
   implementation(Libs.COMPOSE_UI_TOOLING_PREVIEW)
   implementation(Libs.COIL_COMPOSE)
+  implementation(Libs.ACCOMPANIST_SUSTEM_UI_CONTROLLER)
   implementation(Libs.HILT_ANDROID)
   kapt(Libs.HILT_ANDROID_COMPILER)
   testImplementation(Libs.JUNIT)

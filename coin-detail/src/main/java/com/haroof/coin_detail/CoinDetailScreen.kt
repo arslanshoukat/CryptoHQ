@@ -27,12 +27,14 @@ import com.haroof.common.R as commonR
 
 @Composable
 internal fun CoinDetailRoute(
-  viewModel: CoinDetailViewModel = hiltViewModel()
+  viewModel: CoinDetailViewModel = hiltViewModel(),
+  onBackPressed: () -> Unit = {},
 ) {
   val uiState by viewModel.uiState.collectAsState()
   CoinDetailScreen(
     uiState = uiState,
-    onTimeFilterChanged = viewModel::updateTimeFilter
+    onTimeFilterChanged = viewModel::updateTimeFilter,
+    onBackPressed = onBackPressed,
   )
 }
 
@@ -40,6 +42,7 @@ internal fun CoinDetailRoute(
 internal fun CoinDetailScreen(
   uiState: CoinDetailUiState,
   onTimeFilterChanged: (TimeFilter) -> Unit,
+  onBackPressed: () -> Unit = {},
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {
   Box(modifier = Modifier.fillMaxSize()) {
@@ -60,7 +63,9 @@ internal fun CoinDetailScreen(
           coin = uiState.coin,
           selectedTimeFilter = uiState.selectedTimeFilter,
           chartData = uiState.chartData,
-          onTimeFilterChanged = onTimeFilterChanged
+          onTimeFilterChanged = onTimeFilterChanged,
+          onBackPressed = onBackPressed,
+          imageLoader = imageLoader,
         )
       }
     }

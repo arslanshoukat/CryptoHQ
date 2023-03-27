@@ -16,6 +16,7 @@ object Versions {
   const val ACTIVITY_COMPOSE = "1.6.1"
   const val COMPOSE_UI = "1.3.3"
   const val COIL_COMPOSE = "2.2.2"
+  const val ACCOMPANIST_SUSTEM_UI_CONTROLLER = "0.30.0"
   const val VICO_COMPOSE_M2 = "1.6.4"
   const val HILT_ANDROID = "2.44"
   const val HILT_NAVIGATION_COMPOSE = "1.0.0"

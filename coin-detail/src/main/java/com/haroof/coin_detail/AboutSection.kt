@@ -76,6 +76,13 @@ internal fun AboutSection(
         modifier = Modifier.fillMaxWidth()
       ) {
         val context = LocalContext.current
+        IconButton(onClick = { openUrl(context, coin.links.homepage) }) {
+          Icon(
+            painter = painterResource(id = drawable.sharp_link_24),
+            contentDescription = "Homepage icon",
+            modifier = Modifier.size(32.dp)
+          )
+        }
         IconButton(onClick = { openUrl(context, coin.links.facebook) }) {
           Icon(
             painter = painterResource(id = drawable.facebook),

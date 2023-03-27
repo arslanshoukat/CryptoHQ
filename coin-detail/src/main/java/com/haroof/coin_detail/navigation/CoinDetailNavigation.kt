@@ -25,13 +25,13 @@ fun NavController.navigateToCoinDetail(coinId: String, navOptions: NavOptions? =
   )
 }
 
-fun NavGraphBuilder.coinDetailScreen() {
+fun NavGraphBuilder.coinDetailScreen(onBackPressed: () -> Unit) {
   composable(
     route = "$coinDetailRoute/{$coinIdArg}",
     arguments = listOf(
       navArgument(coinIdArg) { type = NavType.StringType }
     )
   ) {
-    CoinDetailRoute()
+    CoinDetailRoute(onBackPressed = onBackPressed)
   }
 }

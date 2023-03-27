@@ -12,6 +12,7 @@ import com.haroof.data.model.Result.Success
 import com.haroof.data.repository.ChartRepository
 import com.haroof.data.repository.CoinsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -28,6 +29,8 @@ class CoinDetailViewModel @Inject constructor(
   val uiState = _uiState.asStateFlow()
 
   private val coinId: String = CoinDetailArgs(savedStateHandle).coinId
+
+  private var fetchChartJob: Job? = null
 
   init {
     viewModelScope.launch {
@@ -55,7 +58,8 @@ class CoinDetailViewModel @Inject constructor(
     // if prev ui not success, return without fetching
     val prevUiState = _uiState.value.asSuccess() ?: return
 
-    viewModelScope.launch {
+    fetchChartJob?.cancel()
+    fetchChartJob = viewModelScope.launch {
       val result = chartRepository.getChartData(
         id = coinId,
         vs_currency = "usd",

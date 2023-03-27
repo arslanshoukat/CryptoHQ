@@ -33,6 +33,8 @@ fun CryptoHqNavHost(
     watchListScreen(
       onNavigateToCoinDetail = { coinId -> navController.navigateToCoinDetail(coinId) }
     )
-    coinDetailScreen()
+    coinDetailScreen(
+      onBackPressed = { navController.navigateUp() },
+    )
   }
 }

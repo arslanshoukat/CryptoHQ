@@ -13,11 +13,14 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.haroof.cryptohq.navigation.CryptoHqNavHost
 import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.designsystem.theme.black900
 
 @Composable
 fun CryptoHqApp(
@@ -35,6 +38,15 @@ fun CryptoHqApp(
         .padding(padding),
       color = MaterialTheme.colors.background
     ) {
+      val systemUiController = rememberSystemUiController()
+      //  todo: user dark icons when using dark theme
+
+      DisposableEffect(systemUiController) {
+        systemUiController.setStatusBarColor(color = black900, darkIcons = false)
+
+        onDispose {}
+      }
+
       CryptoHqNavHost(navController = appState.navController)
     }
   }

@@ -49,7 +49,9 @@ internal fun ChartSection(
 ) {
   Row(
     horizontalArrangement = Arrangement.SpaceBetween,
-    modifier = Modifier.fillMaxWidth()
+    modifier = Modifier
+      .fillMaxWidth()
+      .padding(horizontal = 16.dp, vertical = 0.dp)
   ) {
     TimeFilter.values().map {
       ChartFilterChip(
