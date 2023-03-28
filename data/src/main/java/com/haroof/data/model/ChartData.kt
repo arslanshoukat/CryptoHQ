@@ -8,13 +8,13 @@ import com.haroof.network.model.ChartDataDto
  * interval selected. Nested list contains list of doubles formatted as  [timestamp, value].
  */
 data class ChartData(
-  val market_caps: List<List<Double>>,
+  val marketCaps: List<List<Double>>,
   val prices: List<List<Double>>,
-  val total_volumes: List<List<Double>>,
+  val totalVolumes: List<List<Double>>,
 )
 
 fun ChartDataDto.toExternalModel() = ChartData(
-  market_caps = market_caps.orEmpty(),
+  marketCaps = market_caps.orEmpty(),
   prices = prices.orEmpty(),
-  total_volumes = total_volumes.orEmpty(),
+  totalVolumes = total_volumes.orEmpty(),
 )

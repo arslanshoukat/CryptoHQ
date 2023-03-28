@@ -1,6 +1,5 @@
 package com.haroof.coin_detail
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +10,13 @@ import com.haroof.data.model.Result.Loading
 import com.haroof.data.model.Result.Success
 import com.haroof.data.repository.ChartRepository
 import com.haroof.data.repository.CoinsRepository
+import com.haroof.data.repository.WatchListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +25,7 @@ class CoinDetailViewModel @Inject constructor(
   savedStateHandle: SavedStateHandle,
   coinsRepository: CoinsRepository,
   private val chartRepository: ChartRepository,
+  private val watchListRepository: WatchListRepository,
 ) : ViewModel() {
 
   private val _uiState = MutableStateFlow<CoinDetailUiState>(CoinDetailUiState.Loading)
@@ -45,13 +48,21 @@ class CoinDetailViewModel @Inject constructor(
           CoinDetailUiState.Success(
             coin = result.data,
             selectedTimeFilter = TimeFilter.ONE_WEEK,
-            chartData = emptyList()
+            chartData = emptyList(),
+            isFavorite = false, //  default is false, we load it later
           )
         }
       }
 
       if (result is Success) fetchChartData()
     }
+
+    watchListRepository.watchedCoinIds
+      .onEach {
+        val prevUiState = _uiState.value.asSuccess() ?: return@onEach
+        _uiState.value = prevUiState.copy(isFavorite = it.contains(coinId))
+      }
+      .launchIn(viewModelScope)
   }
 
   private fun fetchChartData() {
@@ -80,9 +91,15 @@ class CoinDetailViewModel @Inject constructor(
 
   fun updateTimeFilter(timeFilter: TimeFilter) {
     _uiState.value.asSuccess()?.let {
-      Log.i("CoinDetailViewModel", "selectedTimeFilter: $timeFilter")
       _uiState.value = it.copy(selectedTimeFilter = timeFilter)
       fetchChartData()
+    }
+  }
+
+  fun updateWatchListSelection(selected: Boolean) {
+    viewModelScope.launch {
+      if (selected) watchListRepository.addToWatchList(coinId)
+      else watchListRepository.removeFromWatchList(coinId)
     }
   }
 }

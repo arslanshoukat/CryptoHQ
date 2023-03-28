@@ -1,6 +1,8 @@
 package com.haroof.coin_detail
 
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.assertIsOff
+import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import coil.ImageLoader
@@ -36,7 +38,6 @@ class CoinDetailScreenTest {
     composeTestRule.setContent {
       CoinDetailScreen(
         uiState = CoinDetailUiState.Loading,
-        onTimeFilterChanged = {},
         imageLoader = imageLoader
       )
     }
@@ -51,7 +52,6 @@ class CoinDetailScreenTest {
     composeTestRule.setContent {
       CoinDetailScreen(
         uiState = CoinDetailUiState.Error(IllegalStateException()),
-        onTimeFilterChanged = {},
         imageLoader = imageLoader
       )
     }
@@ -71,8 +71,9 @@ class CoinDetailScreenTest {
         uiState = CoinDetailUiState.Success(
           coin = FakeData.DETAILED_COINS.first(),
           selectedTimeFilter = TimeFilter.ONE_WEEK,
+          chartData = emptyList(),
+          isFavorite = false,
         ),
-        onTimeFilterChanged = {},
         imageLoader = imageLoader
       )
     }
@@ -83,5 +84,43 @@ class CoinDetailScreenTest {
     composeTestRule
       .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.coin_detail_content_desc))
       .assertExists()
+  }
+
+  @Test
+  fun whenCoinIsInWatchList_favoriteIconIsChecked() {
+    composeTestRule.setContent {
+      CoinDetailScreen(
+        uiState = CoinDetailUiState.Success(
+          coin = FakeData.DETAILED_COINS.first(),
+          selectedTimeFilter = TimeFilter.ONE_WEEK,
+          chartData = emptyList(),
+          isFavorite = true,
+        ),
+        imageLoader = imageLoader
+      )
+    }
+
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.favorite_icon_content_desc))
+      .assertIsOn()
+  }
+
+  @Test
+  fun whenCoinIsNotInWatchList_favoriteIconIsUnchecked() {
+    composeTestRule.setContent {
+      CoinDetailScreen(
+        uiState = CoinDetailUiState.Success(
+          coin = FakeData.DETAILED_COINS.first(),
+          selectedTimeFilter = TimeFilter.ONE_WEEK,
+          chartData = emptyList(),
+          isFavorite = false,
+        ),
+        imageLoader = imageLoader
+      )
+    }
+
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.favorite_icon_content_desc))
+      .assertIsOff()
   }
 }

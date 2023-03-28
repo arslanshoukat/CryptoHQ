@@ -12,7 +12,8 @@ sealed class CoinDetailUiState {
   data class Success(
     val coin: DetailedCoin,
     val selectedTimeFilter: TimeFilter,
-    val chartData: List<Double>
+    val chartData: List<Double>,
+    val isFavorite: Boolean,
   ) : CoinDetailUiState()
 
   fun asSuccess() = this as? Success

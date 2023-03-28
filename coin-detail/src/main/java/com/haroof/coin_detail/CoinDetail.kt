@@ -29,9 +29,11 @@ internal fun CoinDetail(
   coin: DetailedCoin,
   selectedTimeFilter: TimeFilter,
   chartData: List<Double>,
-  onTimeFilterChanged: (TimeFilter) -> Unit,
-  onBackPressed: () -> Unit = {},
+  isFavorite: Boolean,
   modifier: Modifier = Modifier,
+  onTimeFilterChanged: (timeFilter: TimeFilter) -> Unit = {},
+  onToggleFavorite: (selected: Boolean) -> Unit = {},
+  onBackPressed: () -> Unit = {},
   imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   val contentDesc = stringResource(string.coin_detail_content_desc)
@@ -44,7 +46,9 @@ internal fun CoinDetail(
   ) {
     HeaderSection(
       coin = coin,
+      isFavorite = isFavorite,
       onBackPressed = onBackPressed,
+      onToggleFavorite = onToggleFavorite,
       imageLoader = imageLoader,
     )
     Spacer(modifier = Modifier.height(16.dp))
@@ -71,7 +75,7 @@ internal fun CoinDetailPreview() {
         coin = FakeData.DETAILED_COINS.first(),
         selectedTimeFilter = TimeFilter.ONE_WEEK,
         chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
-        onTimeFilterChanged = {}
+        isFavorite = false,
       )
     }
   }

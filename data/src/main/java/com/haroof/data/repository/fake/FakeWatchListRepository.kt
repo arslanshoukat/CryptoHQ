@@ -1,19 +1,26 @@
 package com.haroof.data.repository.fake
 
-import com.haroof.data.FakeData
 import com.haroof.data.repository.WatchListRepository
+import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.filterNotNull
+import javax.inject.Inject
 
-class FakeWatchListRepository : WatchListRepository {
+class FakeWatchListRepository @Inject constructor() : WatchListRepository {
 
-  override val watchedCoinIds: Flow<List<String>> = flowOf(FakeData.WATCH_LIST_COIN_IDS)
+  private val _watchedCoinIds =
+    MutableSharedFlow<List<String>>(replay = 1, onBufferOverflow = DROP_OLDEST)
+
+  private val currentWatchedCoinIds get() = _watchedCoinIds.replayCache.firstOrNull() ?: emptyList()
+
+  override val watchedCoinIds: Flow<List<String>> = _watchedCoinIds.filterNotNull()
 
   override suspend fun addToWatchList(coinId: String) {
-    TODO("Not yet implemented")
+    _watchedCoinIds.tryEmit(currentWatchedCoinIds + coinId)
   }
 
   override suspend fun removeFromWatchList(coinId: String) {
-    TODO("Not yet implemented")
+    _watchedCoinIds.tryEmit(currentWatchedCoinIds - coinId)
   }
 }

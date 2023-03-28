@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.IconToggleButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -22,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.AsyncImage
@@ -34,7 +37,51 @@ import com.haroof.designsystem.theme.green
 @Composable
 internal fun HeaderSection(
   coin: DetailedCoin,
+  isFavorite: Boolean,
   onBackPressed: () -> Unit = {},
+  onToggleFavorite: (selected: Boolean) -> Unit = {},
+  imageLoader: ImageLoader,
+) {
+  CoinDetailTopAppBar(
+    coin = coin,
+    isFavorite = isFavorite,
+    onBackPressed = onBackPressed,
+    onToggleFavorite = onToggleFavorite,
+    imageLoader = imageLoader,
+  )
+
+  Spacer(modifier = Modifier.height(16.dp))
+  Row(
+    verticalAlignment = Alignment.CenterVertically,
+    modifier = Modifier.fillMaxWidth()
+  ) {
+    Spacer(Modifier.width(16.dp))
+    Text(
+      text = "$${coin.currentPrice}",
+      style = MaterialTheme.typography.h5
+    )
+    Spacer(Modifier.width(12.dp))
+    Surface(
+      shape = CircleShape,
+      color = green.copy(alpha = 0.2f),
+      contentColor = green,
+    ) {
+      Text(
+        text = "${coin.priceChangePercentage24h.roundDecimal(2)}%",
+        style = MaterialTheme.typography.body2.copy(color = green),
+        modifier = Modifier
+          .padding(horizontal = 8.dp, vertical = 4.dp),
+      )
+    }
+  }
+}
+
+@Composable
+private fun CoinDetailTopAppBar(
+  coin: DetailedCoin,
+  isFavorite: Boolean,
+  onBackPressed: () -> Unit = {},
+  onToggleFavorite: (selected: Boolean) -> Unit = {},
   imageLoader: ImageLoader,
 ) {
   TopAppBar(
@@ -43,7 +90,7 @@ internal fun HeaderSection(
     IconButton(onClick = onBackPressed) {
       Icon(
         painter = painterResource(id = drawable.sharp_arrow_back_24),
-        contentDescription = ""
+        contentDescription = null
       )
     }
 
@@ -70,29 +117,18 @@ internal fun HeaderSection(
         style = MaterialTheme.typography.body1
       )
     }
-  }
 
-  Spacer(modifier = Modifier.height(16.dp))
-  Row(
-    verticalAlignment = Alignment.CenterVertically,
-    modifier = Modifier.fillMaxWidth()
-  ) {
-    Spacer(Modifier.width(16.dp))
-    Text(
-      text = "$${coin.currentPrice}",
-      style = MaterialTheme.typography.h5
-    )
-    Spacer(Modifier.width(12.dp))
-    Surface(
-      shape = CircleShape,
-      color = green.copy(alpha = 0.2f),
-      contentColor = green,
+    val favoriteIconContentDesc = stringResource(R.string.favorite_icon_content_desc)
+    IconToggleButton(
+      checked = isFavorite,
+      onCheckedChange = onToggleFavorite,
+      modifier = Modifier.semantics { contentDescription = favoriteIconContentDesc }
     ) {
-      Text(
-        text = "${coin.priceChangePercentage24h.roundDecimal(2)}%",
-        style = MaterialTheme.typography.body2.copy(color = green),
-        modifier = Modifier
-          .padding(horizontal = 8.dp, vertical = 4.dp),
+      Icon(
+        painter = painterResource(
+          id = if (isFavorite) drawable.sharp_star_24 else drawable.outline_star_24
+        ),
+        contentDescription = null
       )
     }
   }

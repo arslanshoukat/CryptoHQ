@@ -34,6 +34,7 @@ internal fun CoinDetailRoute(
   CoinDetailScreen(
     uiState = uiState,
     onTimeFilterChanged = viewModel::updateTimeFilter,
+    onToggleFavorite = viewModel::updateWatchListSelection,
     onBackPressed = onBackPressed,
   )
 }
@@ -41,7 +42,8 @@ internal fun CoinDetailRoute(
 @Composable
 internal fun CoinDetailScreen(
   uiState: CoinDetailUiState,
-  onTimeFilterChanged: (TimeFilter) -> Unit,
+  onTimeFilterChanged: (timeFilter: TimeFilter) -> Unit = {},
+  onToggleFavorite: (selected: Boolean) -> Unit = {},
   onBackPressed: () -> Unit = {},
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {
@@ -63,7 +65,9 @@ internal fun CoinDetailScreen(
           coin = uiState.coin,
           selectedTimeFilter = uiState.selectedTimeFilter,
           chartData = uiState.chartData,
+          isFavorite = uiState.isFavorite,
           onTimeFilterChanged = onTimeFilterChanged,
+          onToggleFavorite = onToggleFavorite,
           onBackPressed = onBackPressed,
           imageLoader = imageLoader,
         )
@@ -78,8 +82,7 @@ fun CoinDetailScreenPreview_Loading() {
   CryptoHqTheme {
     Box {
       CoinDetailScreen(
-        uiState = Loading,
-        onTimeFilterChanged = {}
+        uiState = Loading
       )
     }
   }
@@ -92,7 +95,6 @@ fun CoinDetailScreenPreview_Error() {
     Box {
       CoinDetailScreen(
         uiState = Error(IllegalStateException()),
-        onTimeFilterChanged = {}
       )
     }
   }
@@ -108,8 +110,8 @@ fun CoinDetailScreenPreview_Success() {
           coin = FakeData.DETAILED_COINS.first(),
           selectedTimeFilter = TimeFilter.ONE_WEEK,
           chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
+          isFavorite = false,
         ),
-        onTimeFilterChanged = {}
       )
     }
   }
