@@ -21,7 +21,7 @@ class DefaultCoinsRepository @Inject constructor(
       try {
         val coins = networkDataSource.getCoins(
           vs_currency = "usd",
-          ids = "",
+          ids = emptyList(),
           sparkline = true
         ).map(CoinDto::toExternalModel)
         Result.Success(coins)
@@ -40,7 +40,7 @@ class DefaultCoinsRepository @Inject constructor(
       try {
         val coins = networkDataSource.getCoins(
           vs_currency = vs_currency,
-          ids = ids.joinToString(","),
+          ids = ids,
           sparkline = sparkline
         ).map(CoinDto::toExternalModel)
         Result.Success(coins)

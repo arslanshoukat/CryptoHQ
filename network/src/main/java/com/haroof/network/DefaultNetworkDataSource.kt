@@ -17,12 +17,12 @@ class DefaultNetworkDataSource @Inject constructor(
 
   override suspend fun getCoins(
     vs_currency: String,
-    ids: String,
+    ids: List<String>,
     sparkline: Boolean
   ): List<CoinDto> {
     return api.getCoins(
       vs_currency = vs_currency,
-      ids = ids,
+      ids = ids.joinToString(","),
       sparkline = sparkline,
     )
   }

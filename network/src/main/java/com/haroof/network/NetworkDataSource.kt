@@ -8,7 +8,7 @@ interface NetworkDataSource {
 
   suspend fun getCoins(
     vs_currency: String,
-    ids: String,  //  comma separated ids, not a list
+    ids: List<String>,
     sparkline: Boolean
   ): List<CoinDto>
 

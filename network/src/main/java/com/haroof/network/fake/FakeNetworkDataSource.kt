@@ -22,13 +22,16 @@ class FakeNetworkDataSource @Inject constructor(
 
   override suspend fun getCoins(
     vs_currency: String,
-    ids: String,
+    ids: List<String>,
     sparkline: Boolean
   ): List<CoinDto> = withContext(Dispatchers.IO) {
     try {
       assetManager.open(COINS_ASSET)
         .use<InputStream, List<CoinDto>>(json::decodeFromStream)
-        .filter { ids.contains(it.id) }
+        .filter {
+          if (ids.isEmpty()) true // if no ids provided, return all
+          else it.id in ids
+        }
     } catch (e: Exception) {
       Log.e(TAG, e.message, e)
       emptyList()
