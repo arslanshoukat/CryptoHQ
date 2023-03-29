@@ -26,46 +26,49 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class NetworkModule {
 
-  @Provides
-  @Singleton
-  fun providesJson(): Json = Json {
-    ignoreUnknownKeys = true
-    explicitNulls = false
-  }
-
-  @Provides
-  @Singleton
-  fun providesFakeAssetManager(
-    @ApplicationContext context: Context,
-  ): FakeAssetManager = FakeAssetManager(context.assets::open)
-
-  @Provides
-  @Singleton
-  fun providesOkHttpCallFactory(): Call.Factory = OkHttpClient.Builder()
-    .addInterceptor(
-      HttpLoggingInterceptor()
-        .apply {
-          if (BuildConfig.DEBUG) {
-            setLevel(HttpLoggingInterceptor.Level.BODY)
-          }
-        },
-    ).build()
-
-  @Provides
-  @Singleton
-  fun providesRetrofitCryptoHqApi(
-    json: Json,
-    okhttpCallFactory: Call.Factory,
-  ): RetrofitCryptoHqApi = Retrofit.Builder()
-    .baseUrl("https://api.coingecko.com/api/v3/")
-    .callFactory(okhttpCallFactory)
-    .addConverterFactory(
-      @OptIn(ExperimentalSerializationApi::class)
-      json.asConverterFactory("application/json".toMediaType()),
-    )
-    .build()
-    .create(RetrofitCryptoHqApi::class.java)
-
   @Binds
   abstract fun providesNetworkDataSource(networkDataSource: FakeNetworkDataSource): NetworkDataSource
+
+  companion object {
+
+    @Provides
+    @Singleton
+    fun providesJson(): Json = Json {
+      ignoreUnknownKeys = true
+      explicitNulls = false
+    }
+
+    @Provides
+    @Singleton
+    fun providesFakeAssetManager(
+      @ApplicationContext context: Context,
+    ): FakeAssetManager = FakeAssetManager(context.assets::open)
+
+    @Provides
+    @Singleton
+    fun providesOkHttpCallFactory(): Call.Factory = OkHttpClient.Builder()
+      .addInterceptor(
+        HttpLoggingInterceptor()
+          .apply {
+            if (BuildConfig.DEBUG) {
+              setLevel(HttpLoggingInterceptor.Level.BODY)
+            }
+          },
+      ).build()
+
+    @Provides
+    @Singleton
+    fun providesRetrofitCryptoHqApi(
+      json: Json,
+      okhttpCallFactory: Call.Factory,
+    ): RetrofitCryptoHqApi = Retrofit.Builder()
+      .baseUrl("https://api.coingecko.com/api/v3/")
+      .callFactory(okhttpCallFactory)
+      .addConverterFactory(
+        @OptIn(ExperimentalSerializationApi::class)
+        json.asConverterFactory("application/json".toMediaType()),
+      )
+      .build()
+      .create(RetrofitCryptoHqApi::class.java)
+  }
 }
