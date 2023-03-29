@@ -1,12 +1,17 @@
 package com.haroof.network.di
 
+import android.content.Context
 import com.haroof.network.BuildConfig
 import com.haroof.network.NetworkDataSource
-import com.haroof.network.retrofit.RetrofitNetworkDataSource
+import com.haroof.network.fake.FakeAssetManager
+import com.haroof.network.fake.FakeNetworkDataSource
+import com.haroof.network.retrofit.RetrofitCryptoHqApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -19,7 +24,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+abstract class NetworkModule {
 
   @Provides
   @Singleton
@@ -27,6 +32,12 @@ object NetworkModule {
     ignoreUnknownKeys = true
     explicitNulls = false
   }
+
+  @Provides
+  @Singleton
+  fun providesFakeAssetManager(
+    @ApplicationContext context: Context,
+  ): FakeAssetManager = FakeAssetManager(context.assets::open)
 
   @Provides
   @Singleton
@@ -42,10 +53,10 @@ object NetworkModule {
 
   @Provides
   @Singleton
-  fun providesNetworkDataSource(
+  fun providesRetrofitCryptoHqApi(
     json: Json,
     okhttpCallFactory: Call.Factory,
-  ): NetworkDataSource = Retrofit.Builder()
+  ): RetrofitCryptoHqApi = Retrofit.Builder()
     .baseUrl("https://api.coingecko.com/api/v3/")
     .callFactory(okhttpCallFactory)
     .addConverterFactory(
@@ -53,5 +64,8 @@ object NetworkModule {
       json.asConverterFactory("application/json".toMediaType()),
     )
     .build()
-    .create(RetrofitNetworkDataSource::class.java)
+    .create(RetrofitCryptoHqApi::class.java)
+
+  @Binds
+  abstract fun providesNetworkDataSource(networkDataSource: FakeNetworkDataSource): NetworkDataSource
 }

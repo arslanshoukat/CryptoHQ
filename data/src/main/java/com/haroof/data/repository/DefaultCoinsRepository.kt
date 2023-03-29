@@ -50,13 +50,13 @@ class DefaultCoinsRepository @Inject constructor(
       }
     }
 
-  override suspend fun getCoinById(
+  override suspend fun getDetailedCoinById(
     id: String,
     vs_currency: String,
   ): Result<DetailedCoin> =
     withContext(Dispatchers.IO) {
       try {
-        val coins = networkDataSource.getCoin(id).toExternalModel(vs_currency)
+        val coins = networkDataSource.getDetailedCoin(id).toExternalModel(vs_currency)
         Result.Success(coins)
       } catch (e: Exception) {
         Log.e(TAG, e.message, e)

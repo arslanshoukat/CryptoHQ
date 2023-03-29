@@ -37,7 +37,7 @@ class CoinDetailViewModel @Inject constructor(
 
   init {
     viewModelScope.launch {
-      val result = coinsRepository.getCoinById(
+      val result = coinsRepository.getDetailedCoinById(
         id = coinId,
         vs_currency = "usd"
       )

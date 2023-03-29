@@ -34,7 +34,7 @@ class FakeCoinsRepository(
     )
   }
 
-  override suspend fun getCoinById(id: String, vs_currency: String): Result<DetailedCoin> {
+  override suspend fun getDetailedCoinById(id: String, vs_currency: String): Result<DetailedCoin> {
     return if (shouldThrowError) Result.Error(IllegalStateException())
     else Result.Success(FakeData.DETAILED_COINS.first { it.id == id })
   }

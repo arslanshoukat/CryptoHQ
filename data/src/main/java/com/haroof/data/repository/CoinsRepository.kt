@@ -14,7 +14,7 @@ interface CoinsRepository {
     sparkline: Boolean
   ): Result<List<Coin>>
 
-  suspend fun getCoinById(
+  suspend fun getDetailedCoinById(
     id: String,
     vs_currency: String,
   ): Result<DetailedCoin>

@@ -12,7 +12,7 @@ interface NetworkDataSource {
     sparkline: Boolean
   ): List<CoinDto>
 
-  suspend fun getCoin(id: String): DetailedCoinDto
+  suspend fun getDetailedCoin(id: String): DetailedCoinDto
 
   suspend fun getChartData(
     id: String,
