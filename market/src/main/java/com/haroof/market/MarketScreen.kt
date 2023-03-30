@@ -84,11 +84,14 @@ internal fun MarketScreen(
             onValueChange = { value = it },
           )
 
-          MarketCoinsList(
-            coins = uiState.coins.filter { it.name.contains(value, true) },
+          Header(
             sortBy = uiState.sortBy,
             sortOrder = uiState.sortOrder,
             onSortChange = onSortChange,
+          )
+
+          MarketCoinsList(
+            coins = uiState.coins.filter { it.name.contains(value, true) },
             onNavigateToCoinDetail = onNavigateToCoinDetail,
             imageLoader = imageLoader,
           )
