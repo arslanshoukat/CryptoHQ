@@ -1,11 +1,15 @@
 package com.haroof.market
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -18,6 +22,7 @@ import coil.ImageLoader
 import coil.imageLoader
 import com.haroof.common.ui.EmptyListState
 import com.haroof.common.ui.ErrorMessageWithIcon
+import com.haroof.common.ui.SearchTopAppBar
 import com.haroof.data.FakeData
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.market.MarketUiState.Empty
@@ -46,8 +51,8 @@ internal fun MarketRoute(
 @Composable
 internal fun MarketScreen(
   uiState: MarketUiState,
-  onSortChange: (sortBy: SortBy) -> Unit,
-  onNavigateToCoinDetail: (String) -> Unit,
+  onSortChange: (sortBy: SortBy) -> Unit = {},
+  onNavigateToCoinDetail: (String) -> Unit = {},
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {
   Box(modifier = Modifier.fillMaxSize()) {
@@ -70,14 +75,24 @@ internal fun MarketScreen(
         )
       }
       is Success -> {
-        MarketCoinsList(
-          coins = uiState.coins,
-          sortBy = uiState.sortBy,
-          sortOrder = uiState.sortOrder,
-          onSortChange = onSortChange,
-          onNavigateToCoinDetail = onNavigateToCoinDetail,
-          imageLoader = imageLoader,
-        )
+        var value by remember {
+          mutableStateOf("")
+        }
+        Column(modifier = Modifier.fillMaxSize()) {
+          SearchTopAppBar(
+            value = value,
+            onValueChange = { value = it },
+          )
+
+          MarketCoinsList(
+            coins = uiState.coins.filter { it.name.contains(value, true) },
+            sortBy = uiState.sortBy,
+            sortOrder = uiState.sortOrder,
+            onSortChange = onSortChange,
+            onNavigateToCoinDetail = onNavigateToCoinDetail,
+            imageLoader = imageLoader,
+          )
+        }
       }
     }
   }
@@ -87,11 +102,7 @@ internal fun MarketScreen(
 @Composable
 fun MarketScreenPreview_Loading() {
   CryptoHqTheme {
-    MarketScreen(
-      uiState = Loading,
-      onSortChange = {},
-      onNavigateToCoinDetail = {},
-    )
+    MarketScreen(uiState = Loading)
   }
 }
 
@@ -99,11 +110,7 @@ fun MarketScreenPreview_Loading() {
 @Composable
 fun MarketScreenPreview_Error() {
   CryptoHqTheme {
-    MarketScreen(
-      uiState = Error(IllegalStateException()),
-      onSortChange = {},
-      onNavigateToCoinDetail = {},
-    )
+    MarketScreen(uiState = Error(IllegalStateException()))
   }
 }
 
@@ -111,11 +118,7 @@ fun MarketScreenPreview_Error() {
 @Composable
 fun MarketScreenPreview_Success() {
   CryptoHqTheme {
-    MarketScreen(
-      uiState = Success(FakeData.COINS),
-      onSortChange = {},
-      onNavigateToCoinDetail = {},
-    )
+    MarketScreen(uiState = Success(FakeData.COINS))
   }
 }
 
@@ -123,10 +126,6 @@ fun MarketScreenPreview_Success() {
 @Composable
 fun MarketScreenPreview_Success_EmptyState() {
   CryptoHqTheme {
-    MarketScreen(
-      uiState = Empty,
-      onSortChange = {},
-      onNavigateToCoinDetail = {},
-    )
+    MarketScreen(uiState = Empty)
   }
 }

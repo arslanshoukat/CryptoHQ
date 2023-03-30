@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+  implementation(project(mapOf("path" to ":designsystem")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.MATERIAL)
   implementation(Libs.COMPOSE_UI)

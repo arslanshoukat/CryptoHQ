@@ -18,4 +18,5 @@
   <string name="_24h_low">24H Low</string>
   <string name="market_cap">Market Cap</string>
   <string name="market_cap_rank">Market Cap Rank</string>
+  <string name="search_by_name">Search by name</string>
 </resources>

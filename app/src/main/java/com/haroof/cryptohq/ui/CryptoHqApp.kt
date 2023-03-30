@@ -89,7 +89,7 @@ private fun RowScope.CryptoHqBottomNavItem(
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   label: @Composable (() -> Unit)? = null,
-  alwaysShowLabel: Boolean = true,
+  alwaysShowLabel: Boolean = false,
   selectedIcon: @Composable () -> Unit = icon,
 ) {
   BottomNavigationItem(
