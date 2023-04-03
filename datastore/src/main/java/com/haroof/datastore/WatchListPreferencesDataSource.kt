@@ -13,8 +13,7 @@ class WatchListPreferencesDataSource @Inject constructor(
 ) {
 
   val watchedCoinIds: Flow<List<String>> = dataStore.data.map {
-    // TODO: remove hardcoded default values for watched coins
-    (it[WATCHED_COIN_IDS] ?: setOf("bitcoin", "ethereum")).toList()
+    (it[WATCHED_COIN_IDS] ?: emptyList()).toList()
   }
 
   suspend fun addToWatchList(coinId: String) {

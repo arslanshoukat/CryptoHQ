@@ -31,6 +31,9 @@ class CoinDetailViewModel @Inject constructor(
   private val _uiState = MutableStateFlow<CoinDetailUiState>(CoinDetailUiState.Loading)
   val uiState = _uiState.asStateFlow()
 
+  // TODO: fix favorite state not loading correctly sometimes
+  private var isFavorite = false
+
   private val coinId: String = CoinDetailArgs(savedStateHandle).coinId
 
   private var fetchChartJob: Job? = null
@@ -49,7 +52,7 @@ class CoinDetailViewModel @Inject constructor(
             coin = result.data,
             selectedTimeFilter = TimeFilter.ONE_WEEK,
             chartData = emptyList(),
-            isFavorite = false, //  default is false, we load it later
+            isFavorite = isFavorite,
           )
         }
       }
@@ -59,8 +62,10 @@ class CoinDetailViewModel @Inject constructor(
 
     watchListRepository.watchedCoinIds
       .onEach {
+        isFavorite = it.contains(coinId)
+
         val prevUiState = _uiState.value.asSuccess() ?: return@onEach
-        _uiState.value = prevUiState.copy(isFavorite = it.contains(coinId))
+        _uiState.value = prevUiState.copy(isFavorite = isFavorite)
       }
       .launchIn(viewModelScope)
   }
