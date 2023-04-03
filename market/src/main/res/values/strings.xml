@@ -8,4 +8,8 @@
   <string name="coin_title">Coin</string>
   <string name="price_title">Price</string>
   <string name="price_change_percentage_title">24h %</string>
+
+  <string name="market_empty_state_content_description">Market empty state</string>
+  <string name="market_empty_state_title">No results found</string>
+  <string name="market_empty_state_subtitle">No results found matching your search criteria. Try again with any other keyword.</string>
 </resources>

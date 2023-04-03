@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.imageLoader
-import com.haroof.common.ui.EmptyListState
+import com.haroof.common.ui.EmptyState
 import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.data.FakeData
 import com.haroof.designsystem.theme.CryptoHqTheme
@@ -60,7 +60,12 @@ internal fun WatchListScreen(
         ErrorMessageWithIcon()
       }
       Empty -> {
-        EmptyListState(emptyStateMessageResId = string.watch_list_empty_state_message)
+        EmptyState(
+          iconResId = commonR.drawable.no_favorite_illustration,
+          titleResId = string.watch_list_empty_state_title,
+          subtitleResId = string.watch_list_empty_state_subtitle,
+          contentDescriptionResId = string.watch_list_empty_state_content_description,
+        )
       }
       is Success -> {
         WatchList(
@@ -109,10 +114,10 @@ fun WatchListScreenPreview_Success() {
 
 @Preview(showBackground = true)
 @Composable
-fun WatchListScreenPreview_Success_EmptyState() {
+fun WatchListScreenPreview_Empty() {
   CryptoHqTheme {
     WatchListScreen(
-      uiState = Success(emptyList()),
+      uiState = Empty,
       onNavigateToCoinDetail = {},
     )
   }

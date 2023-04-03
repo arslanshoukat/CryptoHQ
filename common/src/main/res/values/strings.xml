@@ -19,4 +19,8 @@
   <string name="market_cap">Market Cap</string>
   <string name="market_cap_rank">Market Cap Rank</string>
   <string name="search_by_name">Search by name</string>
+
+  <string name="empty_state_content_description">Empty state</string>
+  <string name="empty_state_default_title">No items available</string>
+  <string name="empty_state_default_subtitle">There are no items available to show in the list.</string>
 </resources>

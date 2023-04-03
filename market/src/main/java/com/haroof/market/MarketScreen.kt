@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.imageLoader
-import com.haroof.common.ui.EmptyListState
+import com.haroof.common.ui.EmptyState
 import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.common.ui.SearchTopAppBar
 import com.haroof.data.FakeData
@@ -55,47 +55,52 @@ internal fun MarketScreen(
   onNavigateToCoinDetail: (String) -> Unit = {},
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {
-  Box(modifier = Modifier.fillMaxSize()) {
+  Column(modifier = Modifier.fillMaxSize()) {
+    var value by remember {
+      mutableStateOf("")
+    }
+    SearchTopAppBar(
+      value = value,
+      onValueChange = { value = it },
+    )
 
     when (uiState) {
       Loading -> {
         val contentDesc = stringResource(commonR.string.loading_indicator)
-        CircularProgressIndicator(
-          modifier = Modifier
-            .align(Alignment.Center)
-            .semantics { contentDescription = contentDesc }
-        )
+        Box(
+          contentAlignment = Alignment.Center,
+          modifier = Modifier.fillMaxSize()
+        ) {
+          CircularProgressIndicator(
+            modifier = Modifier.semantics { contentDescription = contentDesc }
+          )
+        }
       }
       is Error -> {
         ErrorMessageWithIcon()
       }
       Empty -> {
-        EmptyListState(
-          emptyStateMessageResId = string.market_empty_state_message
+        EmptyState(
+          iconResId = commonR.drawable.no_results_illustration,
+          titleResId = string.market_empty_state_title,
+          subtitleResId = string.market_empty_state_subtitle,
+          contentDescriptionResId = string.market_empty_state_content_description,
         )
       }
       is Success -> {
-        var value by remember {
-          mutableStateOf("")
-        }
-        Column(modifier = Modifier.fillMaxSize()) {
-          SearchTopAppBar(
-            value = value,
-            onValueChange = { value = it },
-          )
+        Header(
+          sortBy = uiState.sortBy,
+          sortOrder = uiState.sortOrder,
+          onSortChange = onSortChange,
+        )
 
-          Header(
-            sortBy = uiState.sortBy,
-            sortOrder = uiState.sortOrder,
-            onSortChange = onSortChange,
-          )
-
-          MarketCoinsList(
-            coins = uiState.coins.filter { it.name.contains(value, true) },
-            onNavigateToCoinDetail = onNavigateToCoinDetail,
-            imageLoader = imageLoader,
-          )
-        }
+        MarketCoinsList(
+          coins =
+          if (value.isEmpty()) uiState.coins
+          else uiState.coins.filter { it.name.contains(value, true) },
+          onNavigateToCoinDetail = onNavigateToCoinDetail,
+          imageLoader = imageLoader,
+        )
       }
     }
   }
@@ -127,7 +132,7 @@ fun MarketScreenPreview_Success() {
 
 @Preview(showBackground = true)
 @Composable
-fun MarketScreenPreview_Success_EmptyState() {
+fun MarketScreenPreview_Empty() {
   CryptoHqTheme {
     MarketScreen(uiState = Empty)
   }

@@ -3,6 +3,7 @@ package com.haroof.common.ui
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -24,34 +26,43 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.haroof.common.R.drawable
-import com.haroof.common.R.string
+import com.haroof.common.R
 import com.haroof.designsystem.theme.CryptoHqTheme
 
 @Composable
-fun ErrorMessageWithIcon(
-  @DrawableRes errorIconResId: Int = drawable.ic_error_alert,
-  @StringRes errorMessageResId: Int = string.error_message_data_fetch,
-  contentDesc: String = stringResource(string.error_message_content_desc),
-  modifier: Modifier = Modifier
+fun EmptyState(
+  modifier: Modifier = Modifier,
+  @DrawableRes iconResId: Int = R.drawable.ic_favorite_folder,
+  @StringRes titleResId: Int = R.string.empty_state_default_title,
+  @StringRes subtitleResId: Int = R.string.empty_state_default_subtitle,
+  @StringRes contentDescriptionResId: Int = R.string.empty_state_content_description,
 ) {
+  val contentDesc = stringResource(id = contentDescriptionResId)
   Column(
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = modifier
       .fillMaxSize()
+      .background(Color.White)
       .padding(16.dp)
       .semantics { contentDescription = contentDesc }
   ) {
     Image(
-      painter = painterResource(id = errorIconResId),
-      contentDescription = stringResource(string.error_icon_content_desc),
-      modifier = Modifier.size(128.dp)
+      painter = painterResource(id = iconResId),
+      contentDescription = null,
+      modifier = Modifier.size(192.dp)
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-      text = stringResource(id = errorMessageResId),
-      style = MaterialTheme.typography.h5,
+      text = stringResource(id = titleResId),
+      style = MaterialTheme.typography.h6,
+      textAlign = TextAlign.Center,
+      modifier = Modifier.fillMaxWidth()
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    Text(
+      text = stringResource(id = subtitleResId),
+      style = MaterialTheme.typography.body2,
       textAlign = TextAlign.Center,
       modifier = Modifier.fillMaxWidth()
     )
@@ -60,10 +71,10 @@ fun ErrorMessageWithIcon(
 
 @Preview(showBackground = true)
 @Composable
-fun ErrorMessageWithIconDefaultPreview() {
+fun DefaultEmptyStatePreview() {
   CryptoHqTheme {
-    Box(modifier = Modifier.fillMaxSize()) {
-      ErrorMessageWithIcon()
+    Box(modifier = Modifier.padding(16.dp)) {
+      EmptyState()
     }
   }
 }

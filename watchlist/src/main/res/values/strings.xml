@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="watch_list_coins">Watch list coins</string>
-  <string name="watch_list_empty_state_message">Nothing to show here. Add coins to watch list to track their progress.</string>
+
+  <string name="watch_list_empty_state_content_description">Watchlist empty state</string>
+  <string name="watch_list_empty_state_title">No items in watchlist</string>
+  <string name="watch_list_empty_state_subtitle">You haven\'t added any coins to the watchlist yet.</string>
 </resources>
