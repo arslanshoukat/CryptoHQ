@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+  implementation(project(mapOf("path" to ":domain")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.COROUTINES_TEST)
   implementation(Libs.JUNIT)
