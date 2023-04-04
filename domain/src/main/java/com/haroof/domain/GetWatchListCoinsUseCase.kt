@@ -1,7 +1,7 @@
 package com.haroof.domain
 
+import com.haroof.common.model.Result
 import com.haroof.data.model.Coin
-import com.haroof.data.model.Result
 import com.haroof.data.repository.CoinsRepository
 import com.haroof.data.repository.WatchListRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,7 +1,7 @@
 package com.haroof.data.repository
 
+import com.haroof.common.model.Result
 import com.haroof.data.model.ChartData
-import com.haroof.data.model.Result
 import kotlinx.coroutines.flow.Flow
 
 interface ChartRepository {

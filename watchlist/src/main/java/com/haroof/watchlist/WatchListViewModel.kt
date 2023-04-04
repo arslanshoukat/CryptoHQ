@@ -2,9 +2,9 @@ package com.haroof.watchlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.haroof.data.model.Result.Error
-import com.haroof.data.model.Result.Loading
-import com.haroof.data.model.Result.Success
+import com.haroof.common.model.Result.Error
+import com.haroof.common.model.Result.Loading
+import com.haroof.common.model.Result.Success
 import com.haroof.domain.GetWatchListCoinsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted

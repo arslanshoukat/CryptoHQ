@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+  implementation(project(mapOf("path" to ":common")))
   implementation(project(mapOf("path" to ":data")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.HILT_ANDROID)

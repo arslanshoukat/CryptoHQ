@@ -1,7 +1,7 @@
 package com.haroof.domain
 
+import com.haroof.common.model.Result
 import com.haroof.data.model.DetailedCoin
-import com.haroof.data.model.Result
 import com.haroof.data.repository.CoinsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

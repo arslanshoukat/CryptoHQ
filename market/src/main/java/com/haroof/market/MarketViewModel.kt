@@ -2,14 +2,15 @@ package com.haroof.market
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.haroof.data.model.Result.Error
-import com.haroof.data.model.Result.Loading
-import com.haroof.data.model.Result.Success
+import com.haroof.common.model.Result.Error
+import com.haroof.common.model.Result.Loading
+import com.haroof.common.model.Result.Success
 import com.haroof.data.repository.CoinsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,19 +26,20 @@ class MarketViewModel @Inject constructor(
   }
 
   private fun refreshMarketData() {
-    viewModelScope.launch {
-      val result = coinsRepository.getCoins()
-      _uiState.value = when (result) {
-        Loading -> MarketUiState.Loading
-        is Error -> MarketUiState.Error(result.exception)
-        is Success -> {
-          //  if no data available, return empty state
-          if (result.data.isEmpty()) MarketUiState.Empty
-          //  else return data sorted by rank in ascending order
-          else MarketUiState.Success(coins = result.data.sortedBy { it.marketCapRank })
+    coinsRepository.getCoins()
+      .onEach { result ->
+        _uiState.value = when (result) {
+          Loading -> MarketUiState.Loading
+          is Error -> MarketUiState.Error(result.exception)
+          is Success -> {
+            //  if no data available, return empty state
+            if (result.data.isEmpty()) MarketUiState.Empty
+            //  else return data sorted by rank in ascending order
+            else MarketUiState.Success(coins = result.data.sortedBy { it.marketCapRank })
+          }
         }
       }
-    }
+      .launchIn(viewModelScope)
   }
 
   fun sort(updatedSortBy: SortBy) {

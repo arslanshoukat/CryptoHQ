@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+  implementation(project(mapOf("path" to ":common")))
   implementation(project(mapOf("path" to ":network")))
   implementation(project(mapOf("path" to ":datastore")))
   implementation(Libs.CORE_KTX)
