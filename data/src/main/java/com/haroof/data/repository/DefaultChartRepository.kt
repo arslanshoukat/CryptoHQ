@@ -3,11 +3,12 @@ package com.haroof.data.repository
 import android.util.Log
 import com.haroof.data.model.ChartData
 import com.haroof.data.model.Result
-import com.haroof.data.model.Result.Error
-import com.haroof.data.model.Result.Success
 import com.haroof.data.model.toExternalModel
 import com.haroof.network.NetworkDataSource
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -16,13 +17,14 @@ class DefaultChartRepository @Inject constructor(
   private val networkDataSource: NetworkDataSource
 ) : ChartRepository {
 
-  override suspend fun getChartData(
+  override fun getChartData(
     id: String,
     vs_currency: String,
     days: String,
     interval: String
-  ): Result<ChartData> =
+  ): Flow<Result<ChartData>> = flow {
     withContext(Dispatchers.IO) {
+      emit(Result.Loading)
       try {
         val marketChart = networkDataSource.getChartData(
           id = id,
@@ -30,12 +32,15 @@ class DefaultChartRepository @Inject constructor(
           days = days,
           interval = interval,
         ).toExternalModel()
-        Success(marketChart)
+        emit(Result.Success(marketChart))
+      } catch (e: CancellationException) {
+        throw e
       } catch (e: Exception) {
         Log.e(TAG, e.message, e)
-        Error(e)
+        emit(Result.Error(e))
       }
     }
+  }
 
   companion object {
     const val TAG = "DefaultChartRepository"

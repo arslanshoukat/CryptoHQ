@@ -3,19 +3,20 @@ package com.haroof.data.repository
 import com.haroof.data.model.Coin
 import com.haroof.data.model.DetailedCoin
 import com.haroof.data.model.Result
+import kotlinx.coroutines.flow.Flow
 
 interface CoinsRepository {
 
-  suspend fun getCoins(): Result<List<Coin>>
+  fun getCoins(): Flow<Result<List<Coin>>>
 
-  suspend fun getCoinsByIds(
+  fun getCoinsByIds(
     ids: List<String>,
     vs_currency: String,
     sparkline: Boolean
-  ): Result<List<Coin>>
+  ): Flow<Result<List<Coin>>>
 
-  suspend fun getDetailedCoinById(
+  fun getDetailedCoinById(
     id: String,
     vs_currency: String,
-  ): Result<DetailedCoin>
+  ): Flow<Result<DetailedCoin>>
 }
