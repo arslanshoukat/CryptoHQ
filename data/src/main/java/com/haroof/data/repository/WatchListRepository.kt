@@ -9,4 +9,6 @@ interface WatchListRepository {
   suspend fun addToWatchList(coinId: String)
 
   suspend fun removeFromWatchList(coinId: String)
+
+  fun isCoinWatched(coinId: String): Flow<Boolean>
 }

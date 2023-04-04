@@ -1,4 +1,4 @@
-package com.haroof.data.model
+package com.haroof.domain.model
 
 enum class MarketTrend {
   NEUTRAL,

@@ -26,11 +26,7 @@ data class DetailedCoin(
   val totalSupply: Double,
   val links: Links,
   val description: String,
-) {
-
-  val marketTrend: MarketTrend
-    get() = if (priceChangePercentage24h > 0) MarketTrend.UP else if (priceChangePercentage24h < 0) MarketTrend.DOWN else MarketTrend.NEUTRAL
-}
+)
 
 data class Links(
   val homepage: String,

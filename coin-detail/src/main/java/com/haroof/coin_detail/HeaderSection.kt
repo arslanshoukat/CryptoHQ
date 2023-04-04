@@ -31,20 +31,18 @@ import coil.compose.AsyncImage
 import com.haroof.common.R.drawable
 import com.haroof.common.R.string
 import com.haroof.common.extension.roundDecimal
-import com.haroof.data.model.DetailedCoin
 import com.haroof.designsystem.theme.green
+import com.haroof.domain.model.WatchableDetailedCoin
 
 @Composable
 internal fun HeaderSection(
-  coin: DetailedCoin,
-  isFavorite: Boolean,
+  coin: WatchableDetailedCoin,
   onBackPressed: () -> Unit = {},
   onToggleFavorite: (selected: Boolean) -> Unit = {},
   imageLoader: ImageLoader,
 ) {
   CoinDetailTopAppBar(
     coin = coin,
-    isFavorite = isFavorite,
     onBackPressed = onBackPressed,
     onToggleFavorite = onToggleFavorite,
     imageLoader = imageLoader,
@@ -78,8 +76,7 @@ internal fun HeaderSection(
 
 @Composable
 private fun CoinDetailTopAppBar(
-  coin: DetailedCoin,
-  isFavorite: Boolean,
+  coin: WatchableDetailedCoin,
   onBackPressed: () -> Unit = {},
   onToggleFavorite: (selected: Boolean) -> Unit = {},
   imageLoader: ImageLoader,
@@ -120,13 +117,13 @@ private fun CoinDetailTopAppBar(
 
     val favoriteIconContentDesc = stringResource(R.string.favorite_icon_content_desc)
     IconToggleButton(
-      checked = isFavorite,
+      checked = coin.isWatched,
       onCheckedChange = onToggleFavorite,
       modifier = Modifier.semantics { contentDescription = favoriteIconContentDesc }
     ) {
       Icon(
         painter = painterResource(
-          id = if (isFavorite) drawable.sharp_star_24 else drawable.outline_star_24
+          id = if (coin.isWatched) drawable.sharp_star_24 else drawable.outline_star_24
         ),
         contentDescription = null
       )

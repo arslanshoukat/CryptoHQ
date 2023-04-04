@@ -8,9 +8,10 @@ import com.haroof.common.model.Result.Error
 import com.haroof.common.model.Result.Loading
 import com.haroof.common.model.Result.Success
 import com.haroof.common.model.TimeFilter
-import com.haroof.data.repository.ChartRepository
-import com.haroof.data.repository.CoinsRepository
-import com.haroof.data.repository.WatchListRepository
+import com.haroof.domain.AddCoinToWatchListUseCase
+import com.haroof.domain.GetChartDataUseCase
+import com.haroof.domain.GetWatchableDetailedCoinUseCase
+import com.haroof.domain.RemoveCoinFromWatchListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,21 +23,19 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinDetailViewModel @Inject constructor(
   savedStateHandle: SavedStateHandle,
-  coinsRepository: CoinsRepository,
-  private val chartRepository: ChartRepository,
-  private val watchListRepository: WatchListRepository,
+  getWatchableDetailedCoin: GetWatchableDetailedCoinUseCase,
+  private val getChartData: GetChartDataUseCase,
+  private val addCoinToWatchList: AddCoinToWatchListUseCase,
+  private val removeCoinFromWatchList: RemoveCoinFromWatchListUseCase,
 ) : ViewModel() {
 
   private val _uiState = MutableStateFlow<CoinDetailUiState>(CoinDetailUiState.Loading)
   val uiState = _uiState.asStateFlow()
 
-  // TODO: fix favorite state not loading correctly sometimes
-  private var isFavorite = false
-
   private val coinId: String = CoinDetailArgs(savedStateHandle).coinId
 
   init {
-    coinsRepository.getDetailedCoinById(
+    getWatchableDetailedCoin(
       id = coinId,
       vs_currency = "usd",
     )
@@ -49,21 +48,11 @@ class CoinDetailViewModel @Inject constructor(
               coin = result.data,
               selectedTimeFilter = TimeFilter.ONE_WEEK,
               chartData = emptyList(),
-              isFavorite = isFavorite,
             )
           }
         }
 
         if (result is Success) fetchChartData()
-      }
-      .launchIn(viewModelScope)
-
-    watchListRepository.watchedCoinIds
-      .onEach {
-        isFavorite = it.contains(coinId)
-
-        val prevUiState = _uiState.value.asSuccess() ?: return@onEach
-        _uiState.value = prevUiState.copy(isFavorite = isFavorite)
       }
       .launchIn(viewModelScope)
   }
@@ -72,7 +61,7 @@ class CoinDetailViewModel @Inject constructor(
     // if prev ui not success, return without fetching
     val prevUiState = _uiState.value.asSuccess() ?: return
 
-    chartRepository.getChartData(
+    getChartData(
       id = coinId,
       vs_currency = "usd",
       days = prevUiState.selectedTimeFilter.days,
@@ -80,11 +69,11 @@ class CoinDetailViewModel @Inject constructor(
     )
       .onEach { result ->
         when (result) {
-          Loading -> {}
+          Loading -> {} // TODO: separate out loading & error handling for chart
           is Error -> {}
           is Success -> {
             _uiState.value = prevUiState.copy(
-              chartData = result.data.prices.map { it[1] }.dropLast(1)  //  todo: improve drop logic
+              chartData = result.data
             )
           }
         }
@@ -101,8 +90,8 @@ class CoinDetailViewModel @Inject constructor(
 
   fun updateWatchListSelection(selected: Boolean) {
     viewModelScope.launch {
-      if (selected) watchListRepository.addToWatchList(coinId)
-      else watchListRepository.removeFromWatchList(coinId)
+      if (selected) addCoinToWatchList(coinId)
+      else removeCoinFromWatchList(coinId)
     }
   }
 }

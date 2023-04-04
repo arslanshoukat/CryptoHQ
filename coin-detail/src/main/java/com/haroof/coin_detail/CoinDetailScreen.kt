@@ -21,7 +21,6 @@ import com.haroof.coin_detail.CoinDetailUiState.Loading
 import com.haroof.coin_detail.CoinDetailUiState.Success
 import com.haroof.common.model.TimeFilter
 import com.haroof.common.ui.ErrorMessageWithIcon
-import com.haroof.data.FakeData
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.common.R as commonR
 
@@ -65,7 +64,6 @@ internal fun CoinDetailScreen(
           coin = uiState.coin,
           selectedTimeFilter = uiState.selectedTimeFilter,
           chartData = uiState.chartData,
-          isFavorite = uiState.isFavorite,
           onTimeFilterChanged = onTimeFilterChanged,
           onToggleFavorite = onToggleFavorite,
           onBackPressed = onBackPressed,
@@ -100,19 +98,18 @@ fun CoinDetailScreenPreview_Error() {
   }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun CoinDetailScreenPreview_Success() {
-  CryptoHqTheme {
-    Box {
-      CoinDetailScreen(
-        uiState = Success(
-          coin = FakeData.DETAILED_COINS.first(),
-          selectedTimeFilter = TimeFilter.ONE_WEEK,
-          chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
-          isFavorite = false,
-        ),
-      )
-    }
-  }
-}
+// @Preview(showBackground = true)
+// @Composable
+// fun CoinDetailScreenPreview_Success() {
+//   CryptoHqTheme {
+//     Box {
+//       CoinDetailScreen(
+//         uiState = Success(
+//           coin = FakeData.DETAILED_COINS.first().toExternalModel(false),
+//           selectedTimeFilter = TimeFilter.ONE_WEEK,
+//           chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
+//         ),
+//       )
+//     }
+//   }
+// }

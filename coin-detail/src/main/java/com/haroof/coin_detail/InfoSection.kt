@@ -17,11 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.haroof.common.R.string
-import com.haroof.data.model.DetailedCoin
+import com.haroof.domain.model.WatchableDetailedCoin
 
 @Composable
 internal fun InfoSection(
-  coin: DetailedCoin,
+  coin: WatchableDetailedCoin,
   modifier: Modifier = Modifier
 ) {
   Text(

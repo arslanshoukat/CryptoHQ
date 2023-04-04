@@ -1,6 +1,5 @@
 package com.haroof.coin_detail
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,22 +13,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.imageLoader
 import com.haroof.coin_detail.R.string
 import com.haroof.common.model.TimeFilter
-import com.haroof.data.FakeData
-import com.haroof.data.model.DetailedCoin
-import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.domain.model.WatchableDetailedCoin
 
 @Composable
 internal fun CoinDetail(
-  coin: DetailedCoin,
+  coin: WatchableDetailedCoin,
   selectedTimeFilter: TimeFilter,
   chartData: List<Double>,
-  isFavorite: Boolean,
   modifier: Modifier = Modifier,
   onTimeFilterChanged: (timeFilter: TimeFilter) -> Unit = {},
   onToggleFavorite: (selected: Boolean) -> Unit = {},
@@ -46,7 +41,6 @@ internal fun CoinDetail(
   ) {
     HeaderSection(
       coin = coin,
-      isFavorite = isFavorite,
       onBackPressed = onBackPressed,
       onToggleFavorite = onToggleFavorite,
       imageLoader = imageLoader,
@@ -66,17 +60,16 @@ internal fun CoinDetail(
   }
 }
 
-@Preview(showBackground = true)
-@Composable
-internal fun CoinDetailPreview() {
-  CryptoHqTheme {
-    Box {
-      CoinDetail(
-        coin = FakeData.DETAILED_COINS.first(),
-        selectedTimeFilter = TimeFilter.ONE_WEEK,
-        chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
-        isFavorite = false,
-      )
-    }
-  }
-}
+// @Preview(showBackground = true)
+// @Composable
+// internal fun CoinDetailPreview() {
+//   CryptoHqTheme {
+//     Box {
+//       CoinDetail(
+//         coin = FakeData.DETAILED_COINS.first().toExternalModel(false),
+//         selectedTimeFilter = TimeFilter.ONE_WEEK,
+//         chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
+//       )
+//     }
+//   }
+// }

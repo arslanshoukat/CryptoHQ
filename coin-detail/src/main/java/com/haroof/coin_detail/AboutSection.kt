@@ -32,11 +32,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
 import com.haroof.common.R.drawable
-import com.haroof.data.model.DetailedCoin
+import com.haroof.domain.model.WatchableDetailedCoin
 
 @Composable
 internal fun AboutSection(
-  coin: DetailedCoin,
+  coin: WatchableDetailedCoin,
   modifier: Modifier = Modifier
 ) {
   Text(
@@ -76,14 +76,14 @@ internal fun AboutSection(
         modifier = Modifier.fillMaxWidth()
       ) {
         val context = LocalContext.current
-        IconButton(onClick = { openUrl(context, coin.links.homepage) }) {
+        IconButton(onClick = { openUrl(context, coin.homepage) }) {
           Icon(
             painter = painterResource(id = drawable.sharp_link_24),
             contentDescription = "Homepage icon",
             modifier = Modifier.size(32.dp)
           )
         }
-        IconButton(onClick = { openUrl(context, coin.links.facebook) }) {
+        IconButton(onClick = { openUrl(context, coin.facebookLink) }) {
           Icon(
             painter = painterResource(id = drawable.facebook),
             contentDescription = "Facebook icon",
@@ -91,7 +91,7 @@ internal fun AboutSection(
             modifier = Modifier.size(32.dp)
           )
         }
-        IconButton(onClick = { openUrl(context, coin.links.twitter) }) {
+        IconButton(onClick = { openUrl(context, coin.twitterLink) }) {
           Icon(
             painter = painterResource(id = drawable.twitter),
             contentDescription = "Twitter icon",
@@ -99,7 +99,7 @@ internal fun AboutSection(
             modifier = Modifier.size(32.dp)
           )
         }
-        IconButton(onClick = { openUrl(context, coin.links.reddit) }) {
+        IconButton(onClick = { openUrl(context, coin.redditLink) }) {
           Icon(
             painter = painterResource(id = drawable.reddit),
             contentDescription = "Reddit icon",

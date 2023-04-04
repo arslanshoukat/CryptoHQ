@@ -1,7 +1,7 @@
 package com.haroof.coin_detail
 
 import com.haroof.common.model.TimeFilter
-import com.haroof.data.model.DetailedCoin
+import com.haroof.domain.model.WatchableDetailedCoin
 
 sealed class CoinDetailUiState {
 
@@ -10,10 +10,9 @@ sealed class CoinDetailUiState {
   data class Error(val exception: Throwable?) : CoinDetailUiState()
 
   data class Success(
-    val coin: DetailedCoin,
+    val coin: WatchableDetailedCoin,
     val selectedTimeFilter: TimeFilter,
     val chartData: List<Double>,
-    val isFavorite: Boolean,
   ) : CoinDetailUiState()
 
   fun asSuccess() = this as? Success
