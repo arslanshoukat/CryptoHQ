@@ -1,38 +1,31 @@
 package com.haroof.data.repository.fake
 
-import com.haroof.common.model.Result
 import com.haroof.data.model.ChartData
+import com.haroof.data.model.toExternalModel
 import com.haroof.data.repository.ChartRepository
+import com.haroof.network.fake.FakeNetworkDataSource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class FakeChartRepository @Inject constructor() : ChartRepository {
-  // TODO: fix fake repo for tests
+class FakeChartRepository @Inject constructor(
+  private val networkDataSource: FakeNetworkDataSource
+) : ChartRepository {
 
   override fun getChartData(
     id: String,
     vs_currency: String,
     days: String,
     interval: String
-  ): Flow<Result<ChartData>> {
-    return flowOf(
-      Result.Success(
-        ChartData(
-          marketCaps = emptyList(),
-          prices = listOf(
-            listOf(1678406400000.0, 20376.320007428807),
-            listOf(1678492800000.0, 20195.2289502733),
-            listOf(1678579200000.0, 20521.55615175117),
-            listOf(1678665600000.0, 22095.71339833569),
-            listOf(1678752000000.0, 24178.95532797469),
-            listOf(1678838400000.0, 24758.765085827567),
-            listOf(1678924800000.0, 24470.88205445031),
-            listOf(1678989793000.0, 24815.327628227824)
-          ),
-          totalVolumes = emptyList(),
-        )
-      )
-    )
-  }
+  ): Flow<ChartData> = flow {
+    val chartData = networkDataSource.getChartData(
+      id = id,
+      vs_currency = vs_currency,
+      days = days,
+      interval = interval,
+    ).toExternalModel()
+    emit(chartData)
+  }.flowOn(Dispatchers.IO)
 }

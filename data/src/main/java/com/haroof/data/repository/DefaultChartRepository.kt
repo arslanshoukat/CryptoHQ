@@ -1,12 +1,12 @@
 package com.haroof.data.repository
 
-import com.haroof.common.model.Result
-import com.haroof.common.model.resultFlow
 import com.haroof.data.model.ChartData
 import com.haroof.data.model.toExternalModel
 import com.haroof.network.NetworkDataSource
-import com.haroof.network.model.ChartDataDto
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class DefaultChartRepository @Inject constructor(
@@ -18,15 +18,13 @@ class DefaultChartRepository @Inject constructor(
     vs_currency: String,
     days: String,
     interval: String
-  ): Flow<Result<ChartData>> = resultFlow<ChartData, ChartDataDto>(
-    mapper = ChartDataDto::toExternalModel,
-    block = {
-      networkDataSource.getChartData(
-        id = id,
-        vs_currency = vs_currency,
-        days = days,
-        interval = interval,
-      )
-    }
-  )
+  ): Flow<ChartData> = flow {
+    val chartData = networkDataSource.getChartData(
+      id = id,
+      vs_currency = vs_currency,
+      days = days,
+      interval = interval,
+    ).toExternalModel()
+    emit(chartData)
+  }.flowOn(Dispatchers.IO)
 }

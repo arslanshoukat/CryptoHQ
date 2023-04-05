@@ -2,9 +2,9 @@ package com.haroof.network.di
 
 import android.content.Context
 import com.haroof.network.BuildConfig
+import com.haroof.network.DefaultNetworkDataSource
 import com.haroof.network.NetworkDataSource
 import com.haroof.network.fake.FakeAssetManager
-import com.haroof.network.fake.FakeNetworkDataSource
 import com.haroof.network.retrofit.RetrofitCryptoHqApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Binds
@@ -27,7 +27,7 @@ import javax.inject.Singleton
 abstract class NetworkModule {
 
   @Binds
-  abstract fun providesNetworkDataSource(networkDataSource: FakeNetworkDataSource): NetworkDataSource
+  abstract fun providesNetworkDataSource(networkDataSource: DefaultNetworkDataSource): NetworkDataSource
 
   companion object {
 

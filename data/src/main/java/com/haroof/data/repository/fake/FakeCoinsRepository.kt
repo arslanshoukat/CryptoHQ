@@ -1,52 +1,48 @@
 package com.haroof.data.repository.fake
 
-import com.haroof.common.model.Result
-import com.haroof.data.FakeData
 import com.haroof.data.model.Coin
 import com.haroof.data.model.DetailedCoin
+import com.haroof.data.model.toExternalModel
 import com.haroof.data.repository.CoinsRepository
+import com.haroof.network.fake.FakeNetworkDataSource
+import com.haroof.network.model.CoinDto
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class FakeCoinsRepository(
-  private val shouldThrowError: Boolean,
-  private val shouldReturnEmpty: Boolean,
+class FakeCoinsRepository @Inject constructor(
+  private val networkDataSource: FakeNetworkDataSource,
 ) : CoinsRepository {
-  // TODO: fix fake repo for tests
 
-  @Inject constructor() : this(false, false)
-
-  private val flow = MutableSharedFlow<List<Coin>>()
-
-  override fun getCoins(): Flow<Result<List<Coin>>> {
-    return flowOf(
-      if (shouldThrowError) Result.Error(IllegalStateException())
-      else Result.Success(if (shouldReturnEmpty) emptyList() else FakeData.COINS)
-    )
-  }
+  override fun getCoins(vs_currency: String): Flow<List<Coin>> = flow {
+    val coins = networkDataSource.getCoins(
+      vs_currency = "usd",
+      ids = emptyList(),
+      sparkline = true
+    ).map(CoinDto::toExternalModel)
+    emit(coins)
+  }.flowOn(Dispatchers.IO)
 
   override fun getCoinsByIds(
     ids: List<String>,
     vs_currency: String,
     sparkline: Boolean
-  ): Flow<Result<List<Coin>>> {
-    return flowOf(if (shouldThrowError) Result.Error(IllegalStateException())
-    else Result.Success(
-      if (shouldReturnEmpty) emptyList()
-      else FakeData.COINS.filter { ids.contains(it.name) }
-    ))
-  }
+  ): Flow<List<Coin>> = flow {
+    val coins = networkDataSource.getCoins(
+      vs_currency = vs_currency,
+      ids = ids,
+      sparkline = sparkline
+    ).map(CoinDto::toExternalModel)
+    emit(coins)
+  }.flowOn(Dispatchers.IO)
 
-  override fun getDetailedCoinById(id: String, vs_currency: String): Flow<Result<DetailedCoin>> {
-    return flowOf(
-      if (shouldThrowError) Result.Error(IllegalStateException())
-      else Result.Success(FakeData.DETAILED_COINS.first { it.id == id })
-    )
-  }
-
-  suspend fun emit(coins: List<Coin>) {
-    flow.emit(coins)
-  }
+  override fun getDetailedCoinById(
+    id: String,
+    vs_currency: String,
+  ): Flow<DetailedCoin> = flow {
+    val detailedCoin = networkDataSource.getDetailedCoin(id).toExternalModel(vs_currency)
+    emit(detailedCoin)
+  }.flowOn(Dispatchers.IO)
 }
