@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.haroof.common.model.Result.Error
 import com.haroof.common.model.Result.Loading
 import com.haroof.common.model.Result.Success
-import com.haroof.data.repository.CoinsRepository
+import com.haroof.domain.GetCoinsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MarketViewModel @Inject constructor(
-  private val coinsRepository: CoinsRepository,
+  private val getCoins: GetCoinsUseCase,
 ) : ViewModel() {
 
   private val _uiState = MutableStateFlow<MarketUiState>(MarketUiState.Loading)
@@ -26,7 +26,7 @@ class MarketViewModel @Inject constructor(
   }
 
   private fun refreshMarketData() {
-    coinsRepository.getCoins()
+    getCoins()
       .onEach { result ->
         _uiState.value = when (result) {
           Loading -> MarketUiState.Loading
@@ -43,6 +43,7 @@ class MarketViewModel @Inject constructor(
   }
 
   fun sort(updatedSortBy: SortBy) {
+    //  TODO: consider moving this sorting logic to a usecase
     (_uiState.value as? MarketUiState.Success)?.let { prevUiState ->
       val updatedSortOrder: SortOrder =
         if (prevUiState.sortBy == updatedSortBy) {

@@ -21,17 +21,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.imageLoader
-import com.haroof.data.FakeData
-import com.haroof.data.model.Coin
 import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.domain.model.SimpleCoin
 import com.haroof.market.R.string
+import com.haroof.testing.data.SimpleCoinTestData
 
 @Composable
 fun MarketCoinsList(
-  coins: List<Coin>,
+  coins: List<SimpleCoin>,
+  modifier: Modifier = Modifier,
   onNavigateToCoinDetail: (String) -> Unit = {},
-  imageLoader: ImageLoader,
-  modifier: Modifier = Modifier
+  imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   val contentDesc = stringResource(string.market_coins_list_content_desc)
 
@@ -72,8 +72,7 @@ fun MarketCoinsList(
 fun MarketCoinsListPreview() {
   CryptoHqTheme {
     MarketCoinsList(
-      coins = FakeData.COINS,
-      imageLoader = LocalContext.current.imageLoader,
+      coins = SimpleCoinTestData.LIST,
     )
   }
 }

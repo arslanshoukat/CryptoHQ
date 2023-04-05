@@ -1,6 +1,6 @@
 package com.haroof.market
 
-import com.haroof.data.model.Coin
+import com.haroof.domain.model.SimpleCoin
 
 sealed class MarketUiState {
 
@@ -11,7 +11,7 @@ sealed class MarketUiState {
   object Empty : MarketUiState()
 
   data class Success(
-    val coins: List<Coin>,
+    val coins: List<SimpleCoin>,
     val sortBy: SortBy = SortBy.RANK,
     val sortOrder: SortOrder = SortOrder.ASCENDING,
   ) : MarketUiState()

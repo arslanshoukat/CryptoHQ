@@ -25,22 +25,22 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.imageLoader
 import com.haroof.common.extension.roundDecimal
-import com.haroof.data.FakeData
-import com.haroof.data.model.Coin
-import com.haroof.data.model.MarketTrend.DOWN
-import com.haroof.data.model.MarketTrend.NEUTRAL
-import com.haroof.data.model.MarketTrend.UP
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.designsystem.theme.green
 import com.haroof.designsystem.theme.red
+import com.haroof.domain.model.MarketTrend.DOWN
+import com.haroof.domain.model.MarketTrend.NEUTRAL
+import com.haroof.domain.model.MarketTrend.UP
+import com.haroof.domain.model.SimpleCoin
+import com.haroof.testing.data.SimpleCoinTestData
 import com.haroof.common.R as commonR
 
 @Composable
 fun MarketCoinsListItem(
-  coin: Coin,
-  onNavigateToCoinDetail: (String) -> Unit,
-  imageLoader: ImageLoader,
-  modifier: Modifier = Modifier
+  coin: SimpleCoin,
+  modifier: Modifier = Modifier,
+  onNavigateToCoinDetail: (String) -> Unit = {},
+  imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   Row(
     verticalAlignment = Alignment.CenterVertically,
@@ -103,9 +103,7 @@ fun MarketCoinsListItem(
 fun MarketCoinsListItemUpPreview() {
   CryptoHqTheme {
     MarketCoinsListItem(
-      coin = FakeData.COINS.first(),
-      onNavigateToCoinDetail = {},
-      imageLoader = LocalContext.current.imageLoader
+      coin = SimpleCoinTestData.COIN_GOING_UP,
     )
   }
 }
@@ -115,9 +113,7 @@ fun MarketCoinsListItemUpPreview() {
 fun MarketCoinsListItemDownPreview() {
   CryptoHqTheme {
     MarketCoinsListItem(
-      coin = FakeData.COINS[1],
-      onNavigateToCoinDetail = {},
-      imageLoader = LocalContext.current.imageLoader
+      coin = SimpleCoinTestData.COIN_GOING_DOWN,
     )
   }
 }

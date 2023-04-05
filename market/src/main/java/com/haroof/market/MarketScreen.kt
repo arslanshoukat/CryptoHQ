@@ -23,20 +23,20 @@ import coil.imageLoader
 import com.haroof.common.ui.EmptyState
 import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.common.ui.SearchTopAppBar
-import com.haroof.data.FakeData
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.market.MarketUiState.Empty
 import com.haroof.market.MarketUiState.Error
 import com.haroof.market.MarketUiState.Loading
 import com.haroof.market.MarketUiState.Success
 import com.haroof.market.R.string
+import com.haroof.testing.data.SimpleCoinTestData
 import com.haroof.common.R as commonR
 
 @Composable
 internal fun MarketRoute(
   viewModel: MarketViewModel = hiltViewModel(),
-  onNavigateToCoinDetail: (coinId: String) -> Unit,
-  imageLoader: ImageLoader = LocalContext.current.imageLoader
+  onNavigateToCoinDetail: (coinId: String) -> Unit = {},
+  imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   val uiState by viewModel.uiState.collectAsState()
 
@@ -53,7 +53,7 @@ internal fun MarketScreen(
   uiState: MarketUiState,
   onSortChange: (sortBy: SortBy) -> Unit = {},
   onNavigateToCoinDetail: (String) -> Unit = {},
-  imageLoader: ImageLoader = LocalContext.current.imageLoader
+  imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   Column(modifier = Modifier.fillMaxSize()) {
     var value by remember {
@@ -126,7 +126,7 @@ fun MarketScreenPreview_Error() {
 @Composable
 fun MarketScreenPreview_Success() {
   CryptoHqTheme {
-    MarketScreen(uiState = Success(FakeData.COINS))
+    MarketScreen(uiState = Success(SimpleCoinTestData.LIST))
   }
 }
 
