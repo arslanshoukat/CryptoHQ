@@ -30,14 +30,14 @@ import coil.imageLoader
 import com.haroof.common.R.drawable
 import com.haroof.common.R.string
 import com.haroof.common.extension.roundDecimal
-import com.haroof.data.FakeData
-import com.haroof.data.model.Coin
-import com.haroof.data.model.MarketTrend.DOWN
-import com.haroof.data.model.MarketTrend.NEUTRAL
-import com.haroof.data.model.MarketTrend.UP
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.designsystem.theme.green
 import com.haroof.designsystem.theme.red
+import com.haroof.domain.model.MarketTrend.DOWN
+import com.haroof.domain.model.MarketTrend.NEUTRAL
+import com.haroof.domain.model.MarketTrend.UP
+import com.haroof.domain.model.SimpleCoin
+import com.haroof.testing.data.SimpleCoinTestData
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.line.lineSpec
@@ -49,10 +49,10 @@ import com.patrykandpatrick.vico.core.entry.entryModelOf
 
 @Composable
 internal fun CoinCard(
-  coin: Coin,
-  onNavigateToCoinDetail: (String) -> Unit,
-  imageLoader: ImageLoader,
+  coin: SimpleCoin,
   modifier: Modifier = Modifier,
+  onNavigateToCoinDetail: (String) -> Unit = {},
+  imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   Card(modifier = modifier.size(width = 138.dp, height = 184.dp)) {
     ConstraintLayout(
@@ -165,9 +165,7 @@ fun CoinCardPreview() {
         .background(Color.LightGray)
     ) {
       CoinCard(
-        coin = FakeData.COINS.first(),
-        onNavigateToCoinDetail = {},
-        imageLoader = LocalContext.current.imageLoader
+        coin = SimpleCoinTestData.LIST.first(),
       )
     }
   }

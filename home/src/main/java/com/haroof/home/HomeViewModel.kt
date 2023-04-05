@@ -2,12 +2,11 @@ package com.haroof.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.haroof.common.model.Result
 import com.haroof.common.model.Result.Error
 import com.haroof.common.model.Result.Loading
 import com.haroof.common.model.Result.Success
-import com.haroof.data.model.Coin
-import com.haroof.data.repository.CoinsRepository
+import com.haroof.domain.GetCoinsUseCase
+import com.haroof.domain.model.SimpleCoin
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-  private val coinsRepository: CoinsRepository
+  private val getCoins: GetCoinsUseCase,
 ) : ViewModel() {
 
   private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -29,8 +28,8 @@ class HomeViewModel @Inject constructor(
   }
 
   private fun refresh() {
-    coinsRepository.getCoins()
-      .onEach { result: Result<List<Coin>> ->
+    getCoins()
+      .onEach { result ->
         _uiState.value = when (result) {
           Loading -> HomeUiState.Loading
           is Error -> HomeUiState.Error(result.exception)
@@ -49,11 +48,11 @@ class HomeViewModel @Inject constructor(
       .launchIn(viewModelScope)
   }
 
-  private fun getTopNGainersAndLosers(n: Int, coins: List<Coin>): List<Coin> {
+  private fun getTopNGainersAndLosers(n: Int, coins: List<SimpleCoin>): List<SimpleCoin> {
     val gainers = coins.sortedByDescending { it.priceChangePercentage24h }
     val losers = coins.sortedBy { it.priceChangePercentage24h }
 
-    val result = mutableListOf<Coin>()
+    val result = mutableListOf<SimpleCoin>()
     for (i in 0 until n) {
       result.add(gainers[i])
       result.add(losers[i])

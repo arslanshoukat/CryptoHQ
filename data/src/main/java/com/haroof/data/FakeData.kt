@@ -84,8 +84,6 @@ object FakeData {
     ),
   )
 
-  val WATCH_LIST_COIN_IDS = listOf("bitcoin", "ethereum")
-
   val DETAILED_COINS = listOf(
     DetailedCoin(
       "bitcoin",

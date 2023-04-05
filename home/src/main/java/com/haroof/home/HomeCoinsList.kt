@@ -20,17 +20,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.imageLoader
-import com.haroof.data.FakeData
-import com.haroof.data.model.Coin
 import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.domain.model.SimpleCoin
 import com.haroof.home.R.string
+import com.haroof.testing.data.SimpleCoinTestData
 
 @Composable
 internal fun HomeCoinsList(
-  coins: List<Coin>,
-  onNavigateToCoinDetail: (String) -> Unit,
-  imageLoader: ImageLoader,
-  modifier: Modifier = Modifier
+  coins: List<SimpleCoin>,
+  modifier: Modifier = Modifier,
+  onNavigateToCoinDetail: (String) -> Unit = {},
+  imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   val contentDesc = stringResource(string.coins_list)
 
@@ -61,9 +61,7 @@ internal fun HomeCoinsList(
 fun HomeCoinsListPreview() {
   CryptoHqTheme {
     HomeCoinsList(
-      coins = FakeData.COINS,
-      onNavigateToCoinDetail = {},
-      imageLoader = LocalContext.current.imageLoader
+      coins = SimpleCoinTestData.LIST,
     )
   }
 }

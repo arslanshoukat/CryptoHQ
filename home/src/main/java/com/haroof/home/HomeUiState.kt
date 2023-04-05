@@ -1,6 +1,6 @@
 package com.haroof.home
 
-import com.haroof.data.model.Coin
+import com.haroof.domain.model.SimpleCoin
 
 sealed class HomeUiState {
 
@@ -11,7 +11,7 @@ sealed class HomeUiState {
   object Empty : HomeUiState()
 
   data class Success(
-    val gainersAndLosers: List<Coin>,
-    val marketCoins: List<Coin>,
+    val gainersAndLosers: List<SimpleCoin>,
+    val marketCoins: List<SimpleCoin>,
   ) : HomeUiState()
 }

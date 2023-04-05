@@ -13,11 +13,7 @@ data class Coin(
   val marketCapRank: Int,
   val imageUrl: String,
   val sparklineIn7d: List<Float>
-) {
-
-  val marketTrend: MarketTrend
-    get() = if (priceChangePercentage24h > 0) MarketTrend.UP else if (priceChangePercentage24h < 0) MarketTrend.DOWN else MarketTrend.NEUTRAL
-}
+)
 
 fun CoinDto.toExternalModel() = Coin(
   id = id,

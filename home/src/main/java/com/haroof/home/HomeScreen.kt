@@ -28,20 +28,20 @@ import coil.ImageLoader
 import coil.imageLoader
 import com.haroof.common.ui.EmptyListState
 import com.haroof.common.ui.ErrorMessageWithIcon
-import com.haroof.data.FakeData
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.home.HomeUiState.Empty
 import com.haroof.home.HomeUiState.Error
 import com.haroof.home.HomeUiState.Loading
 import com.haroof.home.HomeUiState.Success
 import com.haroof.home.R.string
+import com.haroof.testing.data.SimpleCoinTestData
 import com.haroof.common.R as commonR
 
 @Composable
 internal fun HomeRoute(
   viewModel: HomeViewModel = hiltViewModel(),
-  onNavigateToCoinDetail: (coinId: String) -> Unit,
-  onNavigateToMarket: () -> Unit,
+  onNavigateToCoinDetail: (coinId: String) -> Unit = {},
+  onNavigateToMarket: () -> Unit = {},
 ) {
   val uiState by viewModel.uiState.collectAsState()
 
@@ -55,9 +55,9 @@ internal fun HomeRoute(
 @Composable
 internal fun HomeScreen(
   uiState: HomeUiState,
-  onNavigateToCoinDetail: (String) -> Unit,
-  onNavigateToMarket: () -> Unit,
-  imageLoader: ImageLoader = LocalContext.current.imageLoader
+  onNavigateToCoinDetail: (String) -> Unit = {},
+  onNavigateToMarket: () -> Unit = {},
+  imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   Box(modifier = Modifier.fillMaxSize()) {
 
@@ -130,8 +130,6 @@ fun HomeScreenLoadingPreview() {
   CryptoHqTheme {
     HomeScreen(
       uiState = Loading,
-      onNavigateToCoinDetail = {},
-      onNavigateToMarket = {},
     )
   }
 }
@@ -142,11 +140,9 @@ fun HomeScreenSuccessPreview() {
   CryptoHqTheme {
     HomeScreen(
       uiState = Success(
-        gainersAndLosers = FakeData.GAINERS_AND_LOSERS,
-        marketCoins = FakeData.COINS
+        gainersAndLosers = SimpleCoinTestData.LIST,
+        marketCoins = SimpleCoinTestData.LIST,
       ),
-      onNavigateToCoinDetail = {},
-      onNavigateToMarket = {},
     )
   }
 }
@@ -157,8 +153,6 @@ fun HomeScreenErrorPreview() {
   CryptoHqTheme {
     HomeScreen(
       uiState = Error(IllegalStateException()),
-      onNavigateToCoinDetail = {},
-      onNavigateToMarket = {},
     )
   }
 }
