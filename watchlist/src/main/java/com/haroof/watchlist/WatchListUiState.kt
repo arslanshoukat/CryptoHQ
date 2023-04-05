@@ -1,6 +1,6 @@
 package com.haroof.watchlist
 
-import com.haroof.data.model.Coin
+import com.haroof.domain.model.SimpleCoin
 
 sealed class WatchListUiState {
 
@@ -10,5 +10,5 @@ sealed class WatchListUiState {
 
   object Empty : WatchListUiState()
 
-  data class Success(val data: List<Coin>) : WatchListUiState()
+  data class Success(val data: List<SimpleCoin>) : WatchListUiState()
 }

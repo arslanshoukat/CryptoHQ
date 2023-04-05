@@ -27,21 +27,21 @@ import coil.compose.AsyncImage
 import coil.imageLoader
 import com.haroof.common.R.drawable
 import com.haroof.common.R.string
-import com.haroof.data.FakeData
-import com.haroof.data.model.Coin
-import com.haroof.data.model.MarketTrend.DOWN
-import com.haroof.data.model.MarketTrend.NEUTRAL
-import com.haroof.data.model.MarketTrend.UP
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.designsystem.theme.green
 import com.haroof.designsystem.theme.red
+import com.haroof.domain.model.MarketTrend.DOWN
+import com.haroof.domain.model.MarketTrend.NEUTRAL
+import com.haroof.domain.model.MarketTrend.UP
+import com.haroof.domain.model.SimpleCoin
+import com.haroof.testing.data.SimpleCoinTestData
 
 @Composable
 fun WatchListItem(
-  coin: Coin,
-  onNavigateToCoinDetail: (coinId: String) -> Unit,
-  imageLoader: ImageLoader,
-  modifier: Modifier = Modifier
+  coin: SimpleCoin,
+  modifier: Modifier = Modifier,
+  onNavigateToCoinDetail: (coinId: String) -> Unit = {},
+  imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   Card(modifier = modifier.clickable { onNavigateToCoinDetail(coin.id) }) {
     Row(modifier = modifier.padding(16.dp)) {
@@ -96,9 +96,7 @@ fun WatchListItemUpPreview() {
   CryptoHqTheme {
     Surface(modifier = Modifier.padding(16.dp)) {
       WatchListItem(
-        coin = FakeData.COINS.first(),
-        onNavigateToCoinDetail = {},
-        imageLoader = LocalContext.current.imageLoader
+        coin = SimpleCoinTestData.COIN_GOING_UP,
       )
     }
   }
@@ -110,9 +108,7 @@ fun WatchListItemDownPreview() {
   CryptoHqTheme {
     Surface(modifier = Modifier.padding(16.dp)) {
       WatchListItem(
-        coin = FakeData.COINS[1],
-        onNavigateToCoinDetail = {},
-        imageLoader = LocalContext.current.imageLoader
+        coin = SimpleCoinTestData.COIN_GOING_DOWN,
       )
     }
   }

@@ -15,17 +15,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.imageLoader
-import com.haroof.data.FakeData
-import com.haroof.data.model.Coin
 import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.domain.model.SimpleCoin
+import com.haroof.testing.data.SimpleCoinTestData
 import com.haroof.watchlist.R.string
 
 @Composable
 fun WatchList(
-  coins: List<Coin>,
-  onNavigateToCoinDetail: (coinId: String) -> Unit,
-  imageLoader: ImageLoader,
-  modifier: Modifier = Modifier
+  coins: List<SimpleCoin>,
+  modifier: Modifier = Modifier,
+  onNavigateToCoinDetail: (coinId: String) -> Unit = {},
+  imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   val contentDesc = stringResource(string.watch_list_coins)
 
@@ -54,9 +54,7 @@ fun WatchList(
 fun WatchListPreview() {
   CryptoHqTheme {
     WatchList(
-      coins = FakeData.COINS,
-      onNavigateToCoinDetail = {},
-      imageLoader = LocalContext.current.imageLoader
+      coins = SimpleCoinTestData.LIST,
     )
   }
 }

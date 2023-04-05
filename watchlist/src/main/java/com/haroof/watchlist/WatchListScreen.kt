@@ -18,8 +18,8 @@ import coil.ImageLoader
 import coil.imageLoader
 import com.haroof.common.ui.EmptyState
 import com.haroof.common.ui.ErrorMessageWithIcon
-import com.haroof.data.FakeData
 import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.testing.data.SimpleCoinTestData
 import com.haroof.watchlist.R.string
 import com.haroof.watchlist.WatchListUiState.Empty
 import com.haroof.watchlist.WatchListUiState.Error
@@ -30,7 +30,7 @@ import com.haroof.common.R as commonR
 @Composable
 internal fun WatchListRoute(
   viewModel: WatchListViewModel = hiltViewModel(),
-  onNavigateToCoinDetail: (coinId: String) -> Unit,
+  onNavigateToCoinDetail: (coinId: String) -> Unit = {},
 ) {
   val uiState by viewModel.uiState.collectAsState()
 
@@ -43,8 +43,8 @@ internal fun WatchListRoute(
 @Composable
 internal fun WatchListScreen(
   uiState: WatchListUiState,
-  onNavigateToCoinDetail: (String) -> Unit,
-  imageLoader: ImageLoader = LocalContext.current.imageLoader
+  onNavigateToCoinDetail: (String) -> Unit = {},
+  imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   Box(modifier = Modifier.fillMaxSize()) {
     when (uiState) {
@@ -85,7 +85,6 @@ fun WatchListScreenPreview_Loading() {
   CryptoHqTheme {
     WatchListScreen(
       uiState = Loading,
-      onNavigateToCoinDetail = {},
     )
   }
 }
@@ -96,7 +95,6 @@ fun WatchListScreenPreview_Error() {
   CryptoHqTheme {
     WatchListScreen(
       uiState = Error(IllegalStateException()),
-      onNavigateToCoinDetail = {},
     )
   }
 }
@@ -106,8 +104,7 @@ fun WatchListScreenPreview_Error() {
 fun WatchListScreenPreview_Success() {
   CryptoHqTheme {
     WatchListScreen(
-      uiState = Success(FakeData.COINS),
-      onNavigateToCoinDetail = {},
+      uiState = Success(SimpleCoinTestData.LIST),
     )
   }
 }
@@ -118,7 +115,6 @@ fun WatchListScreenPreview_Empty() {
   CryptoHqTheme {
     WatchListScreen(
       uiState = Empty,
-      onNavigateToCoinDetail = {},
     )
   }
 }

@@ -17,7 +17,7 @@ import javax.inject.Inject
 class WatchListViewModel @Inject constructor(
   getWatchListCoins: GetWatchListCoinsUseCase
 ) : ViewModel() {
-  // TODO: fix watch list coins not showing
+
   val uiState: StateFlow<WatchListUiState> = getWatchListCoins()
     .map { result ->
       when (result) {
