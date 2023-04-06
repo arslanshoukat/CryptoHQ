@@ -24,12 +24,12 @@ import com.haroof.common.ui.EmptyState
 import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.common.ui.SearchTopAppBar
 import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.domain.sample_data.SimpleCoinSampleData
 import com.haroof.market.MarketUiState.Empty
 import com.haroof.market.MarketUiState.Error
 import com.haroof.market.MarketUiState.Loading
 import com.haroof.market.MarketUiState.Success
 import com.haroof.market.R.string
-import com.haroof.testing.data.SimpleCoinTestData
 import com.haroof.common.R as commonR
 
 @Composable
@@ -126,7 +126,7 @@ fun MarketScreenPreview_Error() {
 @Composable
 fun MarketScreenPreview_Success() {
   CryptoHqTheme {
-    MarketScreen(uiState = Success(SimpleCoinTestData.LIST))
+    MarketScreen(uiState = Success(SimpleCoinSampleData.LIST))
   }
 }
 

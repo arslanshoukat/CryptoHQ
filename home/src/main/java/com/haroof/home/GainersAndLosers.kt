@@ -17,8 +17,8 @@ import coil.ImageLoader
 import coil.imageLoader
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.domain.model.SimpleCoin
+import com.haroof.domain.sample_data.SimpleCoinSampleData
 import com.haroof.home.R.string
-import com.haroof.testing.data.SimpleCoinTestData
 
 @Composable
 internal fun GainersAndLosers(
@@ -53,7 +53,7 @@ internal fun GainersAndLosers(
 fun GainersAndLosersPreview() {
   CryptoHqTheme {
     GainersAndLosers(
-      coins = SimpleCoinTestData.LIST,
+      coins = SimpleCoinSampleData.LIST,
     )
   }
 }

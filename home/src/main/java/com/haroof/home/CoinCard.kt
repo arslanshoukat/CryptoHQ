@@ -37,7 +37,7 @@ import com.haroof.domain.model.MarketTrend.DOWN
 import com.haroof.domain.model.MarketTrend.NEUTRAL
 import com.haroof.domain.model.MarketTrend.UP
 import com.haroof.domain.model.SimpleCoin
-import com.haroof.testing.data.SimpleCoinTestData
+import com.haroof.domain.sample_data.SimpleCoinSampleData
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.line.lineSpec
@@ -165,7 +165,7 @@ fun CoinCardPreview() {
         .background(Color.LightGray)
     ) {
       CoinCard(
-        coin = SimpleCoinTestData.LIST.first(),
+        coin = SimpleCoinSampleData.LIST.first(),
       )
     }
   }

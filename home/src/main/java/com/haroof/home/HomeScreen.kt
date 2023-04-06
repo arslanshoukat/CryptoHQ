@@ -29,12 +29,12 @@ import coil.imageLoader
 import com.haroof.common.ui.EmptyListState
 import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.domain.sample_data.SimpleCoinSampleData
 import com.haroof.home.HomeUiState.Empty
 import com.haroof.home.HomeUiState.Error
 import com.haroof.home.HomeUiState.Loading
 import com.haroof.home.HomeUiState.Success
 import com.haroof.home.R.string
-import com.haroof.testing.data.SimpleCoinTestData
 import com.haroof.common.R as commonR
 
 @Composable
@@ -140,8 +140,8 @@ fun HomeScreenSuccessPreview() {
   CryptoHqTheme {
     HomeScreen(
       uiState = Success(
-        gainersAndLosers = SimpleCoinTestData.LIST,
-        marketCoins = SimpleCoinTestData.LIST,
+        gainersAndLosers = SimpleCoinSampleData.LIST,
+        marketCoins = SimpleCoinSampleData.LIST,
       ),
     )
   }

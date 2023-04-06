@@ -22,7 +22,7 @@ import com.haroof.coin_detail.CoinDetailUiState.Success
 import com.haroof.common.model.TimeFilter
 import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.designsystem.theme.CryptoHqTheme
-import com.haroof.testing.data.WatchableDetailedCoinTestData
+import com.haroof.domain.sample_data.WatchableDetailedCoinSampleData
 import com.haroof.common.R as commonR
 
 @Composable
@@ -106,7 +106,7 @@ fun CoinDetailScreenPreview_Success() {
     Box {
       CoinDetailScreen(
         uiState = Success(
-          coin = WatchableDetailedCoinTestData.WATCHED_COIN,
+          coin = WatchableDetailedCoinSampleData.WATCHED_COIN,
           selectedTimeFilter = TimeFilter.ONE_WEEK,
           chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
         ),

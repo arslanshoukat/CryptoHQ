@@ -32,7 +32,7 @@ import com.haroof.domain.model.MarketTrend.DOWN
 import com.haroof.domain.model.MarketTrend.NEUTRAL
 import com.haroof.domain.model.MarketTrend.UP
 import com.haroof.domain.model.SimpleCoin
-import com.haroof.testing.data.SimpleCoinTestData
+import com.haroof.domain.sample_data.SimpleCoinSampleData
 import com.haroof.common.R as commonR
 
 @Composable
@@ -103,7 +103,7 @@ fun MarketCoinsListItem(
 fun MarketCoinsListItemUpPreview() {
   CryptoHqTheme {
     MarketCoinsListItem(
-      coin = SimpleCoinTestData.COIN_GOING_UP,
+      coin = SimpleCoinSampleData.COIN_GOING_UP,
     )
   }
 }
@@ -113,7 +113,7 @@ fun MarketCoinsListItemUpPreview() {
 fun MarketCoinsListItemDownPreview() {
   CryptoHqTheme {
     MarketCoinsListItem(
-      coin = SimpleCoinTestData.COIN_GOING_DOWN,
+      coin = SimpleCoinSampleData.COIN_GOING_DOWN,
     )
   }
 }

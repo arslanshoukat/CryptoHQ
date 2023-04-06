@@ -23,8 +23,8 @@ import coil.ImageLoader
 import coil.imageLoader
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.domain.model.SimpleCoin
+import com.haroof.domain.sample_data.SimpleCoinSampleData
 import com.haroof.market.R.string
-import com.haroof.testing.data.SimpleCoinTestData
 
 @Composable
 fun MarketCoinsList(
@@ -72,7 +72,7 @@ fun MarketCoinsList(
 fun MarketCoinsListPreview() {
   CryptoHqTheme {
     MarketCoinsList(
-      coins = SimpleCoinTestData.LIST,
+      coins = SimpleCoinSampleData.LIST,
     )
   }
 }

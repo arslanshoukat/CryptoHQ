@@ -17,7 +17,7 @@ import coil.ImageLoader
 import coil.imageLoader
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.domain.model.SimpleCoin
-import com.haroof.testing.data.SimpleCoinTestData
+import com.haroof.domain.sample_data.SimpleCoinSampleData
 import com.haroof.watchlist.R.string
 
 @Composable
@@ -49,12 +49,12 @@ fun WatchList(
   }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun WatchListPreview() {
   CryptoHqTheme {
     WatchList(
-      coins = SimpleCoinTestData.LIST,
+      coins = SimpleCoinSampleData.LIST,
     )
   }
 }

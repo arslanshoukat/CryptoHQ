@@ -19,7 +19,7 @@ import coil.imageLoader
 import com.haroof.common.ui.EmptyState
 import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.designsystem.theme.CryptoHqTheme
-import com.haroof.testing.data.SimpleCoinTestData
+import com.haroof.domain.sample_data.SimpleCoinSampleData
 import com.haroof.watchlist.R.string
 import com.haroof.watchlist.WatchListUiState.Empty
 import com.haroof.watchlist.WatchListUiState.Error
@@ -104,7 +104,7 @@ fun WatchListScreenPreview_Error() {
 fun WatchListScreenPreview_Success() {
   CryptoHqTheme {
     WatchListScreen(
-      uiState = Success(SimpleCoinTestData.LIST),
+      uiState = Success(SimpleCoinSampleData.LIST),
     )
   }
 }
