@@ -1,14 +1,13 @@
 package com.haroof.watchlist
 
-import com.haroof.data.FakeData
-import com.haroof.data.repository.fake.FakeCoinsRepository
-import com.haroof.data.repository.fake.FakeWatchListRepository
+import app.cash.turbine.test
 import com.haroof.domain.GetWatchListCoinsUseCase
+import com.haroof.domain.model.toDataModel
 import com.haroof.testing.MainDispatcherRule
+import com.haroof.testing.data.SimpleCoinTestData
+import com.haroof.testing.repository.TestCoinsRepository
+import com.haroof.testing.repository.TestWatchListRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -22,53 +21,48 @@ class WatchListViewModelTest {
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()
 
-  private lateinit var coinsRepository: FakeCoinsRepository
-  private lateinit var watchListRepository: FakeWatchListRepository
-  private lateinit var getWatchListCoinsUseCase: GetWatchListCoinsUseCase
+  private val coinsRepository = TestCoinsRepository()
+  private val watchListRepository = TestWatchListRepository()
+  private val getWatchListCoinsUseCase =
+    GetWatchListCoinsUseCase(watchListRepository, coinsRepository)
   private lateinit var viewModel: WatchListViewModel
 
   @Before
   fun setup() {
-    coinsRepository = FakeCoinsRepository()
-    watchListRepository = FakeWatchListRepository()
-    getWatchListCoinsUseCase =
-      GetWatchListCoinsUseCase(watchListRepository, coinsRepository)
     viewModel = WatchListViewModel(getWatchListCoinsUseCase)
   }
 
   @Test
   fun stateIsInitiallyLoading() = runTest {
-    // Create an empty collector for the StateFlow
-    val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uiState.collect() }
-
     assertEquals(WatchListUiState.Loading, viewModel.uiState.value)
-
-    collectJob.cancel()
   }
 
   @Test
   fun whenDataLoadedSuccessfully_stateIsSuccess() = runTest {
-    // Create an empty collector for the StateFlow
-    val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uiState.collect() }
+    viewModel.uiState.test {
+      assertEquals(WatchListUiState.Loading, awaitItem())
 
-    assertEquals(WatchListUiState.Loading, viewModel.uiState.value)
+      val watchedCoinIds = listOf("bitcoin", "ethereum")
+      watchListRepository.sendWatchedCoinsIds(watchedCoinIds)
+      coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
 
-    coinsRepository.emit(FakeData.COINS)
-    assertEquals(WatchListUiState.Success(FakeData.COINS), viewModel.uiState.value)
-
-    collectJob.cancel()
+      assertEquals(
+        WatchListUiState.Success(SimpleCoinTestData.LIST.filter { it.id in watchedCoinIds }),
+        awaitItem()
+      )
+    }
   }
 
   @Test
   fun whenDataLoadedSuccessfullyButEmpty_stateIsEmpty() = runTest {
-    // Create an empty collector for the StateFlow
-    val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uiState.collect() }
+    viewModel.uiState.test {
+      assertEquals(WatchListUiState.Loading, awaitItem())
 
-    assertEquals(WatchListUiState.Loading, viewModel.uiState.value)
+      val watchedCoinIds = emptyList<String>()
+      watchListRepository.sendWatchedCoinsIds(watchedCoinIds)
+      coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
 
-    coinsRepository.emit(emptyList())
-    assertEquals(WatchListUiState.Empty, viewModel.uiState.value)
-
-    collectJob.cancel()
+      assertEquals(WatchListUiState.Empty, awaitItem())
+    }
   }
 }

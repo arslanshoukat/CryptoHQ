@@ -55,6 +55,7 @@ dependencies {
   implementation(Libs.COIL_COMPOSE)
   testImplementation(Libs.COROUTINES_TEST)
   testImplementation(Libs.JUNIT)
+  testImplementation(Libs.TURBINE)
   androidTestImplementation(Libs.ANDROIDX_JUNIT)
   androidTestImplementation(Libs.ANDROIDX_ESPRESSO_CORE)
   androidTestImplementation(Libs.COMPOSE_UI_JUNIT4)

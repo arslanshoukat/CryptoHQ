@@ -1,12 +1,16 @@
 package com.haroof.market
 
-import com.haroof.data.FakeData
-import com.haroof.data.repository.fake.FakeCoinsRepository
+import app.cash.turbine.test
+import com.haroof.domain.GetCoinsUseCase
+import com.haroof.domain.model.toDataModel
 import com.haroof.testing.MainDispatcherRule
+import com.haroof.testing.data.SimpleCoinTestData
+import com.haroof.testing.repository.TestCoinsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -16,69 +20,97 @@ class MarketViewModelTest {
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()
 
+  private val coinsRepository = TestCoinsRepository()
+  private val getCoinsUseCase = GetCoinsUseCase(coinsRepository)
+  private lateinit var viewModel: MarketViewModel
+
+  @Before
+  fun setup() {
+    viewModel = MarketViewModel(getCoinsUseCase)
+  }
+
   @Test
   fun stateIsInitiallyLoading() = runTest {
-    val viewModel = MarketViewModel(FakeCoinsRepository())
     assertEquals(MarketUiState.Loading, viewModel.uiState.value)
   }
 
   @Test
   fun whenDataRefreshIsSuccessful_stateIsSuccess() = runTest {
-    val viewModel = MarketViewModel(FakeCoinsRepository())
-    assertEquals(
-      MarketUiState.Success(FakeData.COINS.sortedBy { it.marketCapRank }),
-      viewModel.uiState.value
-    )
+    viewModel.uiState.test {
+      assertEquals(MarketUiState.Loading, awaitItem())
+
+      coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
+
+      assertEquals(
+        MarketUiState.Success(coins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank }),
+        awaitItem()
+      )
+    }
   }
 
   @Test
   fun whenDataRefreshIsSuccessfulButEmpty_stateIsEmpty() = runTest {
-    val viewModel = MarketViewModel(
-      FakeCoinsRepository(
-        shouldThrowError = false,
-        shouldReturnEmpty = true
-      )
-    )
-    assertEquals(MarketUiState.Empty, viewModel.uiState.value)
+    viewModel.uiState.test {
+      assertEquals(MarketUiState.Loading, awaitItem())
+
+      coinsRepository.sendCoins(emptyList())
+
+      assertEquals(MarketUiState.Empty, awaitItem())
+    }
   }
 
   @Test
   fun whenDataRefreshFailed_stateIsError() = runTest {
-    val viewModel = MarketViewModel(
-      FakeCoinsRepository(
-        shouldThrowError = true,
-        shouldReturnEmpty = false
-      )
-    )
     assertTrue(viewModel.uiState.value is MarketUiState.Error)
   }
 
   @Test
-  fun whenDataIsSortedByPriceForFirstTime_itIsSortedByAscendingOrder() {
-    val viewModel = MarketViewModel(FakeCoinsRepository())
-    viewModel.sort(SortBy.PRICE)
-    assertEquals(
-      MarketUiState.Success(
-        coins = FakeData.COINS.sortedBy { it.currentPrice },
-        sortBy = SortBy.PRICE,
-        sortOrder = SortOrder.ASCENDING,
-      ),
-      viewModel.uiState.value
-    )
+  fun whenDataIsSortedByPriceForFirstTime_itIsSortedByAscendingOrder() = runTest {
+    viewModel.uiState.test {
+      assertEquals(MarketUiState.Loading, awaitItem())
+
+      coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
+      assertEquals(
+        MarketUiState.Success(coins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank }),
+        awaitItem()
+      )
+
+      viewModel.sort(SortBy.PRICE)
+
+      assertEquals(
+        MarketUiState.Success(
+          coins = SimpleCoinTestData.LIST.sortedBy { it.currentPrice },
+          sortBy = SortBy.PRICE,
+          sortOrder = SortOrder.ASCENDING,
+        ),
+        awaitItem()
+      )
+    }
   }
 
   @Test
-  fun whenDataIsSortedByPriceAgain_itIsSortedByDescendingOrder() {
-    val viewModel = MarketViewModel(FakeCoinsRepository())
-    viewModel.sort(SortBy.PRICE)
-    viewModel.sort(SortBy.PRICE)
-    assertEquals(
-      MarketUiState.Success(
-        coins = FakeData.COINS.sortedByDescending { it.currentPrice },
-        sortBy = SortBy.PRICE,
-        sortOrder = SortOrder.DESCENDING,
-      ),
-      viewModel.uiState.value
-    )
+  fun whenDataIsSortedByPriceAgain_itIsSortedByDescendingOrder() = runTest {
+    viewModel.uiState.test {
+      assertEquals(MarketUiState.Loading, awaitItem())
+
+      coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
+      assertEquals(
+        MarketUiState.Success(coins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank }),
+        awaitItem()
+      )
+
+      viewModel.sort(SortBy.PRICE)
+      awaitItem()
+
+      viewModel.sort(SortBy.PRICE)
+      assertEquals(
+        MarketUiState.Success(
+          coins = SimpleCoinTestData.LIST.sortedByDescending { it.currentPrice },
+          sortBy = SortBy.PRICE,
+          sortOrder = SortOrder.DESCENDING,
+        ),
+        awaitItem()
+      )
+    }
   }
 }

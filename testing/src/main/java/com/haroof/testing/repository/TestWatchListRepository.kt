@@ -29,4 +29,8 @@ class TestWatchListRepository @Inject constructor() : WatchListRepository {
   override fun isCoinWatched(coinId: String): Flow<Boolean> {
     return watchedCoinIds.map { it.contains(coinId) }.distinctUntilChanged()
   }
+
+  fun sendWatchedCoinsIds(watchedCoinIds: List<String>) {
+    _watchedCoinIds.tryEmit(watchedCoinIds)
+  }
 }
