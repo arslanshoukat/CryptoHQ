@@ -34,7 +34,7 @@ data class WatchableDetailedCoin(
     get() = if (priceChangePercentage24h > 0) MarketTrend.UP else if (priceChangePercentage24h < 0) MarketTrend.DOWN else MarketTrend.NEUTRAL
 }
 
-fun DetailedCoin.toExternalModel(isWatched: Boolean) = WatchableDetailedCoin(
+fun DetailedCoin.toDomainModel(isWatched: Boolean) = WatchableDetailedCoin(
   id = id,
   name = name,
   symbol = symbol,

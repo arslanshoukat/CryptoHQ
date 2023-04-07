@@ -7,7 +7,7 @@ import com.haroof.data.model.Coin
 import com.haroof.data.repository.CoinsRepository
 import com.haroof.data.repository.WatchListRepository
 import com.haroof.domain.model.SimpleCoin
-import com.haroof.domain.model.toExternalModel
+import com.haroof.domain.model.toDomainModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -28,7 +28,7 @@ class GetWatchListCoinsUseCase @Inject constructor(
           ids = coinIds,
           vs_currency = "usd",
           sparkline = false
-        ).asResult(mapper = Coin::toExternalModel)
+        ).asResult(mapper = Coin::toDomainModel)
       }
   }
 }

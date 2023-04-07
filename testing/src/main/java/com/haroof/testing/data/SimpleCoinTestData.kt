@@ -37,9 +37,16 @@ object SimpleCoinTestData {
     listOf(5.0f, 7.0f, 3.4f, 6.0f, 2.0f, 8.0f, 9.0f)
   )
 
+  //  list sorted by market cap rank
   val LIST = listOf(
     COIN_GOING_DOWN,
     COIN_GOING_UP,
     COIN_STAYING_NEUTRAL,
+  )
+
+  val GAINERS_AND_LOSERS = listOf(
+    COIN_GOING_UP,
+    COIN_GOING_DOWN,
+    COIN_STAYING_NEUTRAL
   )
 }

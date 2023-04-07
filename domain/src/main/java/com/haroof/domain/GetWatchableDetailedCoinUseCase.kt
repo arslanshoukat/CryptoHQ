@@ -5,7 +5,7 @@ import com.haroof.data.model.DetailedCoin
 import com.haroof.data.repository.CoinsRepository
 import com.haroof.data.repository.WatchListRepository
 import com.haroof.domain.model.WatchableDetailedCoin
-import com.haroof.domain.model.toExternalModel
+import com.haroof.domain.model.toDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -31,7 +31,7 @@ class GetWatchableDetailedCoinUseCase @Inject constructor(
       ),
       watchListRepository.isCoinWatched(id)
     ) { detailedCoin, isWatched ->
-      Result.Success(detailedCoin.toExternalModel(isWatched))
+      Result.Success(detailedCoin.toDomainModel(isWatched))
     }
       .onStart { emit(Result.Loading) }
       .catch {

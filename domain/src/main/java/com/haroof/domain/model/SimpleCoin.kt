@@ -17,12 +17,25 @@ data class SimpleCoin(
     get() = if (priceChangePercentage24h > 0) MarketTrend.UP else if (priceChangePercentage24h < 0) MarketTrend.DOWN else MarketTrend.NEUTRAL
 }
 
-fun Coin.toExternalModel() = SimpleCoin(
+fun Coin.toDomainModel() = SimpleCoin(
   id = id,
   name = name,
   symbol = symbol,
   currentPrice = currentPrice,
   priceChangePercentage24h = priceChangePercentage24h,
+  marketCapRank = marketCapRank,
+  imageUrl = imageUrl,
+  sparklineIn7d = sparklineIn7d,
+)
+
+fun SimpleCoin.toDataModel() = Coin(
+  id = id,
+  name = name,
+  symbol = symbol,
+  currentPrice = currentPrice,
+  priceChange24h = 0f,
+  priceChangePercentage24h = priceChangePercentage24h,
+  marketCap = 0L,
   marketCapRank = marketCapRank,
   imageUrl = imageUrl,
   sparklineIn7d = sparklineIn7d,

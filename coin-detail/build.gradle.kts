@@ -42,7 +42,7 @@ dependencies {
   implementation(project(mapOf("path" to ":designsystem")))
   implementation(project(mapOf("path" to ":domain")))
   implementation(project(mapOf("path" to ":common")))
-  implementation(project(mapOf("path" to ":testing")))
+  testImplementation(project(mapOf("path" to ":testing")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.LIFECYCLE_VIEWMODEL_KTX)
   implementation(Libs.LIFECYCLE_VIEWMODEL_COMPOSE)

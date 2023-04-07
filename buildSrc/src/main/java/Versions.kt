@@ -29,6 +29,7 @@ object Versions {
   const val ANDROIDX_JUNIT = "1.1.5"
   const val ANDROIDX_TEST_RUNNER = "1.5.2"
   const val ANDROIDX_ESPRESSO_CORE = "3.5.1"
+  const val TURBINE = "0.12.3"
   const val DATASTORE_PREFERENCES = "1.0.0"
   const val JDK_LIBS_DESUGAR = "2.0.2"
 }
