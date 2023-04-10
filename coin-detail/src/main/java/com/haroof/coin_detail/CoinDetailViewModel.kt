@@ -29,10 +29,13 @@ class CoinDetailViewModel @Inject constructor(
   private val removeCoinFromWatchList: RemoveCoinFromWatchListUseCase,
 ) : ViewModel() {
 
-  private val _uiState = MutableStateFlow<CoinDetailUiState>(CoinDetailUiState.Loading)
-  val uiState = _uiState.asStateFlow()
+  private val _coinDetailUiState = MutableStateFlow<CoinDetailUiState>(CoinDetailUiState.Loading)
+  val coinDetailUiState = _coinDetailUiState.asStateFlow()
 
-  private val coinId: String = CoinDetailArgs(savedStateHandle).coinId
+  private val _chartUiState = MutableStateFlow(ChartUiState(loading = true))
+  val chartUiState = _chartUiState.asStateFlow()
+
+  val coinId: String = CoinDetailArgs(savedStateHandle).coinId
 
   init {
     getWatchableDetailedCoin(
@@ -40,16 +43,10 @@ class CoinDetailViewModel @Inject constructor(
       vs_currency = "usd",
     )
       .onEach { result ->
-        _uiState.value = when (result) {
+        _coinDetailUiState.value = when (result) {
           Loading -> CoinDetailUiState.Loading
           is Error -> CoinDetailUiState.Error(result.exception)
-          is Success -> {
-            CoinDetailUiState.Success(
-              coin = result.data,
-              selectedTimeFilter = TimeFilter.ONE_WEEK,
-              chartData = emptyList(),
-            )
-          }
+          is Success -> CoinDetailUiState.Success(coin = result.data)
         }
 
         if (result is Success) fetchChartData()
@@ -58,22 +55,32 @@ class CoinDetailViewModel @Inject constructor(
   }
 
   private fun fetchChartData() {
-    // if prev ui not success, return without fetching
-    val prevUiState = _uiState.value.asSuccess() ?: return
+    val prevChartUiState = _chartUiState.value
 
     getChartData(
       id = coinId,
       vs_currency = "usd",
-      days = prevUiState.selectedTimeFilter.days,
-      interval = prevUiState.selectedTimeFilter.interval,
+      days = prevChartUiState.selectedTimeFilter.days,
+      interval = prevChartUiState.selectedTimeFilter.interval,
     )
       .onEach { result ->
-        when (result) {
-          Loading -> {} // TODO: separate out loading & error handling for chart
-          is Error -> {}
+        _chartUiState.value = when (result) {
+          Loading -> {
+            ChartUiState(
+              selectedTimeFilter = prevChartUiState.selectedTimeFilter,
+              loading = true,
+            )
+          }
+          is Error -> {
+            ChartUiState(
+              selectedTimeFilter = prevChartUiState.selectedTimeFilter,
+              exception = result.exception,
+            )
+          }
           is Success -> {
-            _uiState.value = prevUiState.copy(
-              chartData = result.data
+            ChartUiState(
+              selectedTimeFilter = prevChartUiState.selectedTimeFilter,
+              chartData = result.data,
             )
           }
         }
@@ -82,10 +89,11 @@ class CoinDetailViewModel @Inject constructor(
   }
 
   fun updateTimeFilter(timeFilter: TimeFilter) {
-    _uiState.value.asSuccess()?.let {
-      _uiState.value = it.copy(selectedTimeFilter = timeFilter)
-      fetchChartData()
-    }
+    //  if user selected same filter, don't fetch data again
+    if (_chartUiState.value.selectedTimeFilter == timeFilter) return
+
+    _chartUiState.value = _chartUiState.value.copy(selectedTimeFilter = timeFilter)
+    fetchChartData()
   }
 
   fun updateWatchListSelection(selected: Boolean) {

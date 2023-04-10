@@ -20,7 +20,7 @@ class TestChartRepository : ChartRepository {
     return chartDataFlow
   }
 
-  fun sentChartData(chartData: ChartData) {
+  fun sendChartData(chartData: ChartData) {
     chartDataFlow.tryEmit(chartData)
   }
 }

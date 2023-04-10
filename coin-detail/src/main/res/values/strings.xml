@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="coin_detail_content_desc">Coin detail</string>
+  <string name="chart_content_desc">Coin chart</string>
+  <string name="chart_loading_indicator_content_desc">Chart loading indicator</string>
   <string name="favorite_icon_content_desc">Favorite icon</string>
+  <string name="chart_data_fetch_error">Failed to fetch chart data.</string>
+  <string name="empty_chart_data_message">No chart data to show.</string>
 </resources>

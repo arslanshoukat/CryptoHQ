@@ -1,6 +1,7 @@
 package com.haroof.domain.model
 
 import com.haroof.data.model.DetailedCoin
+import com.haroof.data.model.Links
 
 data class WatchableDetailedCoin(
   val id: String,
@@ -60,4 +61,34 @@ fun DetailedCoin.toDomainModel(isWatched: Boolean) = WatchableDetailedCoin(
   twitterLink = links.twitter,
   redditLink = links.reddit,
   isWatched = isWatched,
+)
+
+fun WatchableDetailedCoin.toDataModel() = DetailedCoin(
+  id = id,
+  name = name,
+  symbol = symbol,
+  currentPrice = currentPrice,
+  priceChange24h = priceChange24h,
+  priceChangePercentage24h = priceChangePercentage24h,
+  priceChangePercentage7d = priceChangePercentage7d,
+  priceChangePercentage30d = priceChangePercentage30d,
+  priceChangePercentage1y = priceChangePercentage1y,
+  marketCap = marketCap,
+  marketCapRank = marketCapRank,
+  imageUrl = imageUrl,
+  low24h = low24h,
+  high24h = high24h,
+  allTimeLow = allTimeLow,
+  allTimeHigh = allTimeHigh,
+  circulatingSupply = circulatingSupply,
+  maxSupply = maxSupply,
+  totalSupply = totalSupply,
+  links = Links(
+    homepage = homepage,
+    facebook = facebookLink,
+    twitter = twitterLink,
+    reddit = redditLink,
+  ),
+  description = description,
+  sparklineIn7d = emptyList(),
 )

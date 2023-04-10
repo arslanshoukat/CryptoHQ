@@ -3,6 +3,7 @@ package com.haroof.domain
 import com.haroof.common.model.Result
 import com.haroof.data.model.ChartData
 import com.haroof.data.repository.ChartRepository
+import com.haroof.domain.model.ChartEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -21,15 +22,15 @@ class GetChartDataUseCase @Inject constructor(
     vs_currency: String,
     days: String,
     interval: String
-  ): Flow<Result<List<Double>>> {
+  ): Flow<Result<List<ChartEntry>>> {
     return chartRepository.getChartData(
       id = id,
       vs_currency = vs_currency,
       days = days,
       interval = interval,
     )
-      .map<ChartData, Result<List<Double>>> { chartData ->
-        Result.Success(chartData.prices.map { it[1] })
+      .map<ChartData, Result<List<ChartEntry>>> { chartData ->
+        Result.Success(chartData.prices.map { ChartEntry(it) })
       }
       .onStart { emit(Result.Loading) }
       .catch {

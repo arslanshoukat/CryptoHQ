@@ -1,6 +1,8 @@
 package com.haroof.coin_detail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,18 +11,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ChipDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FilterChip
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.haroof.coin_detail.R.string
 import com.haroof.common.model.TimeFilter
 import com.haroof.common.util.CurrencyAxisValueFormatter
 import com.haroof.common.util.rememberMarker
@@ -32,6 +39,7 @@ import com.haroof.domain.model.MarketTrend
 import com.haroof.domain.model.MarketTrend.DOWN
 import com.haroof.domain.model.MarketTrend.NEUTRAL
 import com.haroof.domain.model.MarketTrend.UP
+import com.haroof.domain.sample_data.ChartEntrySampleData
 import com.patrykandpatrick.vico.compose.axis.axisGuidelineComponent
 import com.patrykandpatrick.vico.compose.axis.axisLabelComponent
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
@@ -47,10 +55,9 @@ import com.patrykandpatrick.vico.core.entry.entryModelOf
 
 @Composable
 internal fun ChartSection(
+  chartUiState: ChartUiState,
   marketTrend: MarketTrend,
-  selectedTimeFilter: TimeFilter,
-  chartData: List<Double>,
-  onTimeFilterChanged: (TimeFilter) -> Unit
+  onTimeFilterChanged: (TimeFilter) -> Unit = {},
 ) {
   Row(
     horizontalArrangement = Arrangement.SpaceBetween,
@@ -61,7 +68,7 @@ internal fun ChartSection(
     TimeFilter.values().map {
       ChartFilterChip(
         title = it.title,
-        selected = it == selectedTimeFilter,
+        selected = it == chartUiState.selectedTimeFilter,
         onClick = { onTimeFilterChanged(it) },
       )
     }
@@ -69,15 +76,40 @@ internal fun ChartSection(
 
   Spacer(modifier = Modifier.height(8.dp))
 
-  Surface {
+  Box(
+    contentAlignment = Alignment.Center,
+    modifier = Modifier
+      .height(256.dp)
+      .fillMaxWidth()
+      .background(MaterialTheme.colors.surface)
+  ) {
+    if (chartUiState.loading) {
+      val contentDesc = stringResource(string.chart_loading_indicator_content_desc)
+      CircularProgressIndicator(
+        modifier = Modifier.semantics { contentDescription = contentDesc }
+      )
+    } else if (chartUiState.exception != null) {
+      Text(
+        text = stringResource(string.chart_data_fetch_error),
+        style = MaterialTheme.typography.subtitle1,
+        modifier = Modifier.padding(16.dp)
+      )
+    } else if (chartUiState.chartData.isEmpty()) {
+      Text(
+        text = stringResource(string.empty_chart_data_message),
+        style = MaterialTheme.typography.subtitle1,
+        modifier = Modifier.padding(16.dp)
+      )
+    }
+
     val color = when (marketTrend) {
       NEUTRAL -> LocalTextStyle.current.color
       UP -> green
       DOWN -> red
     }
-    val marker = rememberMarker()
+    val chartContentDesc = stringResource(string.chart_content_desc)
     Chart(
-      marker = marker,
+      marker = rememberMarker(),
       chart = lineChart(
         pointPosition = LineChart.PointPosition.Start,
         lines = listOf(
@@ -99,13 +131,14 @@ internal fun ChartSection(
         label = axisLabelComponent(color = Color.Black, textSize = 10.sp),
         valueFormatter = CurrencyAxisValueFormatter("$")  //  todo: pass selected currency
       ),
-      model = entryModelOf(*chartData.toTypedArray()),
+      model = entryModelOf(*chartUiState.chartData.map { it.value }.toTypedArray()),
       isZoomEnabled = false,
       chartScrollSpec = rememberChartScrollSpec(isScrollEnabled = false),
       autoScaleUp = None,
       modifier = Modifier
         .height(256.dp)
-        .padding(vertical = 16.dp)
+        .padding(vertical = 8.dp)
+        .semantics { contentDescription = chartContentDesc }
     )
   }
 }
@@ -133,7 +166,7 @@ internal fun ChartFilterChip(
 
 @Preview(showBackground = true)
 @Composable
-fun ChartSectionPreview() {
+private fun ChartSectionPreview_Loading() {
   CryptoHqTheme {
     Column(
       Modifier
@@ -141,10 +174,59 @@ fun ChartSectionPreview() {
         .padding(vertical = 16.dp)
     ) {
       ChartSection(
+        chartUiState = ChartUiState(loading = true),
         marketTrend = UP,
-        selectedTimeFilter = TimeFilter.ONE_WEEK,
-        chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
-        onTimeFilterChanged = {},
+      )
+    }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ChartSectionPreview_Error() {
+  CryptoHqTheme {
+    Column(
+      Modifier
+        .fillMaxSize()
+        .padding(vertical = 16.dp)
+    ) {
+      ChartSection(
+        chartUiState = ChartUiState(exception = IllegalStateException("No internet connection!")),
+        marketTrend = UP,
+      )
+    }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ChartSectionPreviewWithNoData() {
+  CryptoHqTheme {
+    Column(
+      Modifier
+        .fillMaxSize()
+        .padding(vertical = 16.dp)
+    ) {
+      ChartSection(
+        chartUiState = ChartUiState(chartData = emptyList()),
+        marketTrend = UP,
+      )
+    }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ChartSectionPreviewWithData() {
+  CryptoHqTheme {
+    Column(
+      Modifier
+        .fillMaxSize()
+        .padding(vertical = 16.dp)
+    ) {
+      ChartSection(
+        chartUiState = ChartUiState(chartData = ChartEntrySampleData.LIST),
+        marketTrend = UP,
       )
     }
   }

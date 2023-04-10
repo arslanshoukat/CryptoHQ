@@ -5,9 +5,10 @@ import androidx.compose.ui.test.assertIsOff
 import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
 import coil.ImageLoader
-import com.haroof.common.model.TimeFilter
-import com.haroof.data.FakeData
+import com.haroof.testing.data.ChartEntryTestData
+import com.haroof.testing.data.WatchableDetailedCoinTestData
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -34,10 +35,11 @@ class CoinDetailScreenTest {
   }
 
   @Test
-  fun whenDataIsLoading_loadingIndicatorIsShown() {
+  fun whenCoinDetailIsLoading_loadingIndicatorIsShown() {
     composeTestRule.setContent {
       CoinDetailScreen(
-        uiState = CoinDetailUiState.Loading,
+        coinDetailUiState = CoinDetailUiState.Loading,
+        chartUiState = ChartUiState(loading = true),
         imageLoader = imageLoader
       )
     }
@@ -48,41 +50,121 @@ class CoinDetailScreenTest {
   }
 
   @Test
-  fun whenDataFailedToLoad_errorIsShown() {
+  fun whenCoinDetailFailedToLoad_errorIsShown() {
     composeTestRule.setContent {
       CoinDetailScreen(
-        uiState = CoinDetailUiState.Error(IllegalStateException()),
+        coinDetailUiState = CoinDetailUiState.Error(IllegalStateException()),
+        chartUiState = ChartUiState(loading = true),
         imageLoader = imageLoader
       )
     }
 
-    composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.loading_indicator))
-      .assertDoesNotExist()
     composeTestRule
       .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.error_message_content_desc))
       .assertExists()
   }
 
   @Test
-  fun whenDataLoadedSuccessfully_contentIsShown() {
+  fun whenCoinDetailLoadedSuccessfully_contentIsShown() {
     composeTestRule.setContent {
       CoinDetailScreen(
-        uiState = CoinDetailUiState.Success(
-          coin = FakeData.DETAILED_COINS.first(),
-          selectedTimeFilter = TimeFilter.ONE_WEEK,
-          chartData = emptyList(),
-          isFavorite = false,
+        coinDetailUiState = CoinDetailUiState.Success(
+          coin = WatchableDetailedCoinTestData.LIST.first(),
         ),
+        chartUiState = ChartUiState(loading = true),
         imageLoader = imageLoader
       )
     }
 
     composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.loading_indicator))
-      .assertDoesNotExist()
+      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.coin_detail_content_desc))
+      .assertExists()
+  }
+
+  @Test
+  fun whenCoinDetailLoadedAndDisplayed_chartIsInitiallyLoading() {
+    composeTestRule.setContent {
+      CoinDetailScreen(
+        coinDetailUiState = CoinDetailUiState.Success(
+          coin = WatchableDetailedCoinTestData.LIST.first(),
+        ),
+        chartUiState = ChartUiState(loading = true),
+        imageLoader = imageLoader
+      )
+    }
+
     composeTestRule
       .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.coin_detail_content_desc))
+      .assertExists()
+
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.chart_loading_indicator_content_desc))
+      .assertExists()
+  }
+
+  @Test
+  fun afterCoinDetailLoaded_whenChartDataFailedToLoad_errorIsShown() {
+    composeTestRule.setContent {
+      CoinDetailScreen(
+        coinDetailUiState = CoinDetailUiState.Success(
+          coin = WatchableDetailedCoinTestData.LIST.first(),
+        ),
+        chartUiState = ChartUiState(exception = IllegalStateException()),
+        imageLoader = imageLoader
+      )
+    }
+
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.coin_detail_content_desc))
+      .assertExists()
+
+    composeTestRule
+      .onNodeWithText(composeTestRule.activity.getString(R.string.chart_data_fetch_error))
+      .assertExists()
+  }
+
+  @Test
+  fun afterCoinDetailLoaded_whenChartDataLoadedButEmpty_emptyMessageIsShown() {
+    composeTestRule.setContent {
+      CoinDetailScreen(
+        coinDetailUiState = CoinDetailUiState.Success(
+          coin = WatchableDetailedCoinTestData.LIST.first(),
+        ),
+        chartUiState = ChartUiState(chartData = emptyList()),
+        imageLoader = imageLoader
+      )
+    }
+
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.coin_detail_content_desc))
+      .assertExists()
+
+    composeTestRule
+      .onNodeWithText(composeTestRule.activity.getString(R.string.empty_chart_data_message))
+      .assertExists()
+  }
+
+  @Test
+  fun afterCoinDetailLoaded_whenChartDataFetchedSuccessfully_chartIsShown() {
+    composeTestRule.setContent {
+      CoinDetailScreen(
+        coinDetailUiState = CoinDetailUiState.Success(
+          coin = WatchableDetailedCoinTestData.LIST.first(),
+        ),
+        chartUiState = ChartUiState(chartData = ChartEntryTestData.LIST),
+        imageLoader = imageLoader
+      )
+    }
+
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.coin_detail_content_desc))
+      .assertExists()
+
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.chart_loading_indicator_content_desc))
+      .assertDoesNotExist()
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.chart_content_desc))
       .assertExists()
   }
 
@@ -90,12 +172,10 @@ class CoinDetailScreenTest {
   fun whenCoinIsInWatchList_favoriteIconIsChecked() {
     composeTestRule.setContent {
       CoinDetailScreen(
-        uiState = CoinDetailUiState.Success(
-          coin = FakeData.DETAILED_COINS.first(),
-          selectedTimeFilter = TimeFilter.ONE_WEEK,
-          chartData = emptyList(),
-          isFavorite = true,
+        coinDetailUiState = CoinDetailUiState.Success(
+          coin = WatchableDetailedCoinTestData.WATCHED_COIN,
         ),
+        chartUiState = ChartUiState(loading = true),
         imageLoader = imageLoader
       )
     }
@@ -109,12 +189,10 @@ class CoinDetailScreenTest {
   fun whenCoinIsNotInWatchList_favoriteIconIsUnchecked() {
     composeTestRule.setContent {
       CoinDetailScreen(
-        uiState = CoinDetailUiState.Success(
-          coin = FakeData.DETAILED_COINS.first(),
-          selectedTimeFilter = TimeFilter.ONE_WEEK,
-          chartData = emptyList(),
-          isFavorite = false,
+        coinDetailUiState = CoinDetailUiState.Success(
+          coin = WatchableDetailedCoinTestData.NOT_WATCHED_COIN,
         ),
+        chartUiState = ChartUiState(loading = true),
         imageLoader = imageLoader
       )
     }

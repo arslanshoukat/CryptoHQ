@@ -16,12 +16,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.imageLoader
-import com.haroof.coin_detail.CoinDetailUiState.Error
-import com.haroof.coin_detail.CoinDetailUiState.Loading
-import com.haroof.coin_detail.CoinDetailUiState.Success
 import com.haroof.common.model.TimeFilter
 import com.haroof.common.ui.ErrorMessageWithIcon
 import com.haroof.designsystem.theme.CryptoHqTheme
+import com.haroof.domain.sample_data.ChartEntrySampleData
 import com.haroof.domain.sample_data.WatchableDetailedCoinSampleData
 import com.haroof.common.R as commonR
 
@@ -30,9 +28,12 @@ internal fun CoinDetailRoute(
   viewModel: CoinDetailViewModel = hiltViewModel(),
   onBackPressed: () -> Unit = {},
 ) {
-  val uiState by viewModel.uiState.collectAsState()
+  val coinDetailUiState by viewModel.coinDetailUiState.collectAsState()
+  val chartUiState by viewModel.chartUiState.collectAsState()
+
   CoinDetailScreen(
-    uiState = uiState,
+    coinDetailUiState = coinDetailUiState,
+    chartUiState = chartUiState,
     onTimeFilterChanged = viewModel::updateTimeFilter,
     onToggleFavorite = viewModel::updateWatchListSelection,
     onBackPressed = onBackPressed,
@@ -41,15 +42,16 @@ internal fun CoinDetailRoute(
 
 @Composable
 internal fun CoinDetailScreen(
-  uiState: CoinDetailUiState,
+  coinDetailUiState: CoinDetailUiState,
+  chartUiState: ChartUiState,
   onTimeFilterChanged: (timeFilter: TimeFilter) -> Unit = {},
   onToggleFavorite: (selected: Boolean) -> Unit = {},
   onBackPressed: () -> Unit = {},
   imageLoader: ImageLoader = LocalContext.current.imageLoader
 ) {
   Box(modifier = Modifier.fillMaxSize()) {
-    when (uiState) {
-      Loading -> {
+    when (coinDetailUiState) {
+      CoinDetailUiState.Loading -> {
         val contentDesc = stringResource(commonR.string.loading_indicator)
         CircularProgressIndicator(
           modifier = Modifier
@@ -57,14 +59,13 @@ internal fun CoinDetailScreen(
             .semantics { contentDescription = contentDesc }
         )
       }
-      is Error -> {
+      is CoinDetailUiState.Error -> {
         ErrorMessageWithIcon()
       }
-      is Success -> {
+      is CoinDetailUiState.Success -> {
         CoinDetail(
-          coin = uiState.coin,
-          selectedTimeFilter = uiState.selectedTimeFilter,
-          chartData = uiState.chartData,
+          coin = coinDetailUiState.coin,
+          chartUiState = chartUiState,
           onTimeFilterChanged = onTimeFilterChanged,
           onToggleFavorite = onToggleFavorite,
           onBackPressed = onBackPressed,
@@ -77,11 +78,12 @@ internal fun CoinDetailScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun CoinDetailScreenPreview_Loading() {
+private fun CoinDetailScreenPreview_Loading() {
   CryptoHqTheme {
     Box {
       CoinDetailScreen(
-        uiState = Loading
+        coinDetailUiState = CoinDetailUiState.Loading,
+        chartUiState = ChartUiState(loading = true),
       )
     }
   }
@@ -89,11 +91,12 @@ fun CoinDetailScreenPreview_Loading() {
 
 @Preview(showBackground = true)
 @Composable
-fun CoinDetailScreenPreview_Error() {
+private fun CoinDetailScreenPreview_Error() {
   CryptoHqTheme {
     Box {
       CoinDetailScreen(
-        uiState = Error(IllegalStateException()),
+        coinDetailUiState = CoinDetailUiState.Error(IllegalStateException()),
+        chartUiState = ChartUiState(loading = true),
       )
     }
   }
@@ -101,14 +104,15 @@ fun CoinDetailScreenPreview_Error() {
 
 @Preview(showBackground = true)
 @Composable
-fun CoinDetailScreenPreview_Success() {
+private fun CoinDetailScreenPreview_Success() {
   CryptoHqTheme {
     Box {
       CoinDetailScreen(
-        uiState = Success(
+        coinDetailUiState = CoinDetailUiState.Success(
           coin = WatchableDetailedCoinSampleData.WATCHED_COIN,
-          selectedTimeFilter = TimeFilter.ONE_WEEK,
-          chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
+        ),
+        chartUiState = ChartUiState(
+          chartData = ChartEntrySampleData.LIST,
         ),
       )
     }

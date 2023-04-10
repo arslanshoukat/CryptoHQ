@@ -22,13 +22,13 @@ import com.haroof.coin_detail.R.string
 import com.haroof.common.model.TimeFilter
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.domain.model.WatchableDetailedCoin
+import com.haroof.domain.sample_data.ChartEntrySampleData
 import com.haroof.domain.sample_data.WatchableDetailedCoinSampleData
 
 @Composable
 internal fun CoinDetail(
   coin: WatchableDetailedCoin,
-  selectedTimeFilter: TimeFilter,
-  chartData: List<Double>,
+  chartUiState: ChartUiState,
   modifier: Modifier = Modifier,
   onTimeFilterChanged: (timeFilter: TimeFilter) -> Unit = {},
   onToggleFavorite: (selected: Boolean) -> Unit = {},
@@ -51,9 +51,8 @@ internal fun CoinDetail(
     )
     Spacer(modifier = Modifier.height(16.dp))
     ChartSection(
+      chartUiState = chartUiState,
       marketTrend = coin.marketTrend,
-      selectedTimeFilter = selectedTimeFilter,
-      chartData = chartData,
       onTimeFilterChanged = onTimeFilterChanged
     )
     Spacer(modifier = Modifier.height(16.dp))
@@ -66,13 +65,12 @@ internal fun CoinDetail(
 
 @Preview(showBackground = true)
 @Composable
-internal fun CoinDetailPreview() {
+private fun CoinDetailPreview() {
   CryptoHqTheme {
     Box {
       CoinDetail(
         coin = WatchableDetailedCoinSampleData.WATCHED_COIN,
-        selectedTimeFilter = TimeFilter.ONE_WEEK,
-        chartData = listOf(21359.0, 28492.0, 22412.41, 25771.1, 22451.0, 24779.3, 23099.6),
+        chartUiState = ChartUiState(chartData = ChartEntrySampleData.LIST),
       )
     }
   }
