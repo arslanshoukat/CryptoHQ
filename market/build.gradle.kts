@@ -43,6 +43,7 @@ dependencies {
   implementation(project(mapOf("path" to ":domain")))
   implementation(project(mapOf("path" to ":common")))
   testImplementation(project(mapOf("path" to ":testing")))
+  androidTestImplementation(project(mapOf("path" to ":testing")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.MATERIAL)
   implementation(Libs.COMPOSE_UI)

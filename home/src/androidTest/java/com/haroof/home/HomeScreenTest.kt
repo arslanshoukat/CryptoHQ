@@ -4,8 +4,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import coil.ImageLoader
-import com.haroof.data.FakeData
 import com.haroof.home.R.string
+import com.haroof.testing.data.SimpleCoinTestData
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -34,7 +34,10 @@ class HomeScreenTest {
   @Test
   fun whenDataIsLoading_loadingIndicatorIsShown() {
     composeTestRule.setContent {
-      HomeScreen(HomeUiState.Loading, imageLoader)
+      HomeScreen(
+        uiState = HomeUiState.Loading,
+        imageLoader = imageLoader
+      )
     }
 
     composeTestRule
@@ -47,8 +50,8 @@ class HomeScreenTest {
     composeTestRule.setContent {
       HomeScreen(
         uiState = HomeUiState.Success(
-          gainersAndLosers = FakeData.GAINERS_AND_LOSERS,
-          marketCoins = FakeData.COINS
+          gainersAndLosers = SimpleCoinTestData.GAINERS_AND_LOSERS,
+          marketCoins = SimpleCoinTestData.LIST,
         ),
         imageLoader = imageLoader
       )
@@ -68,7 +71,10 @@ class HomeScreenTest {
   @Test
   fun whenDataFailedToLoad_errorIsShown() {
     composeTestRule.setContent {
-      HomeScreen(HomeUiState.Error(IllegalStateException()), imageLoader)
+      HomeScreen(
+        uiState = HomeUiState.Error(IllegalStateException()),
+        imageLoader = imageLoader
+      )
     }
 
     composeTestRule

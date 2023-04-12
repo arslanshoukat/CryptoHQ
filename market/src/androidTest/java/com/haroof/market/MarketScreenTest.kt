@@ -4,8 +4,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import coil.ImageLoader
-import com.haroof.data.FakeData
 import com.haroof.market.R.string
+import com.haroof.testing.data.SimpleCoinTestData
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -36,8 +36,6 @@ class MarketScreenTest {
     composeTestRule.setContent {
       MarketScreen(
         uiState = MarketUiState.Loading,
-        onSortChange = {},
-        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }
@@ -51,9 +49,7 @@ class MarketScreenTest {
   fun whenDataIsLoaded_listIsShown() {
     composeTestRule.setContent {
       MarketScreen(
-        uiState = MarketUiState.Success(FakeData.COINS),
-        onSortChange = {},
-        onNavigateToCoinDetail = {},
+        uiState = MarketUiState.Success(SimpleCoinTestData.LIST.sortedBy { it.marketCapRank }),
         imageLoader = imageLoader
       )
     }
@@ -71,8 +67,6 @@ class MarketScreenTest {
     composeTestRule.setContent {
       MarketScreen(
         uiState = MarketUiState.Empty,
-        onSortChange = {},
-        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }
@@ -81,7 +75,7 @@ class MarketScreenTest {
       .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.loading_indicator))
       .assertDoesNotExist()
     composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.empty_state_content_desc))
+      .onNodeWithContentDescription(composeTestRule.activity.getString(string.market_empty_state_content_description))
       .assertExists()
   }
 
@@ -90,8 +84,6 @@ class MarketScreenTest {
     composeTestRule.setContent {
       MarketScreen(
         uiState = MarketUiState.Error(IllegalStateException()),
-        onSortChange = {},
-        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }
@@ -109,12 +101,10 @@ class MarketScreenTest {
     composeTestRule.setContent {
       MarketScreen(
         uiState = MarketUiState.Success(
-          coins = FakeData.COINS.sortedBy { it.currentPrice },
+          coins = SimpleCoinTestData.LIST.sortedBy { it.currentPrice },
           sortBy = SortBy.PRICE,
           sortOrder = SortOrder.ASCENDING,
         ),
-        onSortChange = {},
-        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }
@@ -138,12 +128,10 @@ class MarketScreenTest {
     composeTestRule.setContent {
       MarketScreen(
         uiState = MarketUiState.Success(
-          coins = FakeData.COINS.sortedByDescending { it.currentPrice },
+          coins = SimpleCoinTestData.LIST.sortedByDescending { it.currentPrice },
           sortBy = SortBy.PRICE,
           sortOrder = SortOrder.DESCENDING,
         ),
-        onSortChange = {},
-        onNavigateToCoinDetail = {},
         imageLoader = imageLoader
       )
     }
