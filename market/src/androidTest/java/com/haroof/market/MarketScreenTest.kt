@@ -49,7 +49,10 @@ class MarketScreenTest {
   fun whenDataIsLoaded_listIsShown() {
     composeTestRule.setContent {
       MarketScreen(
-        uiState = MarketUiState.Success(SimpleCoinTestData.LIST.sortedBy { it.marketCapRank }),
+        uiState = MarketUiState.Success(
+          coinsToShow = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank },
+          originalCoins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank },
+        ),
         imageLoader = imageLoader
       )
     }
@@ -101,7 +104,8 @@ class MarketScreenTest {
     composeTestRule.setContent {
       MarketScreen(
         uiState = MarketUiState.Success(
-          coins = SimpleCoinTestData.LIST.sortedBy { it.currentPrice },
+          coinsToShow = SimpleCoinTestData.LIST.sortedBy { it.currentPrice },
+          originalCoins = SimpleCoinTestData.LIST.sortedBy { it.currentPrice },
           sortBy = SortBy.PRICE,
           sortOrder = SortOrder.ASCENDING,
         ),
@@ -128,7 +132,8 @@ class MarketScreenTest {
     composeTestRule.setContent {
       MarketScreen(
         uiState = MarketUiState.Success(
-          coins = SimpleCoinTestData.LIST.sortedByDescending { it.currentPrice },
+          coinsToShow = SimpleCoinTestData.LIST.sortedByDescending { it.currentPrice },
+          originalCoins = SimpleCoinTestData.LIST.sortedByDescending { it.currentPrice },
           sortBy = SortBy.PRICE,
           sortOrder = SortOrder.DESCENDING,
         ),

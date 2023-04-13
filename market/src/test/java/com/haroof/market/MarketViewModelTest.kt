@@ -1,6 +1,7 @@
 package com.haroof.market
 
 import app.cash.turbine.test
+import app.cash.turbine.testIn
 import com.haroof.domain.GetCoinsUseCase
 import com.haroof.domain.model.toDataModel
 import com.haroof.testing.MainDispatcherRule
@@ -42,7 +43,10 @@ class MarketViewModelTest {
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
 
       assertEquals(
-        MarketUiState.Success(coins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank }),
+        MarketUiState.Success(
+          coinsToShow = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank },
+          originalCoins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank },
+        ),
         awaitItem()
       )
     }
@@ -71,7 +75,10 @@ class MarketViewModelTest {
 
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
       assertEquals(
-        MarketUiState.Success(coins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank }),
+        MarketUiState.Success(
+          coinsToShow = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank },
+          originalCoins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank },
+        ),
         awaitItem()
       )
 
@@ -79,7 +86,8 @@ class MarketViewModelTest {
 
       assertEquals(
         MarketUiState.Success(
-          coins = SimpleCoinTestData.LIST.sortedBy { it.currentPrice },
+          originalCoins = SimpleCoinTestData.LIST.sortedBy { it.currentPrice },
+          coinsToShow = SimpleCoinTestData.LIST.sortedBy { it.currentPrice },
           sortBy = SortBy.PRICE,
           sortOrder = SortOrder.ASCENDING,
         ),
@@ -95,7 +103,10 @@ class MarketViewModelTest {
 
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
       assertEquals(
-        MarketUiState.Success(coins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank }),
+        MarketUiState.Success(
+          coinsToShow = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank },
+          originalCoins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank },
+        ),
         awaitItem()
       )
 
@@ -105,12 +116,45 @@ class MarketViewModelTest {
       viewModel.sort(SortBy.PRICE)
       assertEquals(
         MarketUiState.Success(
-          coins = SimpleCoinTestData.LIST.sortedByDescending { it.currentPrice },
+          coinsToShow = SimpleCoinTestData.LIST.sortedByDescending { it.currentPrice },
+          originalCoins = SimpleCoinTestData.LIST.sortedByDescending { it.currentPrice },
           sortBy = SortBy.PRICE,
           sortOrder = SortOrder.DESCENDING,
         ),
         awaitItem()
       )
     }
+  }
+
+  @Test
+  fun onSearch_searchUiStateIsUpdated_andDataUpdatedAccordingToQuery() = runTest {
+    val searchTurbine = viewModel.searchUiState.testIn(backgroundScope)
+    val uiStateTurbine = viewModel.uiState.testIn(backgroundScope)
+
+    assertEquals(MarketUiState.Loading, uiStateTurbine.awaitItem())
+    assertEquals("", searchTurbine.awaitItem()) //  initially query in empty
+
+    coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
+
+    val originalCoins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank }
+    assertEquals(
+      MarketUiState.Success(
+        coinsToShow = originalCoins,
+        originalCoins = originalCoins,
+      ),
+      uiStateTurbine.awaitItem()
+    )
+
+    val query = "bitcoin"
+    viewModel.searchCoins(query)
+
+    assertEquals(query, searchTurbine.awaitItem())
+    assertEquals(
+      MarketUiState.Success(
+        coinsToShow = originalCoins.filter { it.name.contains(query, true) },
+        originalCoins = originalCoins,
+      ),
+      uiStateTurbine.awaitItem()
+    )
   }
 }

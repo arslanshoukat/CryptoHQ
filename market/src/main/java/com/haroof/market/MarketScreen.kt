@@ -7,9 +7,6 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -39,10 +36,13 @@ internal fun MarketRoute(
   imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   val uiState by viewModel.uiState.collectAsState()
+  val searchUiState by viewModel.searchUiState.collectAsState()
 
   MarketScreen(
     uiState = uiState,
-    onSortChange = viewModel::sort,
+    searchUiState = searchUiState,
+    onQueryChanged = viewModel::searchCoins,
+    onSortChanged = viewModel::sort,
     onNavigateToCoinDetail = onNavigateToCoinDetail,
     imageLoader = imageLoader
   )
@@ -51,17 +51,16 @@ internal fun MarketRoute(
 @Composable
 internal fun MarketScreen(
   uiState: MarketUiState,
-  onSortChange: (sortBy: SortBy) -> Unit = {},
+  searchUiState: String = "",
+  onQueryChanged: (String) -> Unit = {},
+  onSortChanged: (sortBy: SortBy) -> Unit = {},
   onNavigateToCoinDetail: (String) -> Unit = {},
   imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
   Column(modifier = Modifier.fillMaxSize()) {
-    var value by remember {
-      mutableStateOf("")
-    }
     SearchTopAppBar(
-      value = value,
-      onValueChange = { value = it },
+      query = searchUiState,
+      onQueryChanged = onQueryChanged,
     )
 
     when (uiState) {
@@ -88,19 +87,26 @@ internal fun MarketScreen(
         )
       }
       is Success -> {
-        Header(
-          sortBy = uiState.sortBy,
-          sortOrder = uiState.sortOrder,
-          onSortChange = onSortChange,
-        )
+        if (uiState.coinsToShow.isEmpty()) {
+          EmptyState(
+            iconResId = commonR.drawable.no_results_illustration,
+            titleResId = string.market_empty_state_title,
+            subtitleResId = string.market_empty_state_subtitle,
+            contentDescriptionResId = string.market_empty_state_content_description,
+          )
+        } else {
+          Header(
+            sortBy = uiState.sortBy,
+            sortOrder = uiState.sortOrder,
+            onSortChanged = onSortChanged,
+          )
 
-        MarketCoinsList(
-          coins =
-          if (value.isEmpty()) uiState.coins
-          else uiState.coins.filter { it.name.contains(value, true) },
-          onNavigateToCoinDetail = onNavigateToCoinDetail,
-          imageLoader = imageLoader,
-        )
+          MarketCoinsList(
+            coins = uiState.coinsToShow,
+            onNavigateToCoinDetail = onNavigateToCoinDetail,
+            imageLoader = imageLoader,
+          )
+        }
       }
     }
   }
@@ -126,7 +132,12 @@ fun MarketScreenPreview_Error() {
 @Composable
 fun MarketScreenPreview_Success() {
   CryptoHqTheme {
-    MarketScreen(uiState = Success(SimpleCoinSampleData.LIST))
+    MarketScreen(
+      uiState = Success(
+        coinsToShow = SimpleCoinSampleData.LIST,
+        originalCoins = SimpleCoinSampleData.LIST,
+      ),
+    )
   }
 }
 
@@ -134,6 +145,8 @@ fun MarketScreenPreview_Success() {
 @Composable
 fun MarketScreenPreview_Empty() {
   CryptoHqTheme {
-    MarketScreen(uiState = Empty)
+    MarketScreen(
+      uiState = Empty,
+    )
   }
 }

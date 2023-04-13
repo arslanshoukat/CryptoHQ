@@ -19,9 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.haroof.common.R.string
 import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.designsystem.theme.black100
 import com.haroof.designsystem.theme.black800
@@ -30,21 +33,23 @@ import com.haroof.common.R as commonR
 
 @Composable
 fun SearchTopAppBar(
-  value: String,
+  query: String,
   modifier: Modifier = Modifier,
+  onQueryChanged: (String) -> Unit = {},
   shape: Shape = RoundedCornerShape(bottomEnd = 24.dp, bottomStart = 24.dp),
-  onValueChange: (String) -> Unit = {},
 ) {
   val color = black100
   val mediumEmphasisColor = color.copy(ContentAlpha.medium)
+  val contentDesc = stringResource(string.search_text_field_content_desc)
+
   CustomShapeAppBar(
     contentPadding = PaddingValues(16.dp),
     shape = shape,
     modifier = modifier.fillMaxWidth(),
   ) {
     OutlinedTextField(
-      value = value,
-      onValueChange = onValueChange,
+      value = query,
+      onValueChange = onQueryChanged,
       textStyle = MaterialTheme.typography.body1.copy(color = color),
       placeholder = {
         Text(
@@ -59,11 +64,11 @@ fun SearchTopAppBar(
         )
       },
       trailingIcon = {
-        if (value.isNotEmpty()) {
+        if (query.isNotEmpty()) {
           Icon(
             painter = painterResource(id = commonR.drawable.sharp_clear_24),
-            contentDescription = null,
-            modifier = Modifier.clickable { onValueChange("") }
+            contentDescription = stringResource(string.search_trailing_icon_content_desc),
+            modifier = Modifier.clickable { onQueryChanged("") }
           )
         }
       },
@@ -79,7 +84,9 @@ fun SearchTopAppBar(
         trailingIconColor = mediumEmphasisColor,
       ),
       shape = CircleShape,
-      modifier = Modifier.fillMaxWidth(),
+      modifier = Modifier
+        .fillMaxWidth()
+        .semantics { contentDescription = contentDesc },
     )
   }
 }
@@ -89,7 +96,7 @@ fun SearchTopAppBar(
 fun SearchTopAppBarEmptyPreview() {
   CryptoHqTheme {
     Box(modifier = Modifier.padding(16.dp)) {
-      SearchTopAppBar(value = "")
+      SearchTopAppBar(query = "")
     }
   }
 }
@@ -99,7 +106,7 @@ fun SearchTopAppBarEmptyPreview() {
 fun SearchTopAppBarWithTextPreview() {
   CryptoHqTheme {
     Box(modifier = Modifier.padding(16.dp)) {
-      SearchTopAppBar(value = "bitcoin")
+      SearchTopAppBar(query = "bitcoin")
     }
   }
 }

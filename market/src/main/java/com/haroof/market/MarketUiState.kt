@@ -11,8 +11,11 @@ sealed class MarketUiState {
   object Empty : MarketUiState()
 
   data class Success(
-    val coins: List<SimpleCoin>,
+    val coinsToShow: List<SimpleCoin>,
+    val originalCoins: List<SimpleCoin>,
     val sortBy: SortBy = SortBy.RANK,
     val sortOrder: SortOrder = SortOrder.ASCENDING,
   ) : MarketUiState()
+
+  fun asSuccess() = this as? Success
 }

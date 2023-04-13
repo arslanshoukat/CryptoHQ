@@ -35,7 +35,7 @@ fun Header(
   sortBy: SortBy,
   sortOrder: SortOrder,
   modifier: Modifier = Modifier,
-  onSortChange: (sortBy: SortBy) -> Unit = {},
+  onSortChanged: (sortBy: SortBy) -> Unit = {},
 ) {
   Card(
     elevation = 2.dp,
@@ -58,7 +58,7 @@ fun Header(
         weight = 0.1f,
         isSorted = sortBy == RANK,
         sortOrder = sortOrder,
-        onClick = { onSortChange(RANK) },
+        onClick = { onSortChanged(RANK) },
       )
 
       HeaderCell(
@@ -67,7 +67,7 @@ fun Header(
         isSorted = sortBy == COIN,
         sortOrder = sortOrder,
         textAlign = TextAlign.Center,
-        onClick = { onSortChange(COIN) },
+        onClick = { onSortChanged(COIN) },
       )
 
       HeaderCell(
@@ -76,7 +76,7 @@ fun Header(
         isSorted = sortBy == PRICE,
         sortOrder = sortOrder,
         textAlign = TextAlign.End,
-        onClick = { onSortChange(PRICE) },
+        onClick = { onSortChanged(PRICE) },
       )
 
       HeaderCell(
@@ -85,7 +85,7 @@ fun Header(
         isSorted = sortBy == PRICE_CHANGE_PERCENTAGE,
         sortOrder = sortOrder,
         textAlign = TextAlign.End,
-        onClick = { onSortChange(PRICE_CHANGE_PERCENTAGE) },
+        onClick = { onSortChanged(PRICE_CHANGE_PERCENTAGE) },
       )
     }
   }

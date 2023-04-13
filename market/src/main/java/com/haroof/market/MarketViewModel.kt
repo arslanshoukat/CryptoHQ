@@ -6,6 +6,8 @@ import com.haroof.common.model.Result.Error
 import com.haroof.common.model.Result.Loading
 import com.haroof.common.model.Result.Success
 import com.haroof.domain.GetCoinsUseCase
+import com.haroof.domain.model.SimpleCoin
+import com.haroof.market.MarketUiState.Empty
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,6 +23,9 @@ class MarketViewModel @Inject constructor(
   private val _uiState = MutableStateFlow<MarketUiState>(MarketUiState.Loading)
   val uiState = _uiState.asStateFlow()
 
+  private val _searchUiState = MutableStateFlow("")
+  val searchUiState = _searchUiState.asStateFlow()
+
   init {
     refreshMarketData()
   }
@@ -33,18 +38,33 @@ class MarketViewModel @Inject constructor(
           is Error -> MarketUiState.Error(result.exception)
           is Success -> {
             //  if no data available, return empty state
-            if (result.data.isEmpty()) MarketUiState.Empty
+            if (result.data.isEmpty()) Empty
             //  else return data sorted by rank in ascending order
-            else MarketUiState.Success(coins = result.data.sortedBy { it.marketCapRank })
+            else {
+              val coins = result.data.sortedBy { it.marketCapRank }
+              MarketUiState.Success(
+                coinsToShow = coins,
+                originalCoins = coins,
+              )
+            }
           }
         }
       }
       .launchIn(viewModelScope)
   }
 
+  fun searchCoins(newQuery: String) {
+    _searchUiState.value = newQuery
+
+    _uiState.value.asSuccess()?.let { prevUiState ->
+      _uiState.value = prevUiState.copy(
+        coinsToShow = prevUiState.originalCoins.filter { it.name.contains(newQuery, true) },
+      )
+    }
+  }
+
   fun sort(updatedSortBy: SortBy) {
-    //  TODO: consider moving this sorting logic to a usecase
-    (_uiState.value as? MarketUiState.Success)?.let { prevUiState ->
+    _uiState.value.asSuccess()?.let { prevUiState ->
       val updatedSortOrder: SortOrder =
         if (prevUiState.sortBy == updatedSortBy) {
           //  if same sort parameter, just toggle sort order
@@ -54,30 +74,37 @@ class MarketViewModel @Inject constructor(
           SortOrder.ASCENDING
         }
 
-      val updatedCoins = when (updatedSortOrder) {
-        SortOrder.ASCENDING -> {
-          when (updatedSortBy) {
-            SortBy.RANK -> prevUiState.coins.sortedBy { it.marketCapRank }
-            SortBy.COIN -> prevUiState.coins.sortedBy { it.symbol }
-            SortBy.PRICE_CHANGE_PERCENTAGE -> prevUiState.coins.sortedBy { it.priceChangePercentage24h }
-            SortBy.PRICE -> prevUiState.coins.sortedBy { it.currentPrice }
-          }
-        }
-        SortOrder.DESCENDING -> {
-          when (updatedSortBy) {
-            SortBy.RANK -> prevUiState.coins.sortedByDescending { it.marketCapRank }
-            SortBy.COIN -> prevUiState.coins.sortedByDescending { it.symbol }
-            SortBy.PRICE_CHANGE_PERCENTAGE -> prevUiState.coins.sortedByDescending { it.priceChangePercentage24h }
-            SortBy.PRICE -> prevUiState.coins.sortedByDescending { it.currentPrice }
-          }
-        }
-      }
+      val updatedCoins = getSortedCoins(prevUiState.originalCoins, updatedSortOrder, updatedSortBy)
 
       _uiState.value = prevUiState.copy(
-        coins = updatedCoins,
+        coinsToShow = updatedCoins,
+        originalCoins = updatedCoins,
         sortBy = updatedSortBy,
         sortOrder = updatedSortOrder,
       )
+    }
+  }
+
+  private fun getSortedCoins(
+    coins: List<SimpleCoin>,
+    sortOrder: SortOrder,
+    sortBy: SortBy,
+  ) = when (sortOrder) {
+    SortOrder.ASCENDING -> {
+      when (sortBy) {
+        SortBy.RANK -> coins.sortedBy { it.marketCapRank }
+        SortBy.COIN -> coins.sortedBy { it.symbol }
+        SortBy.PRICE_CHANGE_PERCENTAGE -> coins.sortedBy { it.priceChangePercentage24h }
+        SortBy.PRICE -> coins.sortedBy { it.currentPrice }
+      }
+    }
+    SortOrder.DESCENDING -> {
+      when (sortBy) {
+        SortBy.RANK -> coins.sortedByDescending { it.marketCapRank }
+        SortBy.COIN -> coins.sortedByDescending { it.symbol }
+        SortBy.PRICE_CHANGE_PERCENTAGE -> coins.sortedByDescending { it.priceChangePercentage24h }
+        SortBy.PRICE -> coins.sortedByDescending { it.currentPrice }
+      }
     }
   }
 }

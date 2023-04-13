@@ -23,4 +23,7 @@
   <string name="empty_state_content_description">Empty state</string>
   <string name="empty_state_default_title">No items available</string>
   <string name="empty_state_default_subtitle">There are no items available to show in the list.</string>
+
+  <string name="search_text_field_content_desc">Search text field</string>
+  <string name="search_trailing_icon_content_desc">Search trailing icon</string>
 </resources>

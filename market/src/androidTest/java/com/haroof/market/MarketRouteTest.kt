@@ -1,9 +1,11 @@
 package com.haroof.market
 
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import coil.ImageLoader
 import com.haroof.data.model.Coin
 import com.haroof.data.model.DetailedCoin
@@ -21,6 +23,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
+import com.haroof.common.R as commonR
 
 @HiltAndroidTest
 class MarketRouteTest {
@@ -89,6 +92,31 @@ class MarketRouteTest {
         composeTestRule.activity.getString(string.rank_title) + " "
           + composeTestRule.activity.getString(string.sort_descending_icon_content_desc)
       )
+      .assertDoesNotExist()
+  }
+
+  @Test
+  fun whenUserEntersSearchQuery_SearchBarIsPopulatedAndTrailingIconShown() {
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.search_text_field_content_desc))
+      .performTextInput("tether")
+
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.search_text_field_content_desc))
+      .assertTextEquals("tether")
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.search_trailing_icon_content_desc))
+      .assertExists()
+  }
+
+  @Test
+  fun whenSearchQueryIsEmpty_TrailingIconNotShown() {
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.search_text_field_content_desc))
+      .performTextInput("")
+
+    composeTestRule
+      .onNodeWithContentDescription(composeTestRule.activity.getString(commonR.string.search_trailing_icon_content_desc))
       .assertDoesNotExist()
   }
 
