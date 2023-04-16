@@ -4,24 +4,42 @@ CryptoHQ is a cryptocurrency tracking Android app, built using Kotlin and Jetpac
 
 # Architecture
 
-The app is architected using layered architecture which provides several benefits such as scalability, testability and separation of concerns. It allows for the separation of code into distinct layers, which makes it easier to modify, test and maintain the application.
+The app is architected using layered architecture which provides several benefits such as
+scalability, testability and separation of concerns. It allows for the separation of code into
+distinct layers, which makes it easier to modify, test and maintain the application.
 
 This app architecture has following three layers:
 
-- **UI layer:** This layer is responsible for displaying the UI and handling user input. It uses Jetpack Compose for UI development and Android ViewModel as state holder.
-- **Domain layer:** This layer contains the business logic of the app. It is responsible for fetching data from the repository and processing it before passing it to the UI layer. It is also responsible for updating the repository with any changes made by the user.
-- **Data layer:** This layer is responsible for fetching data from the APIs. It provides a repository interface for the domain layer to interact with.
+- **UI layer:** This layer is responsible for displaying the UI and handling user input. It uses
+  Jetpack Compose for UI development and Android ViewModel as state holder.
+- **Domain layer:** This layer contains the business logic of the app. It is responsible for
+  fetching data from the repository and processing it before passing it to the UI layer. It is also
+  responsible for updating the repository with any changes made by the user.
+- **Data layer:** This layer is responsible for fetching data from the APIs. It provides a
+  repository interface for the domain layer to interact with.
 
-The architecture also follows a reactive programming model with unidirectional data flow where data flows up and events flow down.
+![Architecture diagram](/docs/arch-diagram.png)
+
+The architecture also follows a reactive programming model with unidirectional data flow where data
+flows up and events flow down.
+
+![Data flow diagram](/docs/data-flow-diagram.png)
 
 # Modularization
 
-In addition, the app follows a modularized approach to make it scalable, maintainable and reduce built times. The app has the following modules:
+In addition, the app follows a modularized approach to make it scalable, maintainable and reduce
+built times. The app has the following modules:
 | Module | Responsibilities |
 |--|--|
-| `feature` | Each feature of the app has its own module, such as the `coin-detail` or `watchlist` feature module. These modules contain the UI, ViewModel, UiState and any other resources needed for the feature. They depend on the domain module. |
-| `domain` | This module contains the business logic of the app in the form of `usecases`. It interacts with the repositories in the `data` module and defines its own domain models that are used in the app. |
-| `data` | This module contains the `repository` interface and implementations *(default and fake)* for fetching data from the network and preference data sources. It depends on the network and datastore modules. |
+| `feature` | Each feature of the app has its own module, such as the `coin-detail` or `watchlist`
+feature module. These modules contain the UI, ViewModel, UiState and any other resources needed for
+the feature. They depend on the domain module. |
+| `domain` | This module contains the business logic of the app in the form of `usecases`. It
+interacts with the repositories in the `data` module and defines its own domain models that are used
+in the app. |
+| `data` | This module contains the `repository` interface and implementations *(default and fake)*
+for fetching data from the network and preference data sources. It depends on the network and
+datastore modules. |
 | `network` | This module is responsible for managing all network-related functionality. It includes an interface called `NetworkDataSource` which provides an abstraction layer for making API calls and handling responses. The implementation of this interface is backed by Retrofit. |
 | `datastore` | This module contains the preference-backed datastore implementation for storing app preferences.  |
 | `design-system` | This module contains the implementation of the Material design system used in the app. It includes various files such as `Theme`, `Color`, `Type`, and `Shape`, which collectively form the design system. |
@@ -53,4 +71,6 @@ The app has following dependencies:
 
 # License
 
-This app is licensed under the *Apache License (Version 2.0)*. See the LICENSE file for more information.
+This app is licensed under the *Apache License (Version 2.0)*. See
+the [LICENSE](https://github.com/arslanshoukat/CryptoHQ/blob/main/LICENSE) file for more
+information.
