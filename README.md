@@ -20,16 +20,12 @@ This app architecture has following three layers:
 - **Data layer:** This layer is responsible for fetching data from the APIs. It provides a
   repository interface for the domain layer to interact with.
 
-<center>
-<img src="/docs/images/arch-diagram.png" width="600px" alt="Architecture diagram" />
-</center>
+![Architecture diagram](/docs/images/arch-diagram.png)
 
 The architecture also follows a reactive programming model with unidirectional data flow where data
 flows up and events flow down.
 
-<center>
-<img src="/docs/images/data-flow-diagram.png" width="600px" alt="Data flow diagram" />
-</center>
+![Data flow diagram](/docs/images/data-flow-diagram.png)
 
 # Modularization
 
