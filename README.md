@@ -1,6 +1,8 @@
 # CryptoHQ Android App
 
-CryptoHQ is a cryptocurrency tracking Android app, built using Kotlin and Jetpack Compose. The app follows the layered architecture [recommended by Google](https://developer.android.com/topic/architecture).
+CryptoHQ is a cryptocurrency tracking Android app, built using Kotlin and Jetpack Compose. The app
+follows the layered
+architecture [recommended by Google](https://developer.android.com/topic/architecture).
 
 # Architecture
 
@@ -18,12 +20,16 @@ This app architecture has following three layers:
 - **Data layer:** This layer is responsible for fetching data from the APIs. It provides a
   repository interface for the domain layer to interact with.
 
-![Architecture diagram](/docs/images/arch-diagram.png)
+<center>
+<img src="/docs/images/arch-diagram.png" width="600px" alt="Architecture diagram" />
+</center>
 
 The architecture also follows a reactive programming model with unidirectional data flow where data
 flows up and events flow down.
 
-![Data flow diagram](/docs/images/data-flow-diagram.png)
+<center>
+<img src="/docs/images/data-flow-diagram.png" width="600px" alt="Data flow diagram" />
+</center>
 
 # Modularization
 
@@ -40,30 +46,47 @@ in the app. |
 | `data` | This module contains the `repository` interface and implementations *(default and fake)*
 for fetching data from the network and preference data sources. It depends on the network and
 datastore modules. |
-| `network` | This module is responsible for managing all network-related functionality. It includes an interface called `NetworkDataSource` which provides an abstraction layer for making API calls and handling responses. The implementation of this interface is backed by Retrofit. |
-| `datastore` | This module contains the preference-backed datastore implementation for storing app preferences.  |
-| `design-system` | This module contains the implementation of the Material design system used in the app. It includes various files such as `Theme`, `Color`, `Type`, and `Shape`, which collectively form the design system. |
-| `common` | This module contains the common util classes and composables used throughout the app. Some examples are: `EmptyState`, `ErrorMessageWithIcon` and `Result` |
+| `network` | This module is responsible for managing all network-related functionality. It includes
+an interface called `NetworkDataSource` which provides an abstraction layer for making API calls and
+handling responses. The implementation of this interface is backed by Retrofit. |
+| `datastore` | This module contains the preference-backed datastore implementation for storing app
+preferences. |
+| `design-system` | This module contains the implementation of the Material design system used in
+the app. It includes various files such as `Theme`, `Color`, `Type`, and `Shape`, which collectively
+form the design system. |
+| `common` | This module contains the common util classes and composables used throughout the app.
+Some examples are: `EmptyState`, `ErrorMessageWithIcon` and `Result` |
 
 # Testing
 
-The app has unit and UI tests for all features placed in their respective `test` and `androidTest` directories.
+The app has unit and UI tests for all features placed in their respective `test` and `androidTest`
+directories.
 
-To facilitate testing, data layer components (repository & datasource) are defined as interfaces. These interfaces have test implementations defined in the `testing` module. Whenever these components are needed in test classes, these are injected using either *Dagger Hilt* or manual constructor injection.
+To facilitate testing, data layer components (repository & datasource) are defined as interfaces.
+These interfaces have test implementations defined in the `testing` module. Whenever these
+components are needed in test classes, these are injected using either *Dagger Hilt* or manual
+constructor injection.
 
-For the `ViewModel` tests, `Test` repository is built by following the [guidelines](https://developer.android.com/kotlin/flow?hl=en) provided by Google. It fully implements the repository interface and provides some methods to manipulate the state of these repositories.
+For the `ViewModel` tests, `Test` repository is built by following
+the [guidelines](https://developer.android.com/kotlin/flow?hl=en) provided by Google. It fully
+implements the repository interface and provides some methods to manipulate the state of these
+repositories.
 
 # Dependencies
 
 The app has following dependencies:
 
 - [Jetpack Compose](https://developer.android.com/jetpack/compose): For UI development
-- [Navigation Compose](https://developer.android.com/jetpack/compose/navigation): For app navigation handling
-- [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines) and [Flows](https://developer.android.com/kotlin/flow): For asynchronous & reactive programming
+- [Navigation Compose](https://developer.android.com/jetpack/compose/navigation): For app navigation
+  handling
+- [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)
+  and [Flows](https://developer.android.com/kotlin/flow): For asynchronous & reactive programming
 - [Retrofit](https://square.github.io/retrofit/): For making network API calls
 - [Material Design 2](https://m2.material.io): For app theming
-- [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android): For dependency injection
-- [Preferences DataStore](https://developer.android.com/topic/libraries/architecture/datastore): For storing app preferences
+- [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android): For
+  dependency injection
+- [Preferences DataStore](https://developer.android.com/topic/libraries/architecture/datastore): For
+  storing app preferences
 - [JUnit 4](https://developer.android.com/training/testing/local-tests): For unit testing
 - [Turbine](https://github.com/cashapp/turbine): For Testing Kotlin coroutines and flows
 - [Compose UI Test Libs](https://developer.android.com/jetpack/compose/testing): For UI testing
