@@ -12,20 +12,20 @@ distinct layers, which makes it easier to modify, test and maintain the applicat
 
 This app architecture has following three layers:
 
-- **UI layer:** This layer is responsible for displaying the UI and handling user input. It uses
-  Jetpack Compose for UI development and Android ViewModel as state holder.
-- **Domain layer:** This layer contains the business logic of the app. It is responsible for
-  fetching data from the repository and processing it before passing it to the UI layer. It is also
-  responsible for updating the repository with any changes made by the user.
-- **Data layer:** This layer is responsible for fetching data from the APIs. It provides a
-  repository interface for the domain layer to interact with.
+- **UI layer:** This layer is responsible for displaying the UI and handling user input. It uses Jetpack Compose for UI development and Android ViewModel as state holder.
+- **Domain layer:** This layer contains the business logic of the app. It is responsible for fetching data from the repository and processing it before passing it to the UI layer. It is also responsible for updating the repository with any changes made by the user.
+- **Data layer:** This layer is responsible for fetching data from the APIs. It provides a repository interface for the domain layer to interact with.
 
-![Architecture diagram](/docs/images/arch-diagram.png)
+<p align="center">
+<img alt="Architecture diagram" src="/docs/images/arch-diagram.png" />
+</p>
 
 The architecture also follows a reactive programming model with unidirectional data flow where data
 flows up and events flow down.
 
-![Data flow diagram](/docs/images/data-flow-diagram.png)
+<p align="center">
+<img alt="Data flow diagram" src="/docs/images/data-flow-diagram.png" />
+</p>
 
 # Modularization
 
@@ -33,25 +33,13 @@ In addition, the app follows a modularized approach to make it scalable, maintai
 built times. The app has the following modules:
 | Module | Responsibilities |
 |--|--|
-| `feature` | Each feature of the app has its own module, such as the `coin-detail` or `watchlist`
-feature module. These modules contain the UI, ViewModel, UiState and any other resources needed for
-the feature. They depend on the domain module. |
-| `domain` | This module contains the business logic of the app in the form of `usecases`. It
-interacts with the repositories in the `data` module and defines its own domain models that are used
-in the app. |
-| `data` | This module contains the `repository` interface and implementations *(default and fake)*
-for fetching data from the network and preference data sources. It depends on the network and
-datastore modules. |
-| `network` | This module is responsible for managing all network-related functionality. It includes
-an interface called `NetworkDataSource` which provides an abstraction layer for making API calls and
-handling responses. The implementation of this interface is backed by Retrofit. |
-| `datastore` | This module contains the preference-backed datastore implementation for storing app
-preferences. |
-| `design-system` | This module contains the implementation of the Material design system used in
-the app. It includes various files such as `Theme`, `Color`, `Type`, and `Shape`, which collectively
-form the design system. |
-| `common` | This module contains the common util classes and composables used throughout the app.
-Some examples are: `EmptyState`, `ErrorMessageWithIcon` and `Result` |
+| `feature` | Each feature of the app has its own module, such as the `coin-detail` or `watchlist` feature module. These modules contain the UI, ViewModel, UiState and any other resources needed for the feature. They depend on the domain module. |
+| `domain` | This module contains the business logic of the app in the form of `usecases`. It interacts with the repositories in the `data` module and defines its own domain models that are used in the app. |
+| `data` | This module contains the `repository` interface and implementations *(default and fake)* for fetching data from the network and preference data sources. It depends on the network and datastore modules. |
+| `network` | This module is responsible for managing all network-related functionality. It includes an interface called `NetworkDataSource` which provides an abstraction layer for making API calls and handling responses. The implementation of this interface is backed by Retrofit. |
+| `datastore` | This module contains the preference-backed datastore implementation for storing app preferences. |
+| `design-system` | This module contains the implementation of the Material design system used in the app. It includes various files such as `Theme`, `Color`, `Type`, and `Shape`, which collectively form the design system. |
+| `common` | This module contains the common util classes and composables used throughout the app. Some examples are: `EmptyState`, `ErrorMessageWithIcon` and `Result` |
 
 # Testing
 
