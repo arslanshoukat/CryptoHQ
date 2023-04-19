@@ -75,7 +75,12 @@ private fun BottomNavBar(appState: CryptoHqAppState) {
             contentDescription = destination.title
           )
         },
-        label = { Text(text = destination.title, style = MaterialTheme.typography.subtitle2) },
+        label = {
+          Text(
+            text = destination.title,
+            style = MaterialTheme.typography.subtitle2
+          )
+        },
       )
     }
   }

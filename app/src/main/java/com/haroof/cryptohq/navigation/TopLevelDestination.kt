@@ -22,5 +22,10 @@ enum class TopLevelDestination(
     title = "Watch List",
     selectedIcon = drawable.sharp_star_24,
     unselectedIcon = drawable.outline_star_24
-  )
+  ),
+  CONVERTER(
+    title = "Converter",
+    selectedIcon = drawable.sharp_swap_horizontal_circle_24,
+    unselectedIcon = drawable.outline_swap_horizontal_circle_24
+  ),
 }

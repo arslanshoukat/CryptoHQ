@@ -9,7 +9,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.haroof.converter.navigation.converterRoute
+import com.haroof.converter.navigation.navigateToConverter
 import com.haroof.cryptohq.navigation.TopLevelDestination
+import com.haroof.cryptohq.navigation.TopLevelDestination.CONVERTER
 import com.haroof.cryptohq.navigation.TopLevelDestination.HOME
 import com.haroof.cryptohq.navigation.TopLevelDestination.MARKET
 import com.haroof.cryptohq.navigation.TopLevelDestination.WATCH_LIST
@@ -42,6 +45,7 @@ class CryptoHqAppState(
       homeRoute -> HOME
       marketRoute -> MARKET
       watchListRoute -> WATCH_LIST
+      converterRoute -> CONVERTER
       else -> null
     }
 
@@ -76,6 +80,7 @@ class CryptoHqAppState(
       HOME -> navController.navigateToHome(topLevelNavOptions)
       MARKET -> navController.navigateToMarket(topLevelNavOptions)
       WATCH_LIST -> navController.navigateToWatchList(topLevelNavOptions)
+      CONVERTER -> navController.navigateToConverter(topLevelNavOptions)
     }
   }
 }

@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.haroof.coin_detail.navigation.coinDetailScreen
 import com.haroof.coin_detail.navigation.navigateToCoinDetail
+import com.haroof.converter.navigation.converterScreen
 import com.haroof.home.navigation.homeRoute
 import com.haroof.home.navigation.homeScreen
 import com.haroof.market.navigation.marketScreen
@@ -30,6 +31,7 @@ fun CryptoHqNavHost(
     marketScreen(
       onNavigateToCoinDetail = { coinId -> navController.navigateToCoinDetail(coinId) }
     )
+    converterScreen()
     watchListScreen(
       onNavigateToCoinDetail = { coinId -> navController.navigateToCoinDetail(coinId) }
     )
