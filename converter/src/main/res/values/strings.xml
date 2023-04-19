@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="converter">Converter</string>
+  <string name="converter_content_desc">Converter content</string>
+  <string name="source_currency_value_content_desc">Source currency value</string>
+  <string name="currency_value_content_desc">Currency value</string>
+  <string name="calculate_icon_content_desc">Calculate icon</string>
+  <string name="equals_symbol">=</string>
+</resources>
