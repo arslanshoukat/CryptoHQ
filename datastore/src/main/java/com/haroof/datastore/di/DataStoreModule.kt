@@ -18,9 +18,9 @@ object DataStoreModule {
 
   @Provides
   @Singleton
-  fun providesWatchListPreferencesDataStore(
+  fun providesUserPreferencesDataStore(
     @ApplicationContext context: Context,
   ): DataStore<Preferences> = PreferenceDataStoreFactory.create {
-    context.preferencesDataStoreFile("watch_list_prefs")
+    context.preferencesDataStoreFile("user_preferences")
   }
 }

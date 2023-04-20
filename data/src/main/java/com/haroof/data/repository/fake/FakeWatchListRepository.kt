@@ -1,14 +1,14 @@
 package com.haroof.data.repository.fake
 
 import com.haroof.data.repository.WatchListRepository
-import com.haroof.datastore.WatchListPreferencesDataSource
+import com.haroof.datastore.CryptoHqPreferencesDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class FakeWatchListRepository @Inject constructor(
-  private val preferencesDataSource: WatchListPreferencesDataSource
+  private val preferencesDataSource: CryptoHqPreferencesDataSource
 ) : WatchListRepository {
 
   override val watchedCoinIds: Flow<List<String>>
