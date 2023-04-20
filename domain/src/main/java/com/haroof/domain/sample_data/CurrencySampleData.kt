@@ -1,27 +1,27 @@
 package com.haroof.domain.sample_data
 
-import com.haroof.domain.model.Currency
+import com.haroof.domain.model.CurrencyUiModel
 
 object CurrencySampleData {
 
-  val BTC = Currency(
-    alphabeticCode = "btc",
+  val BTC = CurrencyUiModel(
+    code = "btc",
     name = "Bitcoin",
     unit = "BTC",
     currentValue = 1.0,
     ratePerBtc = 1.0,
     type = "crypto",
   )
-  val USD = Currency(
-    alphabeticCode = "usd",
+  val USD = CurrencyUiModel(
+    code = "usd",
     name = "US Dollar",
     unit = "$",
     currentValue = 29909.535,
     ratePerBtc = 29909.535,
     type = "fiat",
   )
-  val AED = Currency(
-    alphabeticCode = "aed",
+  val AED = CurrencyUiModel(
+    code = "aed",
     name = "United Arab Emirates Dirham",
     unit = "DH",
     currentValue = 109830.805,

@@ -20,6 +20,7 @@ object Versions {
   const val VICO_COMPOSE_M2 = "1.6.4"
   const val HILT_ANDROID = "2.44"
   const val HILT_NAVIGATION_COMPOSE = "1.0.0"
+  const val ROOM = "2.5.1"
   const val RETROFIT = "2.9.0"
   const val OKHTTP_LOGGING_INTERCEPTOR = "4.10.0"
   const val KOTLINX_SERIALIZATION_CONVERTER = "0.8.0"

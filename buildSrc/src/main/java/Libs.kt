@@ -34,6 +34,10 @@ object Libs {
   const val HILT_NAVIGATION_COMPOSE =
     "androidx.hilt:hilt-navigation-compose:${Versions.HILT_NAVIGATION_COMPOSE}"
 
+  const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
+  const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
+  const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
+
   const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
   const val OKHTTP_LOGGING_INTERCEPTOR =
     "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP_LOGGING_INTERCEPTOR}"

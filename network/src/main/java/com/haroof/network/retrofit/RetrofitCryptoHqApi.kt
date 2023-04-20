@@ -3,6 +3,7 @@ package com.haroof.network.retrofit
 import com.haroof.network.model.ChartDataDto
 import com.haroof.network.model.CoinDto
 import com.haroof.network.model.DetailedCoinDto
+import com.haroof.network.model.GetExchangeRatesResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -28,4 +29,7 @@ interface RetrofitCryptoHqApi {
     @Query("days") days: String,
     @Query("interval") interval: String
   ): ChartDataDto
+
+  @GET("exchange_rates")
+  suspend fun getExchangeRates(): GetExchangeRatesResponse
 }

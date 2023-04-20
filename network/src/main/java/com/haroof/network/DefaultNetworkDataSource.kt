@@ -3,6 +3,7 @@ package com.haroof.network
 import com.haroof.network.model.ChartDataDto
 import com.haroof.network.model.CoinDto
 import com.haroof.network.model.DetailedCoinDto
+import com.haroof.network.model.GetExchangeRatesResponse
 import com.haroof.network.retrofit.RetrofitCryptoHqApi
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -43,5 +44,9 @@ class DefaultNetworkDataSource @Inject constructor(
       days = days,
       interval = interval,
     )
+  }
+
+  override suspend fun getExchangeRates(): GetExchangeRatesResponse {
+    return api.getExchangeRates()
   }
 }

@@ -6,12 +6,11 @@ plugins {
 }
 
 android {
-  namespace = "com.haroof.data"
+  namespace = "com.haroof.database"
   compileSdk = Versions.COMPILE_SDK
 
   defaultConfig {
     minSdk = Versions.MIN_SDK
-    targetSdk = Versions.TARGET_SDK
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     consumerProguardFiles("consumer-rules.pro")
@@ -33,13 +32,13 @@ android {
 }
 
 dependencies {
-  implementation(project(mapOf("path" to ":network")))
-  implementation(project(mapOf("path" to ":datastore")))
-  implementation(project(mapOf("path" to ":database")))
   implementation(Libs.CORE_KTX)
+  implementation(Libs.ROOM_RUNTIME)
+  implementation(Libs.ROOM_KTX)
+  annotationProcessor(Libs.ROOM_COMPILER)
+  kapt(Libs.ROOM_COMPILER)
   implementation(Libs.HILT_ANDROID)
   kapt(Libs.HILT_ANDROID_COMPILER)
-  implementation(Libs.DATASTORE_PREFERENCES)
 }
 
 // Allow references to generated code

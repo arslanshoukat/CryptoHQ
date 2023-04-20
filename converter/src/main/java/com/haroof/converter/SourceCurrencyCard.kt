@@ -29,13 +29,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.haroof.converter.R.string
 import com.haroof.designsystem.theme.CryptoHqTheme
-import com.haroof.domain.model.Currency
+import com.haroof.domain.model.CurrencyUiModel
 import com.haroof.domain.sample_data.CurrencySampleData
 import com.haroof.common.R as commonR
 
 @Composable
 internal fun SourceCurrencyCard(
-  currency: Currency,
+  currency: CurrencyUiModel,
   modifier: Modifier = Modifier,
   @DrawableRes flagResId: Int = commonR.drawable.us_flag,
   onValueChanged: (String) -> Unit = {},
@@ -46,7 +46,7 @@ internal fun SourceCurrencyCard(
         .padding(16.dp)
         .fillMaxWidth()
     ) {
-      val (image, alphabeticCode, dropdownIcon, name, unit, value, calculateIcon) = createRefs()
+      val (image, code, dropdownIcon, name, unit, value, calculateIcon) = createRefs()
 
       Image(
         painter = painterResource(id = flagResId),
@@ -54,15 +54,15 @@ internal fun SourceCurrencyCard(
         modifier = Modifier
           .size(32.dp)
           .constrainAs(image) {
-            linkTo(top = alphabeticCode.top, bottom = name.bottom)
+            linkTo(top = code.top, bottom = name.bottom)
             start.linkTo(parent.start)
           }
       )
 
       Text(
-        text = currency.alphabeticCode.uppercase(),
+        text = currency.code.uppercase(),
         style = MaterialTheme.typography.subtitle1,
-        modifier = Modifier.constrainAs(alphabeticCode) {
+        modifier = Modifier.constrainAs(code) {
           top.linkTo(parent.top)
           start.linkTo(image.end, 12.dp)
         }
@@ -73,16 +73,16 @@ internal fun SourceCurrencyCard(
         modifier = Modifier
           .size(24.dp)
           .constrainAs(dropdownIcon) {
-            centerVerticallyTo(alphabeticCode)
-            start.linkTo(alphabeticCode.end, 2.dp)
+            centerVerticallyTo(code)
+            start.linkTo(code.end, 2.dp)
           }
       )
       Text(
         text = currency.name,
         style = MaterialTheme.typography.body2,
         modifier = Modifier.constrainAs(name) {
-          top.linkTo(alphabeticCode.bottom)
-          start.linkTo(alphabeticCode.start)
+          top.linkTo(code.bottom)
+          start.linkTo(code.start)
         }
       )
 
@@ -91,7 +91,7 @@ internal fun SourceCurrencyCard(
         style = MaterialTheme.typography.h4,
         modifier = Modifier.constrainAs(unit) {
           top.linkTo(name.bottom, 4.dp)
-          start.linkTo(alphabeticCode.start)
+          start.linkTo(code.start)
         }
       )
 
