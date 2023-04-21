@@ -11,6 +11,8 @@ class TestCurrencyRepository : CurrencyRepository {
   private val currenciesFlow =
     MutableSharedFlow<List<Currency>>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
+  override suspend fun syncCurrencies() {}
+
   override fun getCurrencies(): Flow<List<Currency>> {
     return currenciesFlow
   }

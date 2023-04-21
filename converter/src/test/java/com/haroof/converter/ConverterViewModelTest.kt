@@ -1,6 +1,7 @@
 package com.haroof.converter
 
 import app.cash.turbine.test
+import com.haroof.domain.FetchCurrenciesUseCase
 import com.haroof.domain.GetCurrenciesUseCase
 import com.haroof.domain.GetUserCurrenciesUseCase
 import com.haroof.domain.model.toDataModel
@@ -23,6 +24,8 @@ class ConverterViewModelTest {
 
   private val currencyRepository = TestCurrencyRepository()
   private val userSettingsRepository = TestUserSettingsRepository()
+
+  private val fetchCurrenciesUseCase = FetchCurrenciesUseCase(currencyRepository)
   private val getCurrenciesUseCase = GetCurrenciesUseCase(currencyRepository)
   private val getUserCurrenciesUseCase = GetUserCurrenciesUseCase(userSettingsRepository)
 
@@ -31,6 +34,7 @@ class ConverterViewModelTest {
   @Before
   fun setup() {
     viewModel = ConverterViewModel(
+      fetchCurrencies = fetchCurrenciesUseCase,
       getCurrencies = getCurrenciesUseCase,
       getUserCurrencies = getUserCurrenciesUseCase
     )

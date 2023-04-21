@@ -5,5 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CurrencyRepository {
 
+  suspend fun syncCurrencies()
+
   fun getCurrencies(): Flow<List<Currency>>
 }

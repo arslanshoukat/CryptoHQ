@@ -12,8 +12,10 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class FakeCurrencyRepository @Inject constructor(
-  private val networkDataSource: FakeNetworkDataSource
+  private val networkDataSource: FakeNetworkDataSource,
 ) : CurrencyRepository {
+
+  override suspend fun syncCurrencies() {}
 
   override fun getCurrencies(): Flow<List<Currency>> = flow {
     val exchangeRates = networkDataSource.getExchangeRates()
