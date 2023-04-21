@@ -16,7 +16,6 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class WatchListViewModelTest {
-  // TODO: fix tests
 
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()

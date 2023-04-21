@@ -2,10 +2,12 @@ package com.haroof.converter
 
 import app.cash.turbine.test
 import com.haroof.domain.GetCurrenciesUseCase
+import com.haroof.domain.GetUserCurrenciesUseCase
 import com.haroof.domain.model.toDataModel
 import com.haroof.testing.MainDispatcherRule
 import com.haroof.testing.data.CurrencyTestData
 import com.haroof.testing.repository.TestCurrencyRepository
+import com.haroof.testing.repository.TestUserSettingsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -20,12 +22,18 @@ class ConverterViewModelTest {
   val mainDispatcherRule = MainDispatcherRule()
 
   private val currencyRepository = TestCurrencyRepository()
+  private val userSettingsRepository = TestUserSettingsRepository()
   private val getCurrenciesUseCase = GetCurrenciesUseCase(currencyRepository)
+  private val getUserCurrenciesUseCase = GetUserCurrenciesUseCase(userSettingsRepository)
+
   private lateinit var viewModel: ConverterViewModel
 
   @Before
   fun setup() {
-    viewModel = ConverterViewModel(getCurrenciesUseCase)
+    viewModel = ConverterViewModel(
+      getCurrencies = getCurrenciesUseCase,
+      getUserCurrencies = getUserCurrenciesUseCase
+    )
   }
 
   @Test
@@ -36,14 +44,19 @@ class ConverterViewModelTest {
   @Test
   fun whenDataRefreshedSuccessfully_stateIsSuccess() = runTest {
     viewModel.uiState.test {
+      val sourceCurrencyCode = "btc"
+      val toCurrencyCode = "aed"
+
       assertEquals(ConverterUiState.Loading, awaitItem())
 
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
+      userSettingsRepository.updateSourceCurrency(sourceCurrencyCode)
+      userSettingsRepository.updateToCurrency(toCurrencyCode)
 
       assertEquals(
         ConverterUiState.Success(
-          from = CurrencyTestData.LIST.first { it.code.lowercase() == "btc" },
-          to = CurrencyTestData.LIST.first { it.code.lowercase() == "usd" },
+          from = CurrencyTestData.LIST.first { it.code.lowercase() == sourceCurrencyCode },
+          to = CurrencyTestData.LIST.first { it.code.lowercase() == toCurrencyCode },
         ),
         awaitItem()
       )

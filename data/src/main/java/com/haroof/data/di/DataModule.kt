@@ -6,7 +6,9 @@ import com.haroof.data.repository.CurrencyRepository
 import com.haroof.data.repository.DefaultChartRepository
 import com.haroof.data.repository.DefaultCoinsRepository
 import com.haroof.data.repository.DefaultCurrencyRepository
+import com.haroof.data.repository.DefaultUserSettingsRepository
 import com.haroof.data.repository.DefaultWatchListRepository
+import com.haroof.data.repository.UserSettingsRepository
 import com.haroof.data.repository.WatchListRepository
 import dagger.Binds
 import dagger.Module
@@ -28,4 +30,7 @@ interface DataModule {
 
   @Binds
   fun bindsCurrencyRepository(currencyRepository: DefaultCurrencyRepository): CurrencyRepository
+
+  @Binds
+  fun bindsUserSettingsRepository(userSettingsRepository: DefaultUserSettingsRepository): UserSettingsRepository
 }
