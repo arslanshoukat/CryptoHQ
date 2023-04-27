@@ -1,5 +1,7 @@
 package com.haroof.domain.model
 
+import androidx.annotation.DrawableRes
+import com.haroof.common.util.getCountryFlagFromCurrencyCode
 import com.haroof.data.model.Currency
 
 data class CurrencyUiModel(
@@ -9,6 +11,7 @@ data class CurrencyUiModel(
   val currentValue: Double,
   val ratePerBtc: Double,
   val type: String,
+  @DrawableRes val countryFlag: Int,
 )
 
 fun Currency.toExternalModel() = CurrencyUiModel(
@@ -18,6 +21,7 @@ fun Currency.toExternalModel() = CurrencyUiModel(
   currentValue = ratePerBtc,  //  initially set same as rate
   ratePerBtc = ratePerBtc,
   type = type,
+  countryFlag = getCountryFlagFromCurrencyCode(code),
 )
 
 fun CurrencyUiModel.toDataModel() = Currency(

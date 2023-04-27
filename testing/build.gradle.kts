@@ -34,6 +34,7 @@ android {
 
 dependencies {
   api(project(mapOf("path" to ":data")))
+  implementation(project(mapOf("path" to ":common")))
   implementation(project(mapOf("path" to ":domain")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.COROUTINES_TEST)

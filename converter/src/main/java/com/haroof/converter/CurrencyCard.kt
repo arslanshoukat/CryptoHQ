@@ -1,6 +1,5 @@
 package com.haroof.converter
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -33,7 +32,6 @@ import com.haroof.common.R as commonR
 internal fun CurrencyCard(
   currency: CurrencyUiModel,
   modifier: Modifier = Modifier,
-  @DrawableRes flagResId: Int = commonR.drawable.us_flag,
   onClick: () -> Unit = {},
 ) {
   Card(modifier = modifier) {
@@ -46,7 +44,7 @@ internal fun CurrencyCard(
       val (image, code, dropdownIcon, name, equalSign, unit, value) = createRefs()
 
       Image(
-        painter = painterResource(id = flagResId),
+        painter = painterResource(id = currency.countryFlag),
         contentDescription = null,
         modifier = Modifier
           .size(32.dp)

@@ -43,7 +43,7 @@ internal fun SelectableCurrencyCard(
       .fillMaxWidth()
   ) {
     Image(
-      painter = painterResource(id = commonR.drawable.us_flag),
+      painter = painterResource(id = currency.countryFlag),
       contentDescription = null,
       modifier = Modifier.size(32.dp)
     )

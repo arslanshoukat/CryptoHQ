@@ -137,7 +137,6 @@ internal fun ConverterScreen(
 
           CurrencyCard(
             currency = uiState.to,
-            flagResId = commonR.drawable.pk_flag,
             onClick = { onNavigateToSelectCurrency(false) },
             modifier = Modifier.constrainAs(toCurrency) {
               top.linkTo(divider.bottom, 24.dp)
