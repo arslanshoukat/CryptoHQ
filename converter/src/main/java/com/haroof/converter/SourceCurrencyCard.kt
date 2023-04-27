@@ -39,6 +39,7 @@ internal fun SourceCurrencyCard(
   modifier: Modifier = Modifier,
   @DrawableRes flagResId: Int = commonR.drawable.us_flag,
   onValueChanged: (String) -> Unit = {},
+  onClick: () -> Unit = {},
 ) {
   Card(modifier = modifier) {
     ConstraintLayout(
@@ -136,10 +137,10 @@ internal fun SourceCurrencyCard(
 
 @Preview(showBackground = true)
 @Composable
-private fun CurrencyCardPreview() {
+private fun SourceCurrencyCardPreview() {
   CryptoHqTheme {
     Box {
-      CurrencyCard(CurrencySampleData.USD)
+      SourceCurrencyCard(CurrencySampleData.USD)
     }
   }
 }

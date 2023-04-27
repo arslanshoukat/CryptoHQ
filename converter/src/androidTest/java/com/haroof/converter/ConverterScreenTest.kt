@@ -1,9 +1,11 @@
 package com.haroof.converter
 
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.hasAnySibling
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
 import com.haroof.testing.data.CurrencyTestData
 import org.junit.Rule
 import org.junit.Test
@@ -68,10 +70,11 @@ class ConverterScreenTest {
     }
 
     composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.source_currency_value_content_desc))
-      .assertExists()
-    composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.calculate_icon_content_desc))
+      .onNode(
+        matcher = hasContentDescription(composeTestRule.activity.getString(R.string.source_currency_value_content_desc)).and(
+          hasAnySibling(hasContentDescription(composeTestRule.activity.getString(R.string.calculate_icon_content_desc)))
+        ),
+      )
       .assertExists()
   }
 
@@ -87,10 +90,12 @@ class ConverterScreenTest {
     }
 
     composeTestRule
-      .onNodeWithContentDescription(composeTestRule.activity.getString(R.string.currency_value_content_desc))
-      .assertExists()
-    composeTestRule
-      .onNodeWithText(composeTestRule.activity.getString(R.string.equals_symbol))
+      .onNode(
+        matcher = hasContentDescription(composeTestRule.activity.getString(R.string.currency_value_content_desc)).and(
+          hasAnySibling(hasText(composeTestRule.activity.getString(R.string.equals_symbol)))
+        ),
+        useUnmergedTree = true
+      )
       .assertExists()
   }
 }

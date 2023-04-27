@@ -2,6 +2,7 @@ package com.haroof.converter
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,11 +34,12 @@ internal fun CurrencyCard(
   currency: CurrencyUiModel,
   modifier: Modifier = Modifier,
   @DrawableRes flagResId: Int = commonR.drawable.us_flag,
-  onValueChanged: (String) -> Unit = {},
+  onClick: () -> Unit = {},
 ) {
   Card(modifier = modifier) {
     ConstraintLayout(
       modifier = Modifier
+        .clickable(onClick = onClick)
         .padding(16.dp)
         .fillMaxWidth()
     ) {
@@ -100,7 +102,6 @@ internal fun CurrencyCard(
       )
 
       val valueContentDescription = stringResource(string.currency_value_content_desc)
-
       Text(
         text = currency.currentValue.toString(),
         style = MaterialTheme.typography.h4,

@@ -6,4 +6,7 @@
   <string name="currency_value_content_desc">Currency value</string>
   <string name="calculate_icon_content_desc">Calculate icon</string>
   <string name="equals_symbol">=</string>
+  <string name="select_currency">Select Currency</string>
+  <string name="selectable_currencies_content_desc">Selectable currencies</string>
+  <string name="selected_icon_content_desc">Selected icon</string>
 </resources>

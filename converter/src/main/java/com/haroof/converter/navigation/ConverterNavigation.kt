@@ -15,8 +15,8 @@ fun NavController.navigateToConverter(navOptions: NavOptions? = null) {
   )
 }
 
-fun NavGraphBuilder.converterScreen() {
+fun NavGraphBuilder.converterScreen(onNavigateToSelectCurrency: (isSourceCurrency: Boolean) -> Unit) {
   composable(route = converterRoute) {
-    ConverterRoute()
+    ConverterRoute(onNavigateToSelectCurrency = onNavigateToSelectCurrency)
   }
 }

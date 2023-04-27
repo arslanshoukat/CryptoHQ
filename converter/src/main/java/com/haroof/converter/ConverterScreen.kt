@@ -40,14 +40,23 @@ import com.haroof.domain.sample_data.CurrencySampleData
 import com.haroof.common.R as commonR
 
 @Composable
-fun ConverterRoute(viewModel: ConverterViewModel = hiltViewModel()) {
+fun ConverterRoute(
+  viewModel: ConverterViewModel = hiltViewModel(),
+  onNavigateToSelectCurrency: (isSourceCurrency: Boolean) -> Unit = {}
+) {
   val uiState by viewModel.uiState.collectAsState()
 
-  ConverterScreen(uiState = uiState)
+  ConverterScreen(
+    uiState = uiState,
+    onNavigateToSelectCurrency = onNavigateToSelectCurrency
+  )
 }
 
 @Composable
-internal fun ConverterScreen(uiState: ConverterUiState) {
+internal fun ConverterScreen(
+  uiState: ConverterUiState,
+  onNavigateToSelectCurrency: (isSourceCurrency: Boolean) -> Unit = {}
+) {
   Column(modifier = Modifier.fillMaxSize()) {
     TopAppBar(
       contentPadding = PaddingValues(16.dp),
@@ -91,6 +100,7 @@ internal fun ConverterScreen(uiState: ConverterUiState) {
           SourceCurrencyCard(
             currency = uiState.from,
             onValueChanged = {},
+            onClick = { onNavigateToSelectCurrency(true) },
             modifier = Modifier.constrainAs(fromCurrency) {
               top.linkTo(parent.top, 32.dp)
               start.linkTo(parent.start)
@@ -128,6 +138,7 @@ internal fun ConverterScreen(uiState: ConverterUiState) {
           CurrencyCard(
             currency = uiState.to,
             flagResId = commonR.drawable.pk_flag,
+            onClick = { onNavigateToSelectCurrency(false) },
             modifier = Modifier.constrainAs(toCurrency) {
               top.linkTo(divider.bottom, 24.dp)
               start.linkTo(parent.start)
