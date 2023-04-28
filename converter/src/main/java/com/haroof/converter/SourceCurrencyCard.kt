@@ -116,7 +116,7 @@ internal fun SourceCurrencyCard(
         modifier = Modifier
           .constrainAs(value) {
             baseline.linkTo(unit.baseline)
-            linkTo(start = unit.end, end = parent.end, startMargin = 2.dp)
+            linkTo(start = unit.end, end = calculateIcon.start, startMargin = 2.dp)
             width = Dimension.fillToConstraints
           }
           .semantics { contentDescription = valueContentDescription }

@@ -101,6 +101,7 @@ internal fun CurrencyCard(
         }
       )
 
+      // TODO: remove scientific notation for large numbers, instead show full number (with maybe marquee)
       val valueContentDescription = stringResource(string.currency_value_content_desc)
       Text(
         text = currency.currentValue.toString(),

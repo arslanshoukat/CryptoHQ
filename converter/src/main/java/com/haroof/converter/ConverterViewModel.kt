@@ -2,6 +2,7 @@ package com.haroof.converter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.haroof.converter.util.convertFromSourceToTargetCurrency
 import com.haroof.domain.FetchCurrenciesUseCase
 import com.haroof.domain.GetCurrenciesUseCase
 import com.haroof.domain.GetUserCurrenciesUseCase
@@ -42,13 +43,44 @@ class ConverterViewModel @Inject constructor(
       getUserCurrencies()
     ) { currencies, userSelectedCurrencies ->
       if (currencies.isEmpty()) ConverterUiState.Loading
-      else ConverterUiState.Success(
-        from = currencies.first { it.code.lowercase() == userSelectedCurrencies.first },
-        to = currencies.first { it.code.lowercase() == userSelectedCurrencies.second },
-      )
+      else {
+        val sourceCurrency =
+          currencies.first { it.code.lowercase() == userSelectedCurrencies.first }
+        val targetCurrency =
+          currencies.first { it.code.lowercase() == userSelectedCurrencies.second }
+
+        //  every source currency will have 1 as initial value
+        val sourceCurrencyValue = 1.0
+        ConverterUiState.Success(
+          sourceCurrency = sourceCurrency.copy(currentValue = sourceCurrencyValue),
+          targetCurrency = targetCurrency.copy(
+            currentValue = convertFromSourceToTargetCurrency(
+              sourceCurrencyValue = sourceCurrencyValue,
+              sourceCurrencyRatePerBtc = sourceCurrency.ratePerBtc,
+              targetCurrencyRatePerBtc = targetCurrency.ratePerBtc
+            )
+          ),
+        )
+      }
     }
       .onEach { _uiState.value = it }
       .onStart { emit(ConverterUiState.Loading) }
       .launchIn(viewModelScope)
+  }
+
+  fun convertCurrency(sourceCurrencyValue: String) {
+    val previousUiState = uiState.value.asSuccess() ?: return
+
+    val sourceCurrencyValueInDouble = sourceCurrencyValue.toDoubleOrNull() ?: return
+    val targetValue = convertFromSourceToTargetCurrency(
+      sourceCurrencyValue = sourceCurrencyValueInDouble,
+      sourceCurrencyRatePerBtc = previousUiState.sourceCurrency.ratePerBtc,
+      targetCurrencyRatePerBtc = previousUiState.targetCurrency.ratePerBtc,
+    )
+
+    _uiState.value = previousUiState.copy(
+      sourceCurrency = previousUiState.sourceCurrency.copy(currentValue = sourceCurrencyValueInDouble),
+      targetCurrency = previousUiState.targetCurrency.copy(currentValue = targetValue),
+    )
   }
 }

@@ -17,8 +17,8 @@ object CurrencyTestData {
     code = "usd",
     name = "US Dollar",
     unit = "$",
-    currentValue = 29909.535,
-    ratePerBtc = 29909.535,
+    currentValue = 25000.0,
+    ratePerBtc = 25000.0,
     type = "fiat",
     countryFlag = com.haroof.common.R.drawable.us,
   )
@@ -26,8 +26,8 @@ object CurrencyTestData {
     code = "aed",
     name = "United Arab Emirates Dirham",
     unit = "DH",
-    currentValue = 109830.805,
-    ratePerBtc = 109830.805,
+    currentValue = 100000.0,
+    ratePerBtc = 100000.0,
     type = "fiat",
     countryFlag = com.haroof.common.R.drawable.ae,
   )

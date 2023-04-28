@@ -49,18 +49,88 @@ class ConverterViewModelTest {
   fun whenDataRefreshedSuccessfully_stateIsSuccess() = runTest {
     viewModel.uiState.test {
       val sourceCurrencyCode = "btc"
-      val toCurrencyCode = "aed"
+      val targetCurrencyCode = "aed"
 
       assertEquals(ConverterUiState.Loading, awaitItem())
 
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
       userSettingsRepository.updateSourceCurrency(sourceCurrencyCode)
-      userSettingsRepository.updateToCurrency(toCurrencyCode)
+      userSettingsRepository.updateToCurrency(targetCurrencyCode)
 
       assertEquals(
         ConverterUiState.Success(
-          from = CurrencyTestData.LIST.first { it.code.lowercase() == sourceCurrencyCode },
-          to = CurrencyTestData.LIST.first { it.code.lowercase() == toCurrencyCode },
+          sourceCurrency = CurrencyTestData.LIST.first { it.code.lowercase() == sourceCurrencyCode },
+          targetCurrency = CurrencyTestData.LIST.first { it.code.lowercase() == targetCurrencyCode },
+        ),
+        awaitItem()
+      )
+    }
+  }
+
+  @Test
+  fun whenConvertingFromBitcoinToOtherCurrency_stateIsUpdatedWithValidValue() = runTest {
+    viewModel.uiState.test {
+      val sourceCurrencyCode = "btc"
+      val targetCurrencyCode = "aed"
+
+      assertEquals(ConverterUiState.Loading, awaitItem())
+
+      currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
+      userSettingsRepository.updateSourceCurrency(sourceCurrencyCode)
+      userSettingsRepository.updateToCurrency(targetCurrencyCode)
+
+      val sourceCurrency = CurrencyTestData.BTC
+      val targetCurrency = CurrencyTestData.AED
+
+      assertEquals(
+        ConverterUiState.Success(
+          sourceCurrency = sourceCurrency,
+          targetCurrency = targetCurrency,
+        ),
+        awaitItem()
+      )
+
+      viewModel.convertCurrency("5.5")
+
+      assertEquals(
+        ConverterUiState.Success(
+          sourceCurrency = sourceCurrency.copy(currentValue = 5.5),
+          targetCurrency = targetCurrency.copy(currentValue = 550000.0),
+        ),
+        awaitItem()
+      )
+    }
+  }
+
+  @Test
+  fun whenConvertingBetweenCurrencies_stateIsUpdatedWithValidValue() = runTest {
+    viewModel.uiState.test {
+      val sourceCurrencyCode = "usd"
+      val targetCurrencyCode = "aed"
+
+      assertEquals(ConverterUiState.Loading, awaitItem())
+
+      currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
+      userSettingsRepository.updateSourceCurrency(sourceCurrencyCode)
+      userSettingsRepository.updateToCurrency(targetCurrencyCode)
+
+      val sourceCurrency = CurrencyTestData.USD
+      val targetCurrency = CurrencyTestData.AED
+
+      assertEquals(
+        ConverterUiState.Success(
+          sourceCurrency = sourceCurrency.copy(currentValue = 1.0),
+          targetCurrency = targetCurrency.copy(currentValue = 4.0)
+        ),
+        awaitItem()
+      )
+
+      viewModel.convertCurrency("5.5")
+
+      assertEquals(
+        ConverterUiState.Success(
+          sourceCurrency = sourceCurrency.copy(currentValue = 5.5),
+          targetCurrency = targetCurrency.copy(currentValue = 22.0),
         ),
         awaitItem()
       )

@@ -48,14 +48,16 @@ fun ConverterRoute(
 
   ConverterScreen(
     uiState = uiState,
-    onNavigateToSelectCurrency = onNavigateToSelectCurrency
+    onNavigateToSelectCurrency = onNavigateToSelectCurrency,
+    onValueChanged = viewModel::convertCurrency
   )
 }
 
 @Composable
 internal fun ConverterScreen(
   uiState: ConverterUiState,
-  onNavigateToSelectCurrency: (isSourceCurrency: Boolean) -> Unit = {}
+  onNavigateToSelectCurrency: (isSourceCurrency: Boolean) -> Unit = {},
+  onValueChanged: (String) -> Unit = {},
 ) {
   Column(modifier = Modifier.fillMaxSize()) {
     TopAppBar(
@@ -98,8 +100,8 @@ internal fun ConverterScreen(
           val (fromCurrency, divider, swapIcon, toCurrency) = createRefs()
 
           SourceCurrencyCard(
-            currency = uiState.from,
-            onValueChanged = {},
+            currency = uiState.sourceCurrency,
+            onValueChanged = onValueChanged,
             onClick = { onNavigateToSelectCurrency(true) },
             modifier = Modifier.constrainAs(fromCurrency) {
               top.linkTo(parent.top, 32.dp)
@@ -136,7 +138,7 @@ internal fun ConverterScreen(
 
 
           CurrencyCard(
-            currency = uiState.to,
+            currency = uiState.targetCurrency,
             onClick = { onNavigateToSelectCurrency(false) },
             modifier = Modifier.constrainAs(toCurrency) {
               top.linkTo(divider.bottom, 24.dp)
@@ -163,8 +165,8 @@ private fun ConverterScreenPreview_Success() {
   CryptoHqTheme {
     ConverterScreen(
       uiState = Success(
-        from = CurrencySampleData.BTC,
-        to = CurrencySampleData.USD,
+        sourceCurrency = CurrencySampleData.BTC,
+        targetCurrency = CurrencySampleData.USD,
       )
     )
   }

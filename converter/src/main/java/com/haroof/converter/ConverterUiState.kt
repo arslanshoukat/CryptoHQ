@@ -9,7 +9,9 @@ sealed class ConverterUiState {
   data class Error(val exception: Throwable?) : ConverterUiState()
 
   data class Success(
-    val from: CurrencyUiModel,
-    val to: CurrencyUiModel,
+    val sourceCurrency: CurrencyUiModel,
+    val targetCurrency: CurrencyUiModel,
   ) : ConverterUiState()
+
+  fun asSuccess() = this as? Success
 }

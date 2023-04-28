@@ -47,8 +47,8 @@ class ConverterScreenTest {
     composeTestRule.setContent {
       ConverterScreen(
         uiState = ConverterUiState.Success(
-          from = CurrencyTestData.BTC,
-          to = CurrencyTestData.USD,
+          sourceCurrency = CurrencyTestData.BTC,
+          targetCurrency = CurrencyTestData.USD,
         )
       )
     }
@@ -63,8 +63,8 @@ class ConverterScreenTest {
     composeTestRule.setContent {
       ConverterScreen(
         uiState = ConverterUiState.Success(
-          from = CurrencyTestData.BTC,
-          to = CurrencyTestData.USD,
+          sourceCurrency = CurrencyTestData.BTC,
+          targetCurrency = CurrencyTestData.USD,
         )
       )
     }
@@ -83,8 +83,8 @@ class ConverterScreenTest {
     composeTestRule.setContent {
       ConverterScreen(
         uiState = ConverterUiState.Success(
-          from = CurrencyTestData.BTC,
-          to = CurrencyTestData.USD,
+          sourceCurrency = CurrencyTestData.BTC,
+          targetCurrency = CurrencyTestData.USD,
         )
       )
     }
