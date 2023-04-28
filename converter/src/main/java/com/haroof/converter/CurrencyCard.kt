@@ -37,7 +37,6 @@ internal fun CurrencyCard(
   Card(modifier = modifier) {
     ConstraintLayout(
       modifier = Modifier
-        .clickable(onClick = onClick)
         .padding(16.dp)
         .fillMaxWidth()
     ) {
@@ -57,16 +56,19 @@ internal fun CurrencyCard(
       Text(
         text = currency.code.uppercase(),
         style = MaterialTheme.typography.subtitle1,
-        modifier = Modifier.constrainAs(code) {
-          top.linkTo(parent.top)
-          start.linkTo(image.end, 12.dp)
-        }
+        modifier = Modifier
+          .clickable { onClick() }
+          .constrainAs(code) {
+            top.linkTo(parent.top)
+            start.linkTo(image.end, 12.dp)
+          }
       )
       Icon(
         painter = painterResource(id = commonR.drawable.sharp_arrow_drop_down_24),
         contentDescription = null,
         modifier = Modifier
           .size(24.dp)
+          .clickable { onClick() }
           .constrainAs(dropdownIcon) {
             centerVerticallyTo(code)
             start.linkTo(code.end, 2.dp)

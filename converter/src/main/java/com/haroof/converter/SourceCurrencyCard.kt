@@ -1,6 +1,7 @@
 package com.haroof.converter
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -61,16 +62,19 @@ internal fun SourceCurrencyCard(
       Text(
         text = currency.code.uppercase(),
         style = MaterialTheme.typography.subtitle1,
-        modifier = Modifier.constrainAs(code) {
-          top.linkTo(parent.top)
-          start.linkTo(image.end, 12.dp)
-        }
+        modifier = Modifier
+          .clickable { onClick() }
+          .constrainAs(code) {
+            top.linkTo(parent.top)
+            start.linkTo(image.end, 12.dp)
+          }
       )
       Icon(
         painter = painterResource(id = commonR.drawable.sharp_arrow_drop_down_24),
         contentDescription = null,
         modifier = Modifier
           .size(24.dp)
+          .clickable { onClick() }
           .constrainAs(dropdownIcon) {
             centerVerticallyTo(code)
             start.linkTo(code.end, 2.dp)
