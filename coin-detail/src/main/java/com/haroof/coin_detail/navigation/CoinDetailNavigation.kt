@@ -17,7 +17,6 @@ internal class CoinDetailArgs(val coinId: String) {
     this(checkNotNull(savedStateHandle[coinIdArg]) as String)
 }
 
-// TODO: add safe nav args handling
 fun NavController.navigateToCoinDetail(coinId: String, navOptions: NavOptions? = null) {
   navigate(
     route = "$coinDetailRoute/$coinId",

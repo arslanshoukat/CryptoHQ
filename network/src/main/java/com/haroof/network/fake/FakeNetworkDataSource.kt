@@ -5,6 +5,7 @@ import com.haroof.network.NetworkDataSource
 import com.haroof.network.model.ChartDataDto
 import com.haroof.network.model.CoinDto
 import com.haroof.network.model.DetailedCoinDto
+import com.haroof.network.model.GetExchangeRatesResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -53,6 +54,10 @@ class FakeNetworkDataSource @Inject constructor(
     assetManager.open(MARKET_CHART_ASSET).use(json::decodeFromStream)
   }
 
+  override suspend fun getExchangeRates(): GetExchangeRatesResponse = withContext(Dispatchers.IO) {
+    assetManager.open(EXCHANGE_RATES_ASSET).use(json::decodeFromStream)
+  }
+
   companion object {
 
     //  top 100 coins with sparkline
@@ -63,6 +68,8 @@ class FakeNetworkDataSource @Inject constructor(
 
     //  bitcoin 7d market chart
     private const val MARKET_CHART_ASSET = "market_chart.json"
+
+    private const val EXCHANGE_RATES_ASSET = "exchange_rates.json"
 
     private const val TAG = "FakeNetworkDataSource"
   }

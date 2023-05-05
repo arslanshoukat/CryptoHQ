@@ -35,6 +35,7 @@ android {
 dependencies {
   implementation(project(mapOf("path" to ":network")))
   implementation(project(mapOf("path" to ":datastore")))
+  implementation(project(mapOf("path" to ":database")))
   implementation(Libs.CORE_KTX)
   implementation(Libs.HILT_ANDROID)
   kapt(Libs.HILT_ANDROID_COMPILER)

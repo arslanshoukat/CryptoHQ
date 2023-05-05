@@ -3,6 +3,7 @@ package com.haroof.network
 import com.haroof.network.model.ChartDataDto
 import com.haroof.network.model.CoinDto
 import com.haroof.network.model.DetailedCoinDto
+import com.haroof.network.model.GetExchangeRatesResponse
 
 interface NetworkDataSource {
 
@@ -20,4 +21,6 @@ interface NetworkDataSource {
     days: String,
     interval: String
   ): ChartDataDto
+
+  suspend fun getExchangeRates(): GetExchangeRatesResponse
 }
