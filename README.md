@@ -1,3 +1,5 @@
+![CryptoHQ app banner](/docs/images/app-banner.png "CryptoHQ app banner")
+
 # CryptoHQ Android App
 
 CryptoHQ is a cryptocurrency tracking Android app, built using Kotlin and Jetpack Compose. The app
