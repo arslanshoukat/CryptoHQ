@@ -36,7 +36,10 @@ fun CryptoHqNavHost(
     )
     converterScreen(
       onNavigateToSelectCurrency = { isSourceCurrency ->
-        navController.navigateToSelectCurrency(isSourceCurrency)
+        navController.navigateToSelectCurrency(
+          isDefaultCurrency = false,
+          isSourceCurrency = isSourceCurrency
+        )
       }
     )
     selectCurrencyScreen(
@@ -46,7 +49,12 @@ fun CryptoHqNavHost(
       onNavigateToCoinDetail = { coinId -> navController.navigateToCoinDetail(coinId) }
     )
     settingsScreen(
-      onNavigateToCurrencySettings = { navController.navigateToSelectCurrency(false) },
+      onNavigateToCurrencySettings = {
+        navController.navigateToSelectCurrency(
+          isDefaultCurrency = true,
+          isSourceCurrency = false
+        )
+      },
       onNavigateToAbout = {}
     )
     coinDetailScreen(

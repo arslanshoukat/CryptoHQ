@@ -31,6 +31,24 @@ object CurrencyTestData {
     type = "fiat",
     countryFlag = com.haroof.common.R.drawable.ae,
   )
+  val PKR = CurrencyUiModel(
+    code = "pkr",
+    name = "Pakistani Rupee",
+    unit = "₨",
+    currentValue = 8074599.326,
+    ratePerBtc = 8074599.326,
+    type = "fiat",
+    countryFlag = com.haroof.common.R.drawable.pk
+  )
+  val XAU = CurrencyUiModel(
+    code = "xau",
+    name = "Gold - Troy Ounce",
+    unit = "XAU",
+    currentValue = 14.44,
+    ratePerBtc = 14.44,
+    type = "commodity",
+    countryFlag = com.haroof.common.R.drawable.flag_placeholder
+  )
 
-  val LIST = listOf(BTC, USD, AED)
+  val LIST = listOf(BTC, USD, AED, PKR, XAU)
 }

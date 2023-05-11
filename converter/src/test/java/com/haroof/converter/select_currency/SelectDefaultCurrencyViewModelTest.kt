@@ -21,8 +21,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+/**
+ * Test class to unit test viewmodel when user is updating default currency that is used
+ * to configure vs_currency in API calls.
+ */
 @OptIn(ExperimentalCoroutinesApi::class)
-class SelectCurrencyViewModelTest {
+class SelectDefaultCurrencyViewModelTest {
 
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()
@@ -43,7 +47,7 @@ class SelectCurrencyViewModelTest {
     viewModel = SelectCurrencyViewModel(
       savedStateHandle = SavedStateHandle(
         mapOf(
-          isDefaultCurrencyArg to false,
+          isDefaultCurrencyArg to true,
           isSourceCurrencyArg to false
         )
       ),
@@ -63,18 +67,20 @@ class SelectCurrencyViewModelTest {
   @Test
   fun whenDataLoadedSuccessfully_stateIsSuccess() = runTest {
     viewModel.uiState.test {
-      val selectedCurrencyCode = CurrencyTestData.USD.code
-      val otherCurrencyCode = CurrencyTestData.BTC.code
-
       assertEquals(SelectCurrencyUiState.Loading, awaitItem())
 
+      val selectedCurrencyCode = CurrencyTestData.AED.code
+
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
-      userSettingsRepository.updateSourceCurrency(otherCurrencyCode)
-      userSettingsRepository.updateTargetCurrency(selectedCurrencyCode)
+      userSettingsRepository.updateDefaultCurrency(selectedCurrencyCode)
+
+      val selectableCurrencies = CurrencyTestData.LIST.filterNot {
+        it.type.equals("commodity", true)
+      }
 
       assertEquals(
         SelectCurrencyUiState.Success(
-          selectableCurrencies = CurrencyTestData.LIST.filter { it.code != otherCurrencyCode },
+          selectableCurrencies = selectableCurrencies,
           selectedCurrencyCode = selectedCurrencyCode
         ),
         awaitItem()
@@ -85,65 +91,35 @@ class SelectCurrencyViewModelTest {
   @Test
   fun whenCurrencyIsSelected_stateIsUpdated() = runTest {
     viewModel.uiState.test {
-      val selectedCurrencyCode = CurrencyTestData.USD.code
-      val otherCurrencyCode = CurrencyTestData.BTC.code
-
       assertEquals(SelectCurrencyUiState.Loading, awaitItem())
 
+      val selectedCurrencyCode = CurrencyTestData.AED.code
+
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
-      userSettingsRepository.updateSourceCurrency(otherCurrencyCode)
-      userSettingsRepository.updateTargetCurrency(selectedCurrencyCode)
+      userSettingsRepository.updateDefaultCurrency(selectedCurrencyCode)
+
+      val selectableCurrencies = CurrencyTestData.LIST.filterNot {
+        it.type.equals("commodity", true)
+      }
 
       assertEquals(
         SelectCurrencyUiState.Success(
-          selectableCurrencies = CurrencyTestData.LIST.filter { it.code != otherCurrencyCode },
+          selectableCurrencies = selectableCurrencies,
           selectedCurrencyCode = selectedCurrencyCode
         ),
         awaitItem()
       )
 
-      val newlySelectedCurrencyCode = CurrencyTestData.AED.code
+      val newlySelectedCurrencyCode = CurrencyTestData.PKR.code
       viewModel.selectCurrency(newlySelectedCurrencyCode)
 
       assertEquals(
         SelectCurrencyUiState.Success(
-          selectableCurrencies = CurrencyTestData.LIST.filter { it.code != otherCurrencyCode },
+          selectableCurrencies = selectableCurrencies,
           selectedCurrencyCode = newlySelectedCurrencyCode
         ),
         awaitItem()
       )
-    }
-  }
-
-  @Test
-  fun whenSameCurrencyIsSelected_stateNotUpdated() = runTest {
-    viewModel.uiState.test {
-      val selectedCurrencyCode = CurrencyTestData.USD.code
-      val otherCurrencyCode = CurrencyTestData.BTC.code
-
-      assertEquals(SelectCurrencyUiState.Loading, awaitItem())
-
-      currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
-      userSettingsRepository.updateSourceCurrency(otherCurrencyCode)
-      userSettingsRepository.updateTargetCurrency(selectedCurrencyCode)
-
-      assertEquals(
-        SelectCurrencyUiState.Success(
-          selectableCurrencies = CurrencyTestData.LIST.filter { it.code != otherCurrencyCode },
-          selectedCurrencyCode = selectedCurrencyCode
-        ),
-        awaitItem()
-      )
-
-      viewModel.selectCurrency(selectedCurrencyCode)
-      assertEquals(
-        SelectCurrencyUiState.Success(
-          selectableCurrencies = CurrencyTestData.LIST.filter { it.code != otherCurrencyCode },
-          selectedCurrencyCode = selectedCurrencyCode
-        ),
-        viewModel.uiState.value
-      )
-
     }
   }
 }

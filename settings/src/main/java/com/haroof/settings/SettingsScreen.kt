@@ -31,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,6 +42,7 @@ import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.designsystem.theme.black200
 import com.haroof.designsystem.theme.iconLightBlack
 import com.haroof.designsystem.theme.textLightBlack
+import com.haroof.domain.sample_data.CurrencySampleData
 import com.haroof.settings.R.string
 import com.haroof.settings.SettingsUiState.Error
 import com.haroof.settings.SettingsUiState.Loading
@@ -175,8 +177,8 @@ private fun SettingsItem(
         Text(
           text = value.uppercase(),
           style = MaterialTheme.typography.body2,
+          textDecoration = TextDecoration.Underline
         )
-        // TODO: add decoration (underline) under currency value
 
         Spacer(modifier = Modifier.width(16.dp))
       }
@@ -210,7 +212,7 @@ fun SettingsScreenPreview_Success() {
   CryptoHqTheme {
     SettingsScreen(
       uiState = Success(
-        currency = "usd",
+        currency = CurrencySampleData.AED.code,
       )
     )
   }
