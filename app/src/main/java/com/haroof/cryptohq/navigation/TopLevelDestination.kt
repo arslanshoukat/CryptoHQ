@@ -28,4 +28,9 @@ enum class TopLevelDestination(
     selectedIcon = drawable.sharp_swap_horizontal_circle_24,
     unselectedIcon = drawable.outline_swap_horizontal_circle_24
   ),
+  SETTINGS(
+    title = "Settings",
+    selectedIcon = drawable.sharp_settings_24,
+    unselectedIcon = drawable.outline_settings_24
+  ),
 }

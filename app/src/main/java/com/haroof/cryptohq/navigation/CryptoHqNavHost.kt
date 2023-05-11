@@ -13,6 +13,7 @@ import com.haroof.home.navigation.homeRoute
 import com.haroof.home.navigation.homeScreen
 import com.haroof.market.navigation.marketScreen
 import com.haroof.market.navigation.navigateToMarket
+import com.haroof.settings.navigation.settingsScreen
 import com.haroof.watchlist.navigation.watchListScreen
 
 @Composable
@@ -43,6 +44,10 @@ fun CryptoHqNavHost(
     )
     watchListScreen(
       onNavigateToCoinDetail = { coinId -> navController.navigateToCoinDetail(coinId) }
+    )
+    settingsScreen(
+      onNavigateToCurrencySettings = { navController.navigateToSelectCurrency(false) },
+      onNavigateToAbout = {}
     )
     coinDetailScreen(
       onBackPressed = { navController.navigateUp() },

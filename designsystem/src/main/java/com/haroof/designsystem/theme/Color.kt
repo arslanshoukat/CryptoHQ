@@ -15,6 +15,7 @@ val lemonGreen500 = Color(0xFFAFEB19)
 val lemonGreen50 = Color(0xFFF5FDE7)
 
 val textLightBlack = black700
+val iconLightBlack = black800
 
 val green = Color(0xFF388E3C)
 val red = Color(0xFFA82424)

@@ -15,11 +15,14 @@ import com.haroof.cryptohq.navigation.TopLevelDestination
 import com.haroof.cryptohq.navigation.TopLevelDestination.CONVERTER
 import com.haroof.cryptohq.navigation.TopLevelDestination.HOME
 import com.haroof.cryptohq.navigation.TopLevelDestination.MARKET
+import com.haroof.cryptohq.navigation.TopLevelDestination.SETTINGS
 import com.haroof.cryptohq.navigation.TopLevelDestination.WATCH_LIST
 import com.haroof.home.navigation.homeRoute
 import com.haroof.home.navigation.navigateToHome
 import com.haroof.market.navigation.marketRoute
 import com.haroof.market.navigation.navigateToMarket
+import com.haroof.settings.navigation.navigateToSettings
+import com.haroof.settings.navigation.settingsRoute
 import com.haroof.watchlist.navigation.navigateToWatchList
 import com.haroof.watchlist.navigation.watchListRoute
 
@@ -46,6 +49,7 @@ class CryptoHqAppState(
       marketRoute -> MARKET
       watchListRoute -> WATCH_LIST
       converterRoute -> CONVERTER
+      settingsRoute -> SETTINGS
       else -> null
     }
 
@@ -81,6 +85,7 @@ class CryptoHqAppState(
       MARKET -> navController.navigateToMarket(topLevelNavOptions)
       WATCH_LIST -> navController.navigateToWatchList(topLevelNavOptions)
       CONVERTER -> navController.navigateToConverter(topLevelNavOptions)
+      SETTINGS -> navController.navigateToSettings(topLevelNavOptions)
     }
   }
 }

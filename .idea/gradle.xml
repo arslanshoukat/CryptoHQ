@@ -23,6 +23,7 @@
             <option value="$PROJECT_DIR$/home" />
             <option value="$PROJECT_DIR$/market" />
             <option value="$PROJECT_DIR$/network" />
+            <option value="$PROJECT_DIR$/settings" />
             <option value="$PROJECT_DIR$/testing" />
             <option value="$PROJECT_DIR$/watchlist" />
           </set>

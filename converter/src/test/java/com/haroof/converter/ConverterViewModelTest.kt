@@ -55,7 +55,7 @@ class ConverterViewModelTest {
 
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
       userSettingsRepository.updateSourceCurrency(sourceCurrencyCode)
-      userSettingsRepository.updateToCurrency(targetCurrencyCode)
+      userSettingsRepository.updateTargetCurrency(targetCurrencyCode)
 
       assertEquals(
         ConverterUiState.Success(
@@ -77,7 +77,7 @@ class ConverterViewModelTest {
 
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
       userSettingsRepository.updateSourceCurrency(sourceCurrencyCode)
-      userSettingsRepository.updateToCurrency(targetCurrencyCode)
+      userSettingsRepository.updateTargetCurrency(targetCurrencyCode)
 
       val sourceCurrency = CurrencyTestData.BTC
       val targetCurrency = CurrencyTestData.AED
@@ -112,7 +112,7 @@ class ConverterViewModelTest {
 
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
       userSettingsRepository.updateSourceCurrency(sourceCurrencyCode)
-      userSettingsRepository.updateToCurrency(targetCurrencyCode)
+      userSettingsRepository.updateTargetCurrency(targetCurrencyCode)
 
       val sourceCurrency = CurrencyTestData.USD
       val targetCurrency = CurrencyTestData.AED

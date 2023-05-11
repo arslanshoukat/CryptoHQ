@@ -12,9 +12,9 @@ class GetUserCurrenciesUseCase @Inject constructor(
   operator fun invoke(): Flow<Pair<String, String>> {
     return combine(
       userSettingsRepository.sourceCurrency,
-      userSettingsRepository.toCurrency
-    ) { sourceCurrency, toCurrency ->
-      sourceCurrency to toCurrency
+      userSettingsRepository.targetCurrency
+    ) { sourceCurrency, targetCurrency ->
+      sourceCurrency to targetCurrency
     }
   }
 }

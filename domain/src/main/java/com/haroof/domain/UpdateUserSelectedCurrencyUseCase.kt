@@ -9,6 +9,6 @@ class UpdateUserSelectedCurrencyUseCase @Inject constructor(
 
   suspend operator fun invoke(sourceCurrency: Boolean, currencyCode: String) {
     if (sourceCurrency) userSettingsRepository.updateSourceCurrency(currencyCode)
-    else userSettingsRepository.updateToCurrency(currencyCode)
+    else userSettingsRepository.updateTargetCurrency(currencyCode)
   }
 }

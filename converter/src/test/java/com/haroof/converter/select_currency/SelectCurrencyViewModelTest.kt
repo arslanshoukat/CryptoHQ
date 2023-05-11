@@ -58,7 +58,7 @@ class SelectCurrencyViewModelTest {
 
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
       userSettingsRepository.updateSourceCurrency(otherCurrencyCode)
-      userSettingsRepository.updateToCurrency(selectedCurrencyCode)
+      userSettingsRepository.updateTargetCurrency(selectedCurrencyCode)
 
       assertEquals(
         SelectCurrencyUiState.Success(
@@ -80,7 +80,7 @@ class SelectCurrencyViewModelTest {
 
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
       userSettingsRepository.updateSourceCurrency(otherCurrencyCode)
-      userSettingsRepository.updateToCurrency(selectedCurrencyCode)
+      userSettingsRepository.updateTargetCurrency(selectedCurrencyCode)
 
       assertEquals(
         SelectCurrencyUiState.Success(
@@ -113,7 +113,7 @@ class SelectCurrencyViewModelTest {
 
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
       userSettingsRepository.updateSourceCurrency(otherCurrencyCode)
-      userSettingsRepository.updateToCurrency(selectedCurrencyCode)
+      userSettingsRepository.updateTargetCurrency(selectedCurrencyCode)
 
       assertEquals(
         SelectCurrencyUiState.Success(

@@ -6,9 +6,13 @@ interface UserSettingsRepository {
 
   val sourceCurrency: Flow<String>
 
-  val toCurrency: Flow<String>
+  val targetCurrency: Flow<String>
+
+  val defaultCurrency: Flow<String>
 
   suspend fun updateSourceCurrency(currencyCode: String)
 
-  suspend fun updateToCurrency(currencyCode: String)
+  suspend fun updateTargetCurrency(currencyCode: String)
+
+  suspend fun updateDefaultCurrency(currencyCode: String)
 }

@@ -22,8 +22,12 @@ class CryptoHqPreferencesDataSource @Inject constructor(
     it[SOURCE_CURRENCY] ?: "btc"  //  default is Bitcoin
   }.distinctUntilChanged()
 
-  val toCurrency: Flow<String> = dataStore.data.map {
-    it[TO_CURRENCY] ?: "usd"    //  default is US Dollar
+  val targetCurrency: Flow<String> = dataStore.data.map {
+    it[TARGET_CURRENCY] ?: "usd"    //  default is US Dollar
+  }.distinctUntilChanged()
+
+  val defaultCurrency: Flow<String> = dataStore.data.map {
+    it[DEFAULT_CURRENCY] ?: "usd"    //  default is US Dollar
   }.distinctUntilChanged()
 
   suspend fun addToWatchList(coinId: String) {
@@ -44,15 +48,22 @@ class CryptoHqPreferencesDataSource @Inject constructor(
     }
   }
 
-  suspend fun updateToCurrency(currencyCode: String) {
+  suspend fun updateTargetCurrency(currencyCode: String) {
     dataStore.edit {
-      it[TO_CURRENCY] = currencyCode
+      it[TARGET_CURRENCY] = currencyCode
+    }
+  }
+
+  suspend fun updateDefaultCurrency(currencyCode: String) {
+    dataStore.edit {
+      it[DEFAULT_CURRENCY] = currencyCode
     }
   }
 
   companion object {
     val WATCHED_COIN_IDS = stringSetPreferencesKey("watchedCoinIds")
     val SOURCE_CURRENCY = stringPreferencesKey("sourceCurrency")
-    val TO_CURRENCY = stringPreferencesKey("toCurrency")
+    val TARGET_CURRENCY = stringPreferencesKey("targetCurrency")
+    val DEFAULT_CURRENCY = stringPreferencesKey("defaultCurrency")
   }
 }
