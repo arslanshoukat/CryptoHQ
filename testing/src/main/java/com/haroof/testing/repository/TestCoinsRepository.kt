@@ -16,7 +16,10 @@ class TestCoinsRepository : CoinsRepository {
   private val detailedCoinFlow =
     MutableSharedFlow<DetailedCoin>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-  override fun getCoins(vs_currency: String): Flow<List<Coin>> {
+  override fun getCoins(
+    vs_currency: String,
+    sparkline: Boolean
+  ): Flow<List<Coin>> {
     return coinsFlow
   }
 

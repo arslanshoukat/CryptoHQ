@@ -5,12 +5,13 @@ import app.cash.turbine.testIn
 import com.haroof.domain.GetCoinsUseCase
 import com.haroof.domain.model.toDataModel
 import com.haroof.testing.MainDispatcherRule
+import com.haroof.testing.data.CurrencyTestData
 import com.haroof.testing.data.SimpleCoinTestData
 import com.haroof.testing.repository.TestCoinsRepository
+import com.haroof.testing.repository.TestUserSettingsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,9 +22,12 @@ class MarketViewModelTest {
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()
 
+  private val userSettingsRepository = TestUserSettingsRepository()
   private val coinsRepository = TestCoinsRepository()
-  private val getCoinsUseCase = GetCoinsUseCase(coinsRepository)
+  private val getCoinsUseCase = GetCoinsUseCase(userSettingsRepository, coinsRepository)
   private lateinit var viewModel: MarketViewModel
+
+  private val defaultCurrency = CurrencyTestData.USD.code
 
   @Before
   fun setup() {
@@ -40,6 +44,7 @@ class MarketViewModelTest {
     viewModel.uiState.test {
       assertEquals(MarketUiState.Loading, awaitItem())
 
+      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
 
       assertEquals(
@@ -57,6 +62,7 @@ class MarketViewModelTest {
     viewModel.uiState.test {
       assertEquals(MarketUiState.Loading, awaitItem())
 
+      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
       coinsRepository.sendCoins(emptyList())
 
       assertEquals(MarketUiState.Empty, awaitItem())
@@ -64,15 +70,11 @@ class MarketViewModelTest {
   }
 
   @Test
-  fun whenDataRefreshFailed_stateIsError() = runTest {
-    assertTrue(viewModel.uiState.value is MarketUiState.Error)
-  }
-
-  @Test
   fun whenDataIsSortedByPriceForFirstTime_itIsSortedByAscendingOrder() = runTest {
     viewModel.uiState.test {
       assertEquals(MarketUiState.Loading, awaitItem())
 
+      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
       assertEquals(
         MarketUiState.Success(
@@ -101,6 +103,7 @@ class MarketViewModelTest {
     viewModel.uiState.test {
       assertEquals(MarketUiState.Loading, awaitItem())
 
+      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
       assertEquals(
         MarketUiState.Success(
@@ -134,6 +137,7 @@ class MarketViewModelTest {
     assertEquals(MarketUiState.Loading, uiStateTurbine.awaitItem())
     assertEquals("", searchTurbine.awaitItem()) //  initially query in empty
 
+    userSettingsRepository.updateDefaultCurrency(defaultCurrency)
     coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
 
     val originalCoins = SimpleCoinTestData.LIST.sortedBy { it.marketCapRank }

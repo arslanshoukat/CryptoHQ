@@ -10,9 +10,11 @@ import coil.ImageLoader
 import com.haroof.data.model.Coin
 import com.haroof.data.model.DetailedCoin
 import com.haroof.data.repository.CoinsRepository
+import com.haroof.data.repository.UserSettingsRepository
 import com.haroof.domain.GetCoinsUseCase
 import com.haroof.domain.model.toDataModel
 import com.haroof.market.R.string
+import com.haroof.testing.data.CurrencyTestData
 import com.haroof.testing.data.SimpleCoinTestData
 import com.haroof.testing.data.WatchableDetailedCoinTestData
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -37,8 +39,9 @@ class MarketRouteTest {
   @Inject
   lateinit var imageLoader: ImageLoader
 
+  private val userSettingsRepository = FakeUserSettingsRepository()
   private val coinsRepository = FakeCoinsRepository()
-  private val getCoinsUseCase = GetCoinsUseCase(coinsRepository)
+  private val getCoinsUseCase = GetCoinsUseCase(userSettingsRepository, coinsRepository)
 
   @Before
   fun init() {
@@ -122,7 +125,10 @@ class MarketRouteTest {
 
   //  Test double for coins repository in ui tests
   private class FakeCoinsRepository : CoinsRepository {
-    override fun getCoins(vs_currency: String): Flow<List<Coin>> {
+    override fun getCoins(
+      vs_currency: String,
+      sparkline: Boolean
+    ): Flow<List<Coin>> {
       return flowOf(SimpleCoinTestData.LIST.map { it.toDataModel() })
     }
 
@@ -136,6 +142,31 @@ class MarketRouteTest {
 
     override fun getDetailedCoinById(id: String, vs_currency: String): Flow<DetailedCoin> {
       return flowOf(WatchableDetailedCoinTestData.LIST.first { it.id == id }.toDataModel())
+    }
+  }
+
+  //  Test double for user settings repository in ui tests
+  private class FakeUserSettingsRepository : UserSettingsRepository {
+
+    override val sourceCurrency: Flow<String>
+      get() = TODO("Not yet implemented")
+
+    override val targetCurrency: Flow<String>
+      get() = TODO("Not yet implemented")
+
+    override val defaultCurrency: Flow<String>
+      get() = flowOf(CurrencyTestData.USD.code)
+
+    override suspend fun updateSourceCurrency(currencyCode: String) {
+      TODO("Not yet implemented")
+    }
+
+    override suspend fun updateTargetCurrency(currencyCode: String) {
+      TODO("Not yet implemented")
+    }
+
+    override suspend fun updateDefaultCurrency(currencyCode: String) {
+      TODO("Not yet implemented")
     }
   }
 }

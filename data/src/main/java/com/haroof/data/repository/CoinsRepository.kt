@@ -6,7 +6,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoinsRepository {
 
-  fun getCoins(vs_currency: String): Flow<List<Coin>>
+  fun getCoins(
+    vs_currency: String,
+    sparkline: Boolean
+  ): Flow<List<Coin>>
 
   fun getCoinsByIds(
     ids: List<String>,

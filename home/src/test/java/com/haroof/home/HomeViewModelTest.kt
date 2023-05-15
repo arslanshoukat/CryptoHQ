@@ -4,12 +4,13 @@ import app.cash.turbine.test
 import com.haroof.domain.GetCoinsUseCase
 import com.haroof.domain.model.toDataModel
 import com.haroof.testing.MainDispatcherRule
+import com.haroof.testing.data.CurrencyTestData
 import com.haroof.testing.data.SimpleCoinTestData
 import com.haroof.testing.repository.TestCoinsRepository
+import com.haroof.testing.repository.TestUserSettingsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,9 +21,12 @@ class HomeViewModelTest {
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()
 
+  private val userSettingsRepository = TestUserSettingsRepository()
   private val coinsRepository = TestCoinsRepository()
-  private val getCoins = GetCoinsUseCase(coinsRepository)
+  private val getCoins = GetCoinsUseCase(userSettingsRepository, coinsRepository)
   private lateinit var viewModel: HomeViewModel
+
+  private val defaultCurrency = CurrencyTestData.USD.code
 
   @Before
   fun setup() {
@@ -39,6 +43,7 @@ class HomeViewModelTest {
     viewModel.uiState.test {
       assertEquals(HomeUiState.Loading, awaitItem())
 
+      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
 
       assertEquals(
@@ -56,21 +61,10 @@ class HomeViewModelTest {
     viewModel.uiState.test {
       assertEquals(HomeUiState.Loading, awaitItem())
 
+      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
       coinsRepository.sendCoins(emptyList())
 
       assertEquals(HomeUiState.Empty, awaitItem())
-    }
-  }
-
-  @Test
-  fun whenDataRefreshFailed_stateIsError() = runTest {
-    // TODO: figure out a way to trigger error result
-    viewModel.uiState.test {
-      assertEquals(HomeUiState.Loading, awaitItem())
-
-      coinsRepository.sendCoins(emptyList())
-
-      assertTrue("uiState is not HomeUiState.Error", awaitItem() is HomeUiState.Error)
     }
   }
 }

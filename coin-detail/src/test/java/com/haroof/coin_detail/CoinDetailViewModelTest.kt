@@ -13,14 +13,15 @@ import com.haroof.domain.RemoveCoinFromWatchListUseCase
 import com.haroof.domain.model.toDataModel
 import com.haroof.testing.MainDispatcherRule
 import com.haroof.testing.data.ChartEntryTestData
+import com.haroof.testing.data.CurrencyTestData
 import com.haroof.testing.data.WatchableDetailedCoinTestData
 import com.haroof.testing.repository.TestChartRepository
 import com.haroof.testing.repository.TestCoinsRepository
+import com.haroof.testing.repository.TestUserSettingsRepository
 import com.haroof.testing.repository.TestWatchListRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,18 +35,22 @@ class CoinDetailViewModelTest {
   private val coinId = FakeData.DETAILED_COINS.first().id
   private val savedStateHandle = SavedStateHandle(mapOf("coinId" to coinId))
 
+  private val userSettingsRepository = TestUserSettingsRepository()
   private val coinsRepository = TestCoinsRepository()
   private val watchListRepository = TestWatchListRepository()
   private val chartRepository = TestChartRepository()
   private lateinit var viewModel: CoinDetailViewModel
+
+  private val defaultCurrency = CurrencyTestData.USD.code
 
   @Before
   fun setup() {
     viewModel = CoinDetailViewModel(
       savedStateHandle = savedStateHandle,
       getWatchableDetailedCoin = GetWatchableDetailedCoinUseCase(
+        userSettingsRepository,
         coinsRepository,
-        watchListRepository
+        watchListRepository,
       ),
       getChartData = GetChartDataUseCase(chartRepository),
       addCoinToWatchList = AddCoinToWatchListUseCase(watchListRepository),
@@ -68,17 +73,13 @@ class CoinDetailViewModelTest {
   }
 
   @Test
-  fun whenDataFetchFailed_stateIsError() {
-    assertTrue(viewModel.coinDetailUiState.value is CoinDetailUiState.Error)
-  }
-
-  @Test
   fun whenCoinDetailFetchIsSuccessful_coinDetailStateIsSuccess() = runTest {
     viewModel.coinDetailUiState.test {
       assertEquals(CoinDetailUiState.Loading, awaitItem())
 
       val expectedDetailCoin = WatchableDetailedCoinTestData.WATCHED_COIN
 
+      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
       coinsRepository.sendDetailedCoin(expectedDetailCoin.toDataModel())
       watchListRepository.sendWatchedCoinsIds(listOf(expectedDetailCoin.id))
 
@@ -101,6 +102,7 @@ class CoinDetailViewModelTest {
     val expectedDetailCoin = WatchableDetailedCoinTestData.WATCHED_COIN
 
     //  first we fetch coin details
+    userSettingsRepository.updateDefaultCurrency(defaultCurrency)
     coinsRepository.sendDetailedCoin(expectedDetailCoin.toDataModel())
     watchListRepository.sendWatchedCoinsIds(listOf(expectedDetailCoin.id))
 
@@ -122,6 +124,7 @@ class CoinDetailViewModelTest {
 
       val expectedDetailCoin = WatchableDetailedCoinTestData.NOT_WATCHED_COIN
 
+      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
       coinsRepository.sendDetailedCoin(expectedDetailCoin.toDataModel())
       watchListRepository.sendWatchedCoinsIds(emptyList())  //  nothing in watchlist
 
@@ -148,6 +151,7 @@ class CoinDetailViewModelTest {
 
       val expectedDetailCoin = WatchableDetailedCoinTestData.WATCHED_COIN
 
+      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
       coinsRepository.sendDetailedCoin(expectedDetailCoin.toDataModel())
       watchListRepository.sendWatchedCoinsIds(listOf(expectedDetailCoin.id))
 

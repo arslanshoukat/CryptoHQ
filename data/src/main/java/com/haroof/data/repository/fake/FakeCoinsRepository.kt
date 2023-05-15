@@ -16,11 +16,14 @@ class FakeCoinsRepository @Inject constructor(
   private val networkDataSource: FakeNetworkDataSource,
 ) : CoinsRepository {
 
-  override fun getCoins(vs_currency: String): Flow<List<Coin>> = flow {
+  override fun getCoins(
+    vs_currency: String,
+    sparkline: Boolean
+  ): Flow<List<Coin>> = flow {
     val coins = networkDataSource.getCoins(
-      vs_currency = "usd",
+      vs_currency = vs_currency,
       ids = emptyList(),
-      sparkline = true
+      sparkline = sparkline
     ).map(CoinDto::toExternalModel)
     emit(coins)
   }.flowOn(Dispatchers.IO)

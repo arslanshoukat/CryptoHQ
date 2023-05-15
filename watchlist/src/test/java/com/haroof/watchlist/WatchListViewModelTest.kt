@@ -4,8 +4,10 @@ import app.cash.turbine.test
 import com.haroof.domain.GetWatchListCoinsUseCase
 import com.haroof.domain.model.toDataModel
 import com.haroof.testing.MainDispatcherRule
+import com.haroof.testing.data.CurrencyTestData
 import com.haroof.testing.data.SimpleCoinTestData
 import com.haroof.testing.repository.TestCoinsRepository
+import com.haroof.testing.repository.TestUserSettingsRepository
 import com.haroof.testing.repository.TestWatchListRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -20,11 +22,14 @@ class WatchListViewModelTest {
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()
 
-  private val coinsRepository = TestCoinsRepository()
   private val watchListRepository = TestWatchListRepository()
+  private val userSettingsRepository = TestUserSettingsRepository()
+  private val coinsRepository = TestCoinsRepository()
   private val getWatchListCoinsUseCase =
-    GetWatchListCoinsUseCase(watchListRepository, coinsRepository)
+    GetWatchListCoinsUseCase(watchListRepository, userSettingsRepository, coinsRepository)
   private lateinit var viewModel: WatchListViewModel
+
+  private val defaultCurrency = CurrencyTestData.USD.code
 
   @Before
   fun setup() {
@@ -43,6 +48,7 @@ class WatchListViewModelTest {
 
       val watchedCoinIds = listOf("bitcoin", "ethereum")
       watchListRepository.sendWatchedCoinsIds(watchedCoinIds)
+      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
 
       assertEquals(
@@ -59,6 +65,7 @@ class WatchListViewModelTest {
 
       val watchedCoinIds = emptyList<String>()
       watchListRepository.sendWatchedCoinsIds(watchedCoinIds)
+      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
 
       assertEquals(WatchListUiState.Empty, awaitItem())

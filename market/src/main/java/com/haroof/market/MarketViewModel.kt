@@ -31,7 +31,7 @@ class MarketViewModel @Inject constructor(
   }
 
   private fun refreshMarketData() {
-    getCoins()
+    getCoins(sparkline = false)
       .onEach { result ->
         _uiState.value = when (result) {
           Loading -> MarketUiState.Loading

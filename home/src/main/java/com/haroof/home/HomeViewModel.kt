@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
   }
 
   private fun refresh() {
-    getCoins()
+    getCoins(sparkline = true)
       .onEach { result ->
         _uiState.value = when (result) {
           Loading -> HomeUiState.Loading

@@ -38,10 +38,7 @@ class CoinDetailViewModel @Inject constructor(
   val coinId: String = CoinDetailArgs(savedStateHandle).coinId
 
   init {
-    getWatchableDetailedCoin(
-      id = coinId,
-      vs_currency = "usd",
-    )
+    getWatchableDetailedCoin(id = coinId)
       .onEach { result ->
         _coinDetailUiState.value = when (result) {
           Loading -> CoinDetailUiState.Loading
