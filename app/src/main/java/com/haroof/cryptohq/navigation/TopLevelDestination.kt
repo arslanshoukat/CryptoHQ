@@ -18,15 +18,15 @@ enum class TopLevelDestination(
     selectedIcon = drawable.sharp_market_24,
     unselectedIcon = drawable.outline_market_24
   ),
+  CONVERTER(
+    title = "Converter",
+    selectedIcon = drawable.sharp_swap_horiz_24,
+    unselectedIcon = drawable.sharp_swap_horiz_24
+  ),
   WATCH_LIST(
     title = "Watch List",
     selectedIcon = drawable.sharp_star_24,
     unselectedIcon = drawable.outline_star_24
-  ),
-  CONVERTER(
-    title = "Converter",
-    selectedIcon = drawable.sharp_swap_horizontal_circle_24,
-    unselectedIcon = drawable.outline_swap_horizontal_circle_24
   ),
   SETTINGS(
     title = "Settings",
