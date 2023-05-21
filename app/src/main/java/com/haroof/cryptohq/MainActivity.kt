@@ -11,6 +11,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
+    // handling the splash screen transition
+    setTheme(R.style.Theme_CryptoHq)
+
     super.onCreate(savedInstanceState)
     setContent {
       CryptoHqTheme {

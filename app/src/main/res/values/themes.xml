@@ -2,6 +2,12 @@
 <resources>
 
   <style name="Theme.CryptoHq" parent="android:Theme.Material.Light.NoActionBar">
-    <item name="android:statusBarColor">@color/purple_700</item>
+    <item name="android:statusBarColor">@color/black_900</item>
+  </style>
+
+  <style name="Theme.CryptoHq.Splash" parent="Theme.SplashScreen">
+    <item name="windowSplashScreenBackground">@color/black_900</item>
+    <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+    <item name="postSplashScreenTheme">@style/Theme.CryptoHq</item>
   </style>
 </resources>

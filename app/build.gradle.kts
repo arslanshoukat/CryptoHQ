@@ -71,6 +71,7 @@ dependencies {
   androidTestImplementation(Libs.COMPOSE_UI_JUNIT4)
   debugImplementation(Libs.COMPOSE_UI_TOOLING)
   debugImplementation(Libs.COMPOSE_UI_TEST_MANIFEST)
+  implementation("androidx.core:core-splashscreen:1.0.1")
 }
 
 // Allow references to generated code
