@@ -61,8 +61,9 @@ dependencies {
   implementation(Libs.MATERIAL)
   implementation(Libs.COMPOSE_UI)
   implementation(Libs.COMPOSE_UI_TOOLING_PREVIEW)
+  implementation(Libs.SPLASH_SCREEN)
   implementation(Libs.COIL_COMPOSE)
-  implementation(Libs.ACCOMPANIST_SUSTEM_UI_CONTROLLER)
+  implementation(Libs.ACCOMPANIST_SYSTEM_UI_CONTROLLER)
   implementation(Libs.HILT_ANDROID)
   kapt(Libs.HILT_ANDROID_COMPILER)
   testImplementation(Libs.JUNIT)
@@ -71,7 +72,6 @@ dependencies {
   androidTestImplementation(Libs.COMPOSE_UI_JUNIT4)
   debugImplementation(Libs.COMPOSE_UI_TOOLING)
   debugImplementation(Libs.COMPOSE_UI_TEST_MANIFEST)
-  implementation("androidx.core:core-splashscreen:1.0.1")
 }
 
 // Allow references to generated code

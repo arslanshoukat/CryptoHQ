@@ -102,7 +102,7 @@ internal fun CoinCard(
       )
 
       Text(
-        text = "$${coin.currentPrice}",
+        text = "$${coin.currentPriceString}",
         style = MaterialTheme.typography.body1,
         modifier = Modifier
           .constrainAs(price) {

@@ -17,11 +17,13 @@ fun NavController.navigateToSettings(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.settingsScreen(
   onNavigateToCurrencySettings: () -> Unit,
+  onNavigateToTermsOfService: (Boolean) -> Unit,
   onNavigateToAbout: () -> Unit,
 ) {
   composable(route = settingsRoute) {
     SettingsRoute(
       onNavigateToCurrencySettings = onNavigateToCurrencySettings,
+      onNavigateToTermsOfService = onNavigateToTermsOfService,
       onNavigateToAbout = onNavigateToAbout,
     )
   }

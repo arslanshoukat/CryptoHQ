@@ -58,7 +58,7 @@ fun MarketCoinsListItem(
 
     Row(
       verticalAlignment = Alignment.CenterVertically,
-      modifier = Modifier.weight(0.4f)
+      modifier = Modifier.weight(0.65f)
     ) {
       AsyncImage(
         model = coin.imageUrl,
@@ -69,19 +69,24 @@ fun MarketCoinsListItem(
         contentDescription = stringResource(commonR.string.coin_icon_content_desc),
         modifier = Modifier.size(24.dp)
       )
+
       Spacer(modifier = Modifier.width(16.dp))
+
       Text(
         text = coin.symbol.uppercase(),
         style = MaterialTheme.typography.body1
       )
-    }
 
-    Text(
-      text = "$${coin.currentPrice}",
-      style = MaterialTheme.typography.body1,
-      textAlign = TextAlign.End,
-      modifier = Modifier.weight(0.25f)
-    )
+      Spacer(modifier = Modifier.width(8.dp))
+
+      Text(
+        text = "$${coin.currentPriceString}",
+        style = MaterialTheme.typography.body1,
+        maxLines = 1,
+        textAlign = TextAlign.End,
+        modifier = Modifier.weight(1f)
+      )
+    }
 
     Text(
       text = "${coin.priceChangePercentage24h.roundDecimal(2)}%",

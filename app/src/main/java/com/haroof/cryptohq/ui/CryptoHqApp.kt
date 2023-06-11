@@ -39,15 +39,16 @@ fun CryptoHqApp(
       if (appState.shouldShowBottomNavBar) BottomNavBar(appState)
     },
     floatingActionButton = {
-      FloatingActionButton(
-        elevation = FloatingActionButtonDefaults.elevation(2.dp, 4.dp, 0.dp, 0.dp),
-        onClick = { appState.navigateToTopLevelDestination(CONVERTER) }) {
-        Icon(
-          painter = painterResource(CONVERTER.unselectedIcon),
-          contentDescription = null,
-          modifier = Modifier.size(32.dp)
-        )
-      }
+      if (appState.shouldShowFloatingActionButton)
+        FloatingActionButton(
+          elevation = FloatingActionButtonDefaults.elevation(2.dp, 4.dp, 0.dp, 0.dp),
+          onClick = { appState.navigateToTopLevelDestination(CONVERTER) }) {
+          Icon(
+            painter = painterResource(CONVERTER.unselectedIcon),
+            contentDescription = null,
+            modifier = Modifier.size(32.dp)
+          )
+        }
     },
     floatingActionButtonPosition = FabPosition.Center,
     isFloatingActionButtonDocked = true,

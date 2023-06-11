@@ -53,6 +53,7 @@ import com.haroof.common.R as commonR
 fun SettingsRoute(
   viewModel: SettingsViewModel = hiltViewModel(),
   onNavigateToCurrencySettings: () -> Unit = {},
+  onNavigateToTermsOfService: (Boolean) -> Unit = {},
   onNavigateToAbout: () -> Unit = {},
 ) {
   val uiState by viewModel.uiState.collectAsState()
@@ -60,6 +61,7 @@ fun SettingsRoute(
   SettingsScreen(
     uiState = uiState,
     onOpenCurrencySettings = onNavigateToCurrencySettings,
+    onNavigateToTermsOfService = onNavigateToTermsOfService,
     onNavigateToAbout = onNavigateToAbout,
   )
 }
@@ -68,6 +70,7 @@ fun SettingsRoute(
 fun SettingsScreen(
   uiState: SettingsUiState,
   onOpenCurrencySettings: () -> Unit = {},
+  onNavigateToTermsOfService: (isTermsOfService: Boolean) -> Unit = {},
   onNavigateToAbout: () -> Unit = {},
 ) {
   Column(
@@ -115,7 +118,15 @@ fun SettingsScreen(
         SettingsItem(
           title = string.terms_of_service,
           icon = drawable.sharp_menu_book_24,
-          onItemClicked = onNavigateToAbout,
+          onItemClicked = { onNavigateToTermsOfService(true) },
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        SettingsItem(
+          title = string.privacy_policy,
+          icon = drawable.sharp_menu_book_24,
+          onItemClicked = { onNavigateToTermsOfService(false) },
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -134,7 +145,7 @@ fun SettingsScreen(
           modifier = Modifier.align(Alignment.CenterHorizontally)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(32.dp))
       }
     }
   }

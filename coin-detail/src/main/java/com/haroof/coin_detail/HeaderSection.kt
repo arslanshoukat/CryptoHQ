@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.IconToggleButton
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -32,6 +33,10 @@ import com.haroof.common.R.drawable
 import com.haroof.common.R.string
 import com.haroof.common.extension.roundDecimal
 import com.haroof.designsystem.theme.green
+import com.haroof.designsystem.theme.red
+import com.haroof.domain.model.MarketTrend.DOWN
+import com.haroof.domain.model.MarketTrend.NEUTRAL
+import com.haroof.domain.model.MarketTrend.UP
 import com.haroof.domain.model.WatchableDetailedCoin
 
 @Composable
@@ -55,18 +60,25 @@ internal fun HeaderSection(
   ) {
     Spacer(Modifier.width(16.dp))
     Text(
-      text = "$${coin.currentPrice}",
+      text = "$${coin.currentPriceString}",
       style = MaterialTheme.typography.h5
     )
+
     Spacer(Modifier.width(12.dp))
+
+    val color = when (coin.marketTrend) {
+      NEUTRAL -> LocalTextStyle.current.color
+      UP -> green
+      DOWN -> red
+    }
     Surface(
       shape = CircleShape,
-      color = green.copy(alpha = 0.2f),
-      contentColor = green,
+      color = color.copy(alpha = 0.2f),
+      contentColor = color,
     ) {
       Text(
         text = "${coin.priceChangePercentage24h.roundDecimal(2)}%",
-        style = MaterialTheme.typography.body2.copy(color = green),
+        style = MaterialTheme.typography.body2.copy(color = color),
         modifier = Modifier
           .padding(horizontal = 8.dp, vertical = 4.dp),
       )

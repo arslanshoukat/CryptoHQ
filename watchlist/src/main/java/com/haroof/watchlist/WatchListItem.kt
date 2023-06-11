@@ -71,7 +71,7 @@ fun WatchListItem(
 
       Column(horizontalAlignment = Alignment.End) {
         Text(
-          text = "$${coin.currentPrice}",
+          text = "$${coin.currentPriceString}",
           style = MaterialTheme.typography.subtitle1
         )
         Spacer(modifier = Modifier.height(4.dp))

@@ -13,7 +13,11 @@ import com.haroof.home.navigation.homeRoute
 import com.haroof.home.navigation.homeScreen
 import com.haroof.market.navigation.marketScreen
 import com.haroof.market.navigation.navigateToMarket
+import com.haroof.settings.navigation.aboutScreen
+import com.haroof.settings.navigation.navigateToAbout
+import com.haroof.settings.navigation.navigateToTermsOfService
 import com.haroof.settings.navigation.settingsScreen
+import com.haroof.settings.navigation.termsOfServiceScreen
 import com.haroof.watchlist.navigation.watchListScreen
 
 @Composable
@@ -55,10 +59,15 @@ fun CryptoHqNavHost(
           isSourceCurrency = false
         )
       },
-      onNavigateToAbout = {}
+      onNavigateToTermsOfService = { navController.navigateToTermsOfService(isTermsOfService = it) },
+      onNavigateToAbout = { navController.navigateToAbout() }
     )
     coinDetailScreen(
       onBackPressed = { navController.navigateUp() },
     )
+    aboutScreen(
+      onBackPressed = { navController.navigateUp() },
+    )
+    termsOfServiceScreen()
   }
 }

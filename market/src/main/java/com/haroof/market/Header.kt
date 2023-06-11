@@ -63,7 +63,7 @@ fun Header(
 
       HeaderCell(
         title = stringResource(string.coin_title),
-        weight = 0.4f,
+        weight = 0.35f,
         isSorted = sortBy == COIN,
         sortOrder = sortOrder,
         textAlign = TextAlign.Center,
@@ -72,7 +72,7 @@ fun Header(
 
       HeaderCell(
         title = stringResource(string.price_title),
-        weight = 0.25f,
+        weight = 0.30f,
         isSorted = sortBy == PRICE,
         sortOrder = sortOrder,
         textAlign = TextAlign.End,

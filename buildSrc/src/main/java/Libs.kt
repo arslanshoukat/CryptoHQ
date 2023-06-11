@@ -21,11 +21,14 @@ object Libs {
   const val COMPOSE_UI_JUNIT4 = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE_UI}"
   const val COMPOSE_UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE_UI}"
   const val COMPOSE_UI_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:${Versions.COMPOSE_UI}"
+  const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
 
   const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COIL_COMPOSE}"
 
-  const val ACCOMPANIST_SUSTEM_UI_CONTROLLER =
-    "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST_SUSTEM_UI_CONTROLLER}"
+  const val ACCOMPANIST_SYSTEM_UI_CONTROLLER =
+    "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST_SYSTEM_UI_CONTROLLER}"
+  const val ACCOMPANIST_WEBVIEW =
+    "com.google.accompanist:accompanist-webview:${Versions.ACCOMPANIST_WEBVIEW}"
 
   const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.HILT_ANDROID}"
   const val HILT_ANDROID_TESTING = "com.google.dagger:hilt-android-testing:${Versions.HILT_ANDROID}"

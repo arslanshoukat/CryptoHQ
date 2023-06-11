@@ -39,7 +39,7 @@ fun rememberAppState(
 class CryptoHqAppState(
   val navController: NavHostController
 ) {
-  val currentDestination: NavDestination?
+  private val currentDestination: NavDestination?
     @Composable get() = navController
       .currentBackStackEntryAsState().value?.destination
 
@@ -54,6 +54,9 @@ class CryptoHqAppState(
     }
 
   val shouldShowBottomNavBar: Boolean
+    @Composable get() = currentTopLevelDestination != null
+
+  val shouldShowFloatingActionButton: Boolean
     @Composable get() = currentTopLevelDestination != null
 
   val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
