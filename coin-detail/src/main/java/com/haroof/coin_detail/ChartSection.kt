@@ -40,6 +40,7 @@ import com.haroof.domain.model.MarketTrend.DOWN
 import com.haroof.domain.model.MarketTrend.NEUTRAL
 import com.haroof.domain.model.MarketTrend.UP
 import com.haroof.domain.sample_data.ChartEntrySampleData
+import com.haroof.domain.sample_data.CurrencySampleData
 import com.patrykandpatrick.vico.compose.axis.axisGuidelineComponent
 import com.patrykandpatrick.vico.compose.axis.axisLabelComponent
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
@@ -56,6 +57,7 @@ import com.patrykandpatrick.vico.core.entry.entryModelOf
 @Composable
 internal fun ChartSection(
   chartUiState: ChartUiState,
+  currencyUnit: String,
   marketTrend: MarketTrend,
   onTimeFilterChanged: (TimeFilter) -> Unit = {},
 ) {
@@ -129,7 +131,7 @@ internal fun ChartSection(
         horizontalLabelPosition = VerticalAxis.HorizontalLabelPosition.Inside,
         verticalLabelPosition = VerticalAxis.VerticalLabelPosition.Bottom,
         label = axisLabelComponent(color = Color.Black, textSize = 10.sp),
-        valueFormatter = CurrencyAxisValueFormatter("$")  //  todo: pass selected currency
+        valueFormatter = CurrencyAxisValueFormatter(currencyUnit)
       ),
       model = entryModelOf(*chartUiState.chartData.map { it.value }.toTypedArray()),
       isZoomEnabled = false,
@@ -175,6 +177,7 @@ private fun ChartSectionPreview_Loading() {
     ) {
       ChartSection(
         chartUiState = ChartUiState(loading = true),
+        currencyUnit = CurrencySampleData.USD.unit,
         marketTrend = UP,
       )
     }
@@ -192,6 +195,7 @@ private fun ChartSectionPreview_Error() {
     ) {
       ChartSection(
         chartUiState = ChartUiState(exception = IllegalStateException("No internet connection!")),
+        currencyUnit = CurrencySampleData.USD.unit,
         marketTrend = UP,
       )
     }
@@ -209,6 +213,7 @@ private fun ChartSectionPreviewWithNoData() {
     ) {
       ChartSection(
         chartUiState = ChartUiState(chartData = emptyList()),
+        currencyUnit = CurrencySampleData.USD.unit,
         marketTrend = UP,
       )
     }
@@ -226,6 +231,7 @@ private fun ChartSectionPreviewWithData() {
     ) {
       ChartSection(
         chartUiState = ChartUiState(chartData = ChartEntrySampleData.LIST),
+        currencyUnit = CurrencySampleData.USD.unit,
         marketTrend = UP,
       )
     }

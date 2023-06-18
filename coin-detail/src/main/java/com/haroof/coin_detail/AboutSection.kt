@@ -116,7 +116,6 @@ internal fun openUrl(context: Context, url: String) {
   try {
     context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
   } catch (e: ActivityNotFoundException) {
-    // todo: show error if no activity found
     Log.e("Coin Detail", e.localizedMessage, e)
   }
 }

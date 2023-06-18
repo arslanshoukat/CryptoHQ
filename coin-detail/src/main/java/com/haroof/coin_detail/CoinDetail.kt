@@ -52,6 +52,7 @@ internal fun CoinDetail(
     Spacer(modifier = Modifier.height(16.dp))
     ChartSection(
       chartUiState = chartUiState,
+      currencyUnit = coin.currencyUnit,
       marketTrend = coin.marketTrend,
       onTimeFilterChanged = onTimeFilterChanged
     )

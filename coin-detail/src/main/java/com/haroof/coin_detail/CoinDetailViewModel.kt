@@ -56,7 +56,6 @@ class CoinDetailViewModel @Inject constructor(
 
     getChartData(
       id = coinId,
-      vs_currency = "usd",
       days = prevChartUiState.selectedTimeFilter.days,
       interval = prevChartUiState.selectedTimeFilter.interval,
     )
