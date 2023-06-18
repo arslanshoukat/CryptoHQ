@@ -27,14 +27,17 @@ sealed interface Result<out T> {
  * We take special care to propagate CancellationException further down chain to ensure
  * structured concurrency.
  */
-fun <R, T> Flow<List<T>>.asResult(mapper: T.() -> R): Flow<Result<List<R>>> =
+fun <R, T> Flow<List<T>>.asResult(
+  mapper: T.(String) -> R,
+  currencyUnit: String
+): Flow<Result<List<R>>> =
   this
-    .map<List<T>, Result<List<R>>> {
-      Result.Success(it.map(mapper))
+    .map<List<T>, Result<List<R>>> { list ->
+      Result.Success(list.map { it.mapper(currencyUnit) })
     }
     .onStart { emit(Result.Loading) }
     .catch {
-      if (it is CancellationException) throw it  //  todo: consider if we need to return a result here
+      if (it is CancellationException) throw it
       else emit(Result.Error(it))
     }
     .flowOn(Dispatchers.IO)

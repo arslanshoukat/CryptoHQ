@@ -30,6 +30,7 @@ object WatchableDetailedCoinTestData {
     "https://www.twitter.com/bitcoin/",
     "https://www.reddit.com/r/bitcoin/",
     true,
+    CurrencyTestData.USD.unit,
   )
 
   val NOT_WATCHED_COIN = WatchableDetailedCoin(
@@ -58,6 +59,7 @@ object WatchableDetailedCoinTestData {
     "https://www.twitter.com/ethereum/",
     "https://www.reddit.com/r/ethereum/",
     false,
+    CurrencyTestData.USD.unit,
   )
 
   val LIST = listOf(
@@ -89,6 +91,7 @@ object WatchableDetailedCoinTestData {
       "https://www.twitter.com/tether_to/",
       "https://www.reddit.com/r/tether/",
       false,
+      CurrencyTestData.USD.unit,
     ),
   )
 }

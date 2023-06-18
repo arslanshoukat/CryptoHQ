@@ -29,16 +29,32 @@ data class WatchableDetailedCoin(
   val twitterLink: String,
   val redditLink: String,
   val isWatched: Boolean,
+  val currencyUnit: String,
 ) {
 
   val marketTrend: MarketTrend
     get() = if (priceChangePercentage24h > 0) MarketTrend.UP else if (priceChangePercentage24h < 0) MarketTrend.DOWN else MarketTrend.NEUTRAL
 
   val currentPriceString: String
-    get() = currentPrice.toBigDecimal().toPlainString()
+    get() = currencyUnit + currentPrice.toBigDecimal().toPlainString()
+
+  val marketCapString: String
+    get() = currencyUnit + marketCap.toBigDecimal().toPlainString()
+
+  val low24hString: String
+    get() = currencyUnit + low24h.toBigDecimal().toPlainString()
+
+  val high24hString: String
+    get() = currencyUnit + high24h.toBigDecimal().toPlainString()
+
+  val allTimeLowString: String
+    get() = currencyUnit + allTimeLow.toBigDecimal().toPlainString()
+
+  val allTimeHighString: String
+    get() = currencyUnit + allTimeHigh.toBigDecimal().toPlainString()
 }
 
-fun DetailedCoin.toDomainModel(isWatched: Boolean) = WatchableDetailedCoin(
+fun DetailedCoin.toDomainModel(isWatched: Boolean, currencyUnit: String) = WatchableDetailedCoin(
   id = id,
   name = name,
   symbol = symbol,
@@ -64,6 +80,7 @@ fun DetailedCoin.toDomainModel(isWatched: Boolean) = WatchableDetailedCoin(
   twitterLink = links.twitter,
   redditLink = links.reddit,
   isWatched = isWatched,
+  currencyUnit = currencyUnit,
 )
 
 fun WatchableDetailedCoin.toDataModel() = DetailedCoin(

@@ -74,7 +74,7 @@ internal fun HomeCoinListItem(
 
     Column(horizontalAlignment = Alignment.End) {
       Text(
-        text = "$${coin.currentPriceString}",
+        text = coin.currentPriceString,
         style = MaterialTheme.typography.subtitle1
       )
       Spacer(modifier = Modifier.height(4.dp))

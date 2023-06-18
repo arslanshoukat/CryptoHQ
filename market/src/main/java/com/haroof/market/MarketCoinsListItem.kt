@@ -80,7 +80,7 @@ fun MarketCoinsListItem(
       Spacer(modifier = Modifier.width(8.dp))
 
       Text(
-        text = "$${coin.currentPriceString}",
+        text = coin.currentPriceString,
         style = MaterialTheme.typography.body1,
         maxLines = 1,
         textAlign = TextAlign.End,

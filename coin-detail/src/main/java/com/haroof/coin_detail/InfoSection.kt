@@ -39,42 +39,42 @@ internal fun InfoSection(
       Divider()
       InfoItem(
         title = stringResource(string.market_cap),
-        value = "$${coin.marketCap}"
+        value = coin.marketCapString
       )
       Divider()
       InfoItem(
         title = stringResource(string._24h_low),
-        value = "$${coin.low24h}"
+        value = coin.low24hString
       )
       Divider()
       InfoItem(
         title = stringResource(string._24h_high),
-        value = "$${coin.high24h}"
+        value = coin.high24hString
       )
       Divider()
       InfoItem(
         title = stringResource(string.all_time_low),
-        value = "$${coin.allTimeLow}"
+        value = coin.allTimeLowString
       )
       Divider()
       InfoItem(
         title = stringResource(string.all_time_high),
-        value = "$${coin.allTimeHigh}"
+        value = coin.allTimeHighString
       )
       Divider()
       InfoItem(
         title = stringResource(string.circulating_supply),
-        value = "$${coin.circulatingSupply}"
+        value = coin.circulatingSupply.toBigDecimal().toPlainString()
       )
       Divider()
       InfoItem(
         title = stringResource(string.total_supply),
-        value = "$${coin.totalSupply}"
+        value = coin.totalSupply.toBigDecimal().toPlainString()
       )
       Divider()
       InfoItem(
         title = stringResource(string.max_supply),
-        value = "$${coin.maxSupply}"
+        value = coin.maxSupply.toBigDecimal().toPlainString()
       )
     }
   }

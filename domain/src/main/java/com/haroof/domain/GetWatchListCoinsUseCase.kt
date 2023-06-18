@@ -36,7 +36,10 @@ class GetWatchListCoinsUseCase @Inject constructor(
           ids = coinIds,
           vs_currency = defaultCurrency.first,
           sparkline = false
-        ).asResult(mapper = Coin::toDomainModel)
+        ).asResult(
+          mapper = Coin::toDomainModel,
+          currencyUnit = defaultCurrency.second
+        )
       }
   }
 }

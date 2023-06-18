@@ -23,7 +23,10 @@ class GetCoinsUseCase @Inject constructor(
       coinsRepository.getCoins(
         vs_currency = defaultCurrency.first,
         sparkline = sparkline
-      ).asResult(mapper = Coin::toDomainModel)
+      ).asResult(
+        mapper = Coin::toDomainModel,
+        currencyUnit = defaultCurrency.second
+      )
     }
   }
 }

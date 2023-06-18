@@ -60,7 +60,7 @@ internal fun HeaderSection(
   ) {
     Spacer(Modifier.width(16.dp))
     Text(
-      text = "$${coin.currentPriceString}",
+      text = coin.currentPriceString,
       style = MaterialTheme.typography.h5
     )
 

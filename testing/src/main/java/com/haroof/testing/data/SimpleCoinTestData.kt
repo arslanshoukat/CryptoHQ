@@ -12,7 +12,8 @@ object SimpleCoinTestData {
     -1.32876f,
     1,
     "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-    listOf(8.0f, 1.0f, 8.0f, 7.5f, 8.0f, 5.0f, 5.0f)
+    listOf(8.0f, 1.0f, 8.0f, 7.5f, 8.0f, 5.0f, 5.0f),
+    CurrencyTestData.USD.unit,
   )
 
   val COIN_GOING_UP = SimpleCoin(
@@ -23,7 +24,8 @@ object SimpleCoinTestData {
     6.978393f,
     2,
     "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-    listOf(7.0f, 6.0f, 1.0f, 7.0f, 5.0f, 6.0f, 4.0f)
+    listOf(7.0f, 6.0f, 1.0f, 7.0f, 5.0f, 6.0f, 4.0f),
+    CurrencyTestData.USD.unit,
   )
 
   val COIN_STAYING_NEUTRAL = SimpleCoin(
@@ -34,7 +36,8 @@ object SimpleCoinTestData {
     0.0f,
     3,
     "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
-    listOf(5.0f, 7.0f, 3.4f, 6.0f, 2.0f, 8.0f, 9.0f)
+    listOf(5.0f, 7.0f, 3.4f, 6.0f, 2.0f, 8.0f, 9.0f),
+    CurrencyTestData.USD.unit,
   )
 
   //  list sorted by market cap rank

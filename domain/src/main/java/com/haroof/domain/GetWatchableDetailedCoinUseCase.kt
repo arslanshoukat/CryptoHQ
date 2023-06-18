@@ -35,7 +35,12 @@ class GetWatchableDetailedCoinUseCase @Inject constructor(
           ),
           watchListRepository.isCoinWatched(id)
         ) { detailedCoin, isWatched ->
-          Result.Success(detailedCoin.toDomainModel(isWatched))
+          Result.Success(
+            detailedCoin.toDomainModel(
+              isWatched = isWatched,
+              currencyUnit = defaultCurrency.second
+            )
+          )
         }
           .onStart { emit(Result.Loading) }
           .catch {

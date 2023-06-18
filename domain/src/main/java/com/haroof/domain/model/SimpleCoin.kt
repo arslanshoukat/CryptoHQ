@@ -10,17 +10,18 @@ data class SimpleCoin(
   val priceChangePercentage24h: Float,
   val marketCapRank: Int,
   val imageUrl: String,
-  val sparklineIn7d: List<Float>
+  val sparklineIn7d: List<Float>,
+  val currencyUnit: String,
 ) {
 
   val marketTrend: MarketTrend
     get() = if (priceChangePercentage24h > 0) MarketTrend.UP else if (priceChangePercentage24h < 0) MarketTrend.DOWN else MarketTrend.NEUTRAL
 
   val currentPriceString: String
-    get() = currentPrice.toBigDecimal().toPlainString()
+    get() = currencyUnit + currentPrice.toBigDecimal().toPlainString()
 }
 
-fun Coin.toDomainModel() = SimpleCoin(
+fun Coin.toDomainModel(currencyUnit: String) = SimpleCoin(
   id = id,
   name = name,
   symbol = symbol,
@@ -29,6 +30,7 @@ fun Coin.toDomainModel() = SimpleCoin(
   marketCapRank = marketCapRank,
   imageUrl = imageUrl,
   sparklineIn7d = sparklineIn7d,
+  currencyUnit = currencyUnit,
 )
 
 fun SimpleCoin.toDataModel() = Coin(
