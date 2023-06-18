@@ -1,5 +1,10 @@
 package com.haroof.settings.about
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -7,10 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,13 +28,19 @@ import com.haroof.designsystem.theme.CryptoHqTheme
 import com.haroof.settings.R.drawable
 import com.haroof.settings.R.string
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CreditItem(
   @DrawableRes iconResId: Int,
   @StringRes titleResId: Int,
   @StringRes creditTextResId: Int,
+  link: String,
 ) {
-  Card(modifier = Modifier.fillMaxWidth()) {
+  val context = LocalContext.current
+  Card(
+    modifier = Modifier.fillMaxWidth(),
+    onClick = { openLink(context, link) }
+  ) {
     ConstraintLayout(modifier = Modifier.padding(16.dp)) {
       val (icon, title, text) = createRefs()
 
@@ -65,6 +78,14 @@ fun CreditItem(
   }
 }
 
+private fun openLink(context: Context, url: String) {
+  try {
+    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+  } catch (e: ActivityNotFoundException) {
+    Log.e("Credit Item", e.localizedMessage, e)
+  }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun AboutScreenPreview() {
@@ -72,7 +93,8 @@ private fun AboutScreenPreview() {
     CreditItem(
       iconResId = drawable.coingecko_logo,
       titleResId = string.coingecko,
-      creditTextResId = string.coingecko_credits
+      creditTextResId = string.coingecko_credits,
+      link = stringResource(string.coingecko_link),
     )
   }
 }

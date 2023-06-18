@@ -92,7 +92,8 @@ internal fun AboutScreen(onBackPressed: () -> Unit = {}) {
       CreditItem(
         iconResId = drawable.coingecko_logo,
         titleResId = string.coingecko,
-        creditTextResId = string.coingecko_credits
+        creditTextResId = string.coingecko_credits,
+        link = stringResource(string.coingecko_link),
       )
 
       Spacer(modifier = Modifier.height(16.dp))
@@ -100,7 +101,17 @@ internal fun AboutScreen(onBackPressed: () -> Unit = {}) {
       CreditItem(
         iconResId = drawable.icons8_logo,
         titleResId = string.icons8,
-        creditTextResId = string.icons8_credits
+        creditTextResId = string.icons8_credits,
+        link = stringResource(string.icons8_link),
+      )
+
+      Spacer(modifier = Modifier.height(16.dp))
+
+      CreditItem(
+        iconResId = drawable.github_logo,
+        titleResId = string.hatscripts,
+        creditTextResId = string.hatscripts_credits,
+        link = stringResource(string.hatscripts_link),
       )
 
       Spacer(modifier = Modifier.height(16.dp))
@@ -108,7 +119,8 @@ internal fun AboutScreen(onBackPressed: () -> Unit = {}) {
       CreditItem(
         iconResId = drawable.dribbble_logo,
         titleResId = string.empty_state_illustrator,
-        creditTextResId = string.empty_state_illustrator_credits
+        creditTextResId = string.empty_state_illustrator_credits,
+        link = stringResource(string.empty_state_illustrator_link),
       )
 
       Spacer(modifier = Modifier.height(16.dp))
@@ -116,7 +128,8 @@ internal fun AboutScreen(onBackPressed: () -> Unit = {}) {
       CreditItem(
         iconResId = drawable.github_logo,
         titleResId = string.vico,
-        creditTextResId = string.vico_credits
+        creditTextResId = string.vico_credits,
+        link = stringResource(string.vico_link),
       )
 
       Spacer(modifier = Modifier.height(16.dp))
