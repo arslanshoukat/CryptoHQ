@@ -8,7 +8,7 @@ class GetDefaultCurrencyUseCase @Inject constructor(
   private val userSettingsRepository: UserSettingsRepository
 ) {
 
-  operator fun invoke(): Flow<String> {
+  operator fun invoke(): Flow<Pair<String, String>> {
     return userSettingsRepository.defaultCurrency
   }
 }

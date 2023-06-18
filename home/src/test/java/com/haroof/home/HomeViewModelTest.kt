@@ -26,7 +26,7 @@ class HomeViewModelTest {
   private val getCoins = GetCoinsUseCase(userSettingsRepository, coinsRepository)
   private lateinit var viewModel: HomeViewModel
 
-  private val defaultCurrency = CurrencyTestData.USD.code
+  private val defaultCurrency = CurrencyTestData.USD
 
   @Before
   fun setup() {
@@ -43,7 +43,10 @@ class HomeViewModelTest {
     viewModel.uiState.test {
       assertEquals(HomeUiState.Loading, awaitItem())
 
-      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
+      userSettingsRepository.updateDefaultCurrency(
+        currencyCode = defaultCurrency.code,
+        currencyUnit = defaultCurrency.unit
+      )
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
 
       assertEquals(
@@ -61,7 +64,10 @@ class HomeViewModelTest {
     viewModel.uiState.test {
       assertEquals(HomeUiState.Loading, awaitItem())
 
-      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
+      userSettingsRepository.updateDefaultCurrency(
+        currencyCode = defaultCurrency.code,
+        currencyUnit = defaultCurrency.unit
+      )
       coinsRepository.sendCoins(emptyList())
 
       assertEquals(HomeUiState.Empty, awaitItem())

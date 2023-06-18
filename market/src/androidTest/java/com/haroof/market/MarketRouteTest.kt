@@ -154,8 +154,8 @@ class MarketRouteTest {
     override val targetCurrency: Flow<String>
       get() = TODO("Not yet implemented")
 
-    override val defaultCurrency: Flow<String>
-      get() = flowOf(CurrencyTestData.USD.code)
+    override val defaultCurrency: Flow<Pair<String, String>>
+      get() = flowOf(CurrencyTestData.USD.code to CurrencyTestData.USD.unit)
 
     override suspend fun updateSourceCurrency(currencyCode: String) {
       TODO("Not yet implemented")
@@ -165,7 +165,7 @@ class MarketRouteTest {
       TODO("Not yet implemented")
     }
 
-    override suspend fun updateDefaultCurrency(currencyCode: String) {
+    override suspend fun updateDefaultCurrency(currencyCode: String, currencyUnit: String) {
       TODO("Not yet implemented")
     }
   }

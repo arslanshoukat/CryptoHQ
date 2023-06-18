@@ -69,10 +69,13 @@ class SelectDefaultCurrencyViewModelTest {
     viewModel.uiState.test {
       assertEquals(SelectCurrencyUiState.Loading, awaitItem())
 
-      val selectedCurrencyCode = CurrencyTestData.AED.code
+      val selectedCurrency = CurrencyTestData.AED
 
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
-      userSettingsRepository.updateDefaultCurrency(selectedCurrencyCode)
+      userSettingsRepository.updateDefaultCurrency(
+        currencyCode = selectedCurrency.code,
+        currencyUnit = selectedCurrency.unit
+      )
 
       val selectableCurrencies = CurrencyTestData.LIST.filterNot {
         it.type.equals("commodity", true)
@@ -81,7 +84,7 @@ class SelectDefaultCurrencyViewModelTest {
       assertEquals(
         SelectCurrencyUiState.Success(
           selectableCurrencies = selectableCurrencies,
-          selectedCurrencyCode = selectedCurrencyCode
+          selectedCurrencyCode = selectedCurrency.code
         ),
         awaitItem()
       )
@@ -93,10 +96,13 @@ class SelectDefaultCurrencyViewModelTest {
     viewModel.uiState.test {
       assertEquals(SelectCurrencyUiState.Loading, awaitItem())
 
-      val selectedCurrencyCode = CurrencyTestData.AED.code
+      val selectedCurrency = CurrencyTestData.AED
 
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
-      userSettingsRepository.updateDefaultCurrency(selectedCurrencyCode)
+      userSettingsRepository.updateDefaultCurrency(
+        currencyCode = selectedCurrency.code,
+        currencyUnit = selectedCurrency.unit
+      )
 
       val selectableCurrencies = CurrencyTestData.LIST.filterNot {
         it.type.equals("commodity", true)
@@ -105,18 +111,21 @@ class SelectDefaultCurrencyViewModelTest {
       assertEquals(
         SelectCurrencyUiState.Success(
           selectableCurrencies = selectableCurrencies,
-          selectedCurrencyCode = selectedCurrencyCode
+          selectedCurrencyCode = selectedCurrency.code
         ),
         awaitItem()
       )
 
-      val newlySelectedCurrencyCode = CurrencyTestData.PKR.code
-      viewModel.selectCurrency(newlySelectedCurrencyCode)
+      val newlySelectedCurrency = CurrencyTestData.PKR
+      viewModel.selectCurrency(
+        currencyCode = newlySelectedCurrency.code,
+        currencyUnit = newlySelectedCurrency.unit
+      )
 
       assertEquals(
         SelectCurrencyUiState.Success(
           selectableCurrencies = selectableCurrencies,
-          selectedCurrencyCode = newlySelectedCurrencyCode
+          selectedCurrencyCode = newlySelectedCurrency.code
         ),
         awaitItem()
       )

@@ -21,7 +21,7 @@ class GetCoinsUseCase @Inject constructor(
   operator fun invoke(sparkline: Boolean): Flow<Result<List<SimpleCoin>>> {
     return userSettingsRepository.defaultCurrency.flatMapLatest { defaultCurrency ->
       coinsRepository.getCoins(
-        vs_currency = defaultCurrency,
+        vs_currency = defaultCurrency.first,
         sparkline = sparkline
       ).asResult(mapper = Coin::toDomainModel)
     }

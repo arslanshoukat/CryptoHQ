@@ -34,7 +34,7 @@ class GetWatchListCoinsUseCase @Inject constructor(
         if (coinIds.isEmpty()) flowOf(Success(emptyList()))
         else coinsRepository.getCoinsByIds(
           ids = coinIds,
-          vs_currency = defaultCurrency,
+          vs_currency = defaultCurrency.first,
           sparkline = false
         ).asResult(mapper = Coin::toDomainModel)
       }

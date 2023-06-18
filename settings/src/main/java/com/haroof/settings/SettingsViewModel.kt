@@ -18,7 +18,9 @@ class SettingsViewModel @Inject constructor(
 
   @OptIn(ExperimentalCoroutinesApi::class)
   val uiState: StateFlow<SettingsUiState> = getDefaultCurrency()
-    .mapLatest { SettingsUiState.Success(currency = it) }
+    .mapLatest {
+      SettingsUiState.Success(currency = it.first)
+    }
     .stateIn(
       scope = viewModelScope,
       started = SharingStarted.WhileSubscribed(5000L),

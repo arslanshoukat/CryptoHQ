@@ -53,7 +53,7 @@ internal fun SelectCurrencyRoute(
 internal fun SelectCurrencyScreen(
   uiState: SelectCurrencyUiState,
   onBackPressed: () -> Unit = {},
-  onCurrencySelected: (code: String) -> Unit = {}
+  onCurrencySelected: (code: String, unit: String) -> Unit = { _, _ -> }
 ) {
   Column(Modifier.fillMaxSize()) {
     TopAppBar(

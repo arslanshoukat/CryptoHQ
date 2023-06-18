@@ -15,7 +15,7 @@ class TestUserSettingsRepository : UserSettingsRepository {
     MutableSharedFlow<String>(replay = 1, onBufferOverflow = DROP_OLDEST)
 
   private val _defaultCurrency =
-    MutableSharedFlow<String>(replay = 1, onBufferOverflow = DROP_OLDEST)
+    MutableSharedFlow<Pair<String, String>>(replay = 1, onBufferOverflow = DROP_OLDEST)
 
   override val sourceCurrency: Flow<String>
     get() = _sourceCurrency.filterNotNull()
@@ -23,7 +23,7 @@ class TestUserSettingsRepository : UserSettingsRepository {
   override val targetCurrency: Flow<String>
     get() = _targetCurrency.filterNotNull()
 
-  override val defaultCurrency: Flow<String>
+  override val defaultCurrency: Flow<Pair<String, String>>
     get() = _defaultCurrency.filterNotNull()
 
   override suspend fun updateSourceCurrency(currencyCode: String) {
@@ -34,7 +34,7 @@ class TestUserSettingsRepository : UserSettingsRepository {
     _targetCurrency.tryEmit(currencyCode)
   }
 
-  override suspend fun updateDefaultCurrency(currencyCode: String) {
-    _defaultCurrency.tryEmit(currencyCode)
+  override suspend fun updateDefaultCurrency(currencyCode: String, currencyUnit: String) {
+    _defaultCurrency.tryEmit(currencyCode to currencyUnit)
   }
 }

@@ -32,12 +32,12 @@ internal fun SelectableCurrencyCard(
   currency: CurrencyUiModel,
   selected: Boolean,
   modifier: Modifier = Modifier,
-  onCurrencySelected: (code: String) -> Unit = {}
+  onCurrencySelected: (code: String, unit: String) -> Unit = { _, _ -> }
 ) {
   Row(
     verticalAlignment = Alignment.CenterVertically,
     modifier = modifier
-      .clickable { onCurrencySelected(currency.code) }
+      .clickable { onCurrencySelected(currency.code, currency.unit) }
       .padding(horizontal = 16.dp)
       .height(64.dp)
       .fillMaxWidth()

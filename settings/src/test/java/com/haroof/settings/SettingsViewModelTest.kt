@@ -40,7 +40,10 @@ class SettingsViewModelTest {
     viewModel.uiState.test {
       assertEquals(SettingsUiState.Loading, awaitItem())
 
-      userSettingsRepository.updateDefaultCurrency(CurrencyTestData.USD.code)
+      userSettingsRepository.updateDefaultCurrency(
+        currencyCode = CurrencyTestData.USD.code,
+        currencyUnit = CurrencyTestData.USD.unit
+      )
 
       assertEquals(
         SettingsUiState.Success(

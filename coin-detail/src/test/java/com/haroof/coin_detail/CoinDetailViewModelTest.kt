@@ -41,7 +41,7 @@ class CoinDetailViewModelTest {
   private val chartRepository = TestChartRepository()
   private lateinit var viewModel: CoinDetailViewModel
 
-  private val defaultCurrency = CurrencyTestData.USD.code
+  private val defaultCurrency = CurrencyTestData.USD
 
   @Before
   fun setup() {
@@ -79,7 +79,10 @@ class CoinDetailViewModelTest {
 
       val expectedDetailCoin = WatchableDetailedCoinTestData.WATCHED_COIN
 
-      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
+      userSettingsRepository.updateDefaultCurrency(
+        currencyCode = defaultCurrency.code,
+        currencyUnit = defaultCurrency.unit
+      )
       coinsRepository.sendDetailedCoin(expectedDetailCoin.toDataModel())
       watchListRepository.sendWatchedCoinsIds(listOf(expectedDetailCoin.id))
 
@@ -102,7 +105,10 @@ class CoinDetailViewModelTest {
     val expectedDetailCoin = WatchableDetailedCoinTestData.WATCHED_COIN
 
     //  first we fetch coin details
-    userSettingsRepository.updateDefaultCurrency(defaultCurrency)
+    userSettingsRepository.updateDefaultCurrency(
+      currencyCode = defaultCurrency.code,
+      currencyUnit = defaultCurrency.unit
+    )
     coinsRepository.sendDetailedCoin(expectedDetailCoin.toDataModel())
     watchListRepository.sendWatchedCoinsIds(listOf(expectedDetailCoin.id))
 
@@ -124,7 +130,10 @@ class CoinDetailViewModelTest {
 
       val expectedDetailCoin = WatchableDetailedCoinTestData.NOT_WATCHED_COIN
 
-      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
+      userSettingsRepository.updateDefaultCurrency(
+        currencyCode = defaultCurrency.code,
+        currencyUnit = defaultCurrency.unit
+      )
       coinsRepository.sendDetailedCoin(expectedDetailCoin.toDataModel())
       watchListRepository.sendWatchedCoinsIds(emptyList())  //  nothing in watchlist
 
@@ -151,7 +160,10 @@ class CoinDetailViewModelTest {
 
       val expectedDetailCoin = WatchableDetailedCoinTestData.WATCHED_COIN
 
-      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
+      userSettingsRepository.updateDefaultCurrency(
+        currencyCode = defaultCurrency.code,
+        currencyUnit = defaultCurrency.unit
+      )
       coinsRepository.sendDetailedCoin(expectedDetailCoin.toDataModel())
       watchListRepository.sendWatchedCoinsIds(listOf(expectedDetailCoin.id))
 

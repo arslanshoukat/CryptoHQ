@@ -29,7 +29,7 @@ class WatchListViewModelTest {
     GetWatchListCoinsUseCase(watchListRepository, userSettingsRepository, coinsRepository)
   private lateinit var viewModel: WatchListViewModel
 
-  private val defaultCurrency = CurrencyTestData.USD.code
+  private val defaultCurrency = CurrencyTestData.USD
 
   @Before
   fun setup() {
@@ -48,7 +48,10 @@ class WatchListViewModelTest {
 
       val watchedCoinIds = listOf("bitcoin", "ethereum")
       watchListRepository.sendWatchedCoinsIds(watchedCoinIds)
-      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
+      userSettingsRepository.updateDefaultCurrency(
+        currencyCode = defaultCurrency.code,
+        currencyUnit = defaultCurrency.unit
+      )
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
 
       assertEquals(
@@ -65,7 +68,10 @@ class WatchListViewModelTest {
 
       val watchedCoinIds = emptyList<String>()
       watchListRepository.sendWatchedCoinsIds(watchedCoinIds)
-      userSettingsRepository.updateDefaultCurrency(defaultCurrency)
+      userSettingsRepository.updateDefaultCurrency(
+        currencyCode = defaultCurrency.code,
+        currencyUnit = defaultCurrency.unit
+      )
       coinsRepository.sendCoins(SimpleCoinTestData.LIST.map { it.toDataModel() })
 
       assertEquals(WatchListUiState.Empty, awaitItem())

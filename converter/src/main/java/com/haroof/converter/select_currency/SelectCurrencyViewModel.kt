@@ -66,7 +66,7 @@ class SelectCurrencyViewModel @Inject constructor(
         else {
           SelectCurrencyUiState.Success(
             selectableCurrencies = currencies.filterNot { it.type.equals("commodity", true) },
-            selectedCurrencyCode = defaultCurrency
+            selectedCurrencyCode = defaultCurrency.first
           )
         }
       }
@@ -76,13 +76,16 @@ class SelectCurrencyViewModel @Inject constructor(
     }
   }
 
-  fun selectCurrency(currencyCode: String) {
+  fun selectCurrency(currencyCode: String, currencyUnit: String) {
     //  do not update if reselected same currency
     if (currencyCode == uiState.value.asSuccess()?.selectedCurrencyCode) return
 
     viewModelScope.launch {
       if (isDefaultCurrency) {
-        updateDefaultCurrency(currencyCode = currencyCode)
+        updateDefaultCurrency(
+          currencyCode = currencyCode,
+          currencyUnit = currencyUnit
+        )
       } else {
         updateUserSelectedCurrency(
           sourceCurrency = isSourceCurrency,

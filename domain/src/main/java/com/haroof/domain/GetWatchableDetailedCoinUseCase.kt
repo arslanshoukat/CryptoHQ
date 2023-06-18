@@ -31,7 +31,7 @@ class GetWatchableDetailedCoinUseCase @Inject constructor(
         combine<DetailedCoin, Boolean, Result<WatchableDetailedCoin>>(
           coinsRepository.getDetailedCoinById(
             id = id,
-            vs_currency = defaultCurrency,
+            vs_currency = defaultCurrency.first,
           ),
           watchListRepository.isCoinWatched(id)
         ) { detailedCoin, isWatched ->

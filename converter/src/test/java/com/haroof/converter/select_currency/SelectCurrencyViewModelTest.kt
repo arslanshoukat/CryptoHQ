@@ -102,13 +102,16 @@ class SelectCurrencyViewModelTest {
         awaitItem()
       )
 
-      val newlySelectedCurrencyCode = CurrencyTestData.AED.code
-      viewModel.selectCurrency(newlySelectedCurrencyCode)
+      val newlySelectedCurrency = CurrencyTestData.AED
+      viewModel.selectCurrency(
+        currencyCode = newlySelectedCurrency.code,
+        currencyUnit = newlySelectedCurrency.unit
+      )
 
       assertEquals(
         SelectCurrencyUiState.Success(
           selectableCurrencies = CurrencyTestData.LIST.filter { it.code != otherCurrencyCode },
-          selectedCurrencyCode = newlySelectedCurrencyCode
+          selectedCurrencyCode = newlySelectedCurrency.code
         ),
         awaitItem()
       )
@@ -118,28 +121,31 @@ class SelectCurrencyViewModelTest {
   @Test
   fun whenSameCurrencyIsSelected_stateNotUpdated() = runTest {
     viewModel.uiState.test {
-      val selectedCurrencyCode = CurrencyTestData.USD.code
+      val selectedCurrency = CurrencyTestData.USD
       val otherCurrencyCode = CurrencyTestData.BTC.code
 
       assertEquals(SelectCurrencyUiState.Loading, awaitItem())
 
       currencyRepository.sendCurrencies(CurrencyTestData.LIST.map { it.toDataModel() })
       userSettingsRepository.updateSourceCurrency(otherCurrencyCode)
-      userSettingsRepository.updateTargetCurrency(selectedCurrencyCode)
+      userSettingsRepository.updateTargetCurrency(selectedCurrency.code)
 
       assertEquals(
         SelectCurrencyUiState.Success(
           selectableCurrencies = CurrencyTestData.LIST.filter { it.code != otherCurrencyCode },
-          selectedCurrencyCode = selectedCurrencyCode
+          selectedCurrencyCode = selectedCurrency.code
         ),
         awaitItem()
       )
 
-      viewModel.selectCurrency(selectedCurrencyCode)
+      viewModel.selectCurrency(
+        currencyCode = selectedCurrency.code,
+        currencyUnit = selectedCurrency.unit
+      )
       assertEquals(
         SelectCurrencyUiState.Success(
           selectableCurrencies = CurrencyTestData.LIST.filter { it.code != otherCurrencyCode },
-          selectedCurrencyCode = selectedCurrencyCode
+          selectedCurrencyCode = selectedCurrency.code
         ),
         viewModel.uiState.value
       )

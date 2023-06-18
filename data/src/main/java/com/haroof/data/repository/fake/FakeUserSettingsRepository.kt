@@ -15,7 +15,7 @@ class FakeUserSettingsRepository @Inject constructor(
   override val targetCurrency: Flow<String>
     get() = preferencesDataSource.targetCurrency
 
-  override val defaultCurrency: Flow<String>
+  override val defaultCurrency: Flow<Pair<String, String>>
     get() = preferencesDataSource.defaultCurrency
 
   override suspend fun updateSourceCurrency(currencyCode: String) {
@@ -26,7 +26,10 @@ class FakeUserSettingsRepository @Inject constructor(
     preferencesDataSource.updateTargetCurrency(currencyCode)
   }
 
-  override suspend fun updateDefaultCurrency(currencyCode: String) {
-    preferencesDataSource.updateDefaultCurrency(currencyCode)
+  override suspend fun updateDefaultCurrency(currencyCode: String, currencyUnit: String) {
+    preferencesDataSource.updateDefaultCurrency(
+      currencyCode = currencyCode,
+      currencyUnit = currencyUnit
+    )
   }
 }

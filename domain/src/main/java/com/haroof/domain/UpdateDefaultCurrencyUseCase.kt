@@ -7,7 +7,10 @@ class UpdateDefaultCurrencyUseCase @Inject constructor(
   private val userSettingsRepository: UserSettingsRepository
 ) {
 
-  suspend operator fun invoke(currencyCode: String) {
-    userSettingsRepository.updateDefaultCurrency(currencyCode)
+  suspend operator fun invoke(currencyCode: String, currencyUnit: String) {
+    userSettingsRepository.updateDefaultCurrency(
+      currencyCode = currencyCode,
+      currencyUnit = currencyUnit
+    )
   }
 }
